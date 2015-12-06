@@ -244,6 +244,58 @@
         "iid": "Rd.",
         "name": "Road"
       }
-    }
+    },
+    "tasks": {
+      "task0": {
+        "iid": "task0",
+        "name": "God",
+        "desc": "Head user for site",
+        "orgTypeIds": {
+          "client": true,
+          "vendor": true
+        }
+      }, "task1": {
+        "iid": "task1",
+        "name": "Manage Users",
+        "desc": "Create, Update, and Inactivate users within the same company",
+        "orgTypeIds": {
+          "client": true,
+          "vendor": true
+        }
+      }, "task2": {
+        "iid": "task2",
+        "name": "Approve Request",
+        "desc": "Approve a tow request",
+        "orgTypeIds": {
+          "client": true,
+          "vendor": true
+        }
+      }, "task3": {
+        "iid": "task3",
+        "name": "Set Request Status",
+        "desc": "Update status of tow requests",
+        "orgTypeIds": {
+          "client": true,
+          "vendor": true
+        },
+        "requiredTasks": ["task4"]
+      }, "task4": {
+        "iid": "task4",
+        "name": "Update Request Info",
+        "desc": "Edit any (editable) information within a request, e.g. vehicle info",
+        "orgTypeIds": {
+          "client": false,
+          "vendor": true
+        }
+      }, "task5": {
+        "iid": "task5",
+        "name": "View tow request details",
+        "desc": "Baseline user for client site",
+        "orgTypeIds": {
+          "client": true,
+          "vendor": true
+        }
+      }
+    },
   }
 }
