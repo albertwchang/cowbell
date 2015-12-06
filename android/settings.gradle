@@ -1,0 +1,3 @@
+rootProject.name = 'CowBell'
+
+include ':app'

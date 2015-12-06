@@ -1,0 +1,179 @@
+{
+  "site0": {
+    "iid": "site0",
+    "address": {
+      "street": {
+        "number": 748,
+        "name": "Van Ness",
+        "type": "Ave.",
+        "unit": ""
+      },
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": {
+        "primary": 94102,
+        "ext": 0
+      }
+    },
+    "email": "info@philzcoffee-sf.com",
+    "geoPoint": {
+      "lat": 37.7824640,
+      "long": -122.4204540,
+      "latitude": 37.7824640,
+      "longitude": -122.4204540
+    },
+    "img": {
+      "icon": "/sites/icons/site0.jpg",
+      "banner": "/sites/banners/site0.jpg"
+    },
+    "isActive": true,
+    "name": "Philz Coffee",
+    "phoneNum": 4152927660,
+    "issues": ["issue5", "issue6", "issue7", "issue8", "issue9"],
+    "url": "http://www.philzcoffee-sf.com",
+    "users": {
+      "bgonzalez": {
+        "id": "bgonzalez",
+        "isActive": true
+      }, "tgonzalez": {
+        "id": "tgonzalez",
+        "isActive": true
+      }, "jgonzalez": {
+        "id": "jgonzalez",
+        "isActive": true
+      }, "ggonzalez": {
+        "id": "ggonzalez",
+        "isActive": true
+      }, "ygonzalez": {
+        "id": "ygonzalez",
+        "isActive": true
+      }
+    }
+  },
+  "site1": {
+    "iid": "site1",
+    "address": {
+      "street": {
+        "number": 66,
+        "name": "Mint",
+        "type": "St.",
+        "unit": ""
+      },
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": {
+        "primary": 94103,
+        "ext": 0
+      }
+    },
+    "email": "info@bluebottle-sf.com",
+    "geoPoint": {
+      "lat": 37.7824580,
+      "long": -122.4077620,
+      "latitude": 37.7824580,
+      "longitude": -122.4077620
+    },
+    "img": {
+      "icon": "/sites/icons/site1.jpg",
+      "banner": "/sites/banners/site1.jpg"
+    },
+    "isActive": true,
+    "name": "Blue Bottle Coffee",
+    "phoneNum": 5106533394,
+    "issues": ["issue0", "issue1", "issue2", "issue3", "issue4"],
+    "url": "http://www.bluebottle-sf.com", 
+    "users": {
+      "afoley": {
+        "id": "afoley",
+        "isActive": true
+      }
+    }
+  },
+  "site2": {
+    "iid": "site2",
+    "address": {
+      "street": {
+        "number": 871,
+        "name": "Sutter",
+        "type": "St.",
+        "unit": ""
+      },
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": {
+        "primary": 94109,
+        "ext": 0
+      }
+    },
+    "email": "info@lycsf.com",
+    "geoPoint": {
+      "lat": 37.7882320,
+      "long": -122.4145920,
+      "latitude": 37.7882320,
+      "longitude": -122.4145920
+    },
+    "img": {
+      "icon": "/sites/icons/site2.jpg",
+      "banner": "/sites/banners/site2.jpg"
+    },
+    "isActive": true,
+    "name": "Liholiho Yacht Club",
+    "phoneNum": 4155572221,
+    "issues": ["issue10", "issue11", "issue12", "issue13", "issue14"],
+    "url": "http://lycsf.com",
+    "users": {
+      "gbettencourt": {
+        "id": "gbettencourt",
+        "isActive": true
+      }, "mramirez": {
+        "id": "mramirez",
+        "isActive": true
+      }
+    }
+  },
+  "site3": {
+    "iid": "site3",
+    "address": {
+      "street": {
+        "number": 420,
+        "name": "Mason",
+        "type": "St.",
+        "unit": ""
+      },
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": {
+        "primary": 94102,
+        "ext": 0
+      }
+    },
+    "email": "info@ruby-skye.com",
+    "geoPoint": {
+      "lat": 37.7875660,
+      "long": -122.4095950,
+      "latitude": 37.7875660,
+      "longitude": -122.4095950
+    },
+    "img": {
+      "icon": "/sites/icons/site3.jpg",
+      "banner": "/sites/banners/site3.jpg"
+    },
+    "isActive": true,
+    "name": "Ruby Skye",
+    "phoneNum": 6503218984,
+    "issues": ["issue15", "issue16", "issue17", "issue18", "issue19"],
+    "url": "http://www.ruby-skye.com", 
+    "users": {
+      "sconnery": {
+        "id": "sconnery",
+        "isActive": true
+      }, "jtravolta": {
+        "id": "jtravolta",
+        "isActive": true
+      }, "gclooney": {
+        "id": "gclooney",
+        "isActive": true
+      }
+    }
+  }
+}

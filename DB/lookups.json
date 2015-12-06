@@ -1,0 +1,249 @@
+{
+  "lastUpdated": "2015-12-04T23:30:35-08:00",
+  "data": {
+    "hosts": {
+      "img": {
+        "provider": {
+          "action": "GET",
+          "type": "images",
+          "url": "http://cowbell.imgix.net"
+        },
+        "policy": {
+          "action": "GET",
+          "name": "martiangold",
+          "params": {
+            "method": "GET",
+            "headers": {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            "withCredentials": true
+          },
+          "source": {
+            "url": "http://towimg.martiangold.com/s3-upload.php?",
+            "params": {
+              "encoding": "json",
+              "bucket": "cow-bell"
+            }
+          }
+        }
+      }
+    },
+    "countryStates": {
+      "al": { "iid": "al", "name": "Alabama"},
+      "az": { "iid": "az", "name": "Arizona"},
+      "ca": { "iid": "ca", "name": "California"},
+      "co": { "iid": "co", "name": "Colorado"},
+      "ct": { "iid": "ct", "name": "Connecticut"},
+      "de": { "iid": "de", "name": "Delaware"},
+      "fl": { "iid": "fl", "name": "Florida"},
+      "ga": { "iid": "ga", "name": "Georgia"},
+      "hi": { "iid": "hi", "name": "Hawaii"},
+      "id": { "iid": "id", "name": "Idaho"},
+      "il": { "iid": "il", "name": "Illinois"},
+      "in": { "iid": "in", "name": "Indiana"},
+      "ia": { "iid": "ia", "name": "Iowa"},
+      "ks": { "iid": "ks", "name": "Kansas"},
+      "ky": { "iid": "ky", "name": "Kentucky"},
+      "la": { "iid": "la", "name": "Louisiana"},
+      "me": { "iid": "me", "name": "Maine"},
+      "md": { "iid": "md", "name": "Maryland"},
+      "ma": { "iid": "ma", "name": "Massachusetts"},
+      "mi": { "iid": "mi", "name": "Michigan"},
+      "mn": { "iid": "mn", "name": "Minnesota"},
+      "ms": { "iid": "ms", "name": "Mississipi"},
+      "mo": { "iid": "mo", "name": "Missouri"},
+      "mt": { "iid": "mt", "name": "Montana"},
+      "ne": { "iid": "ne", "name": "Nebraska"},
+      "nv": { "iid": "nv", "name": "Nevada"},
+      "nh": { "iid": "nh", "name": "New Hampshire"},
+      "nj": { "iid": "nj", "name": "New Jersey"},
+      "nm": { "iid": "nm", "name": "New Mexico"},
+      "ny": { "iid": "ny", "name": "New York"},
+      "nc": { "iid": "nc", "name": "North Carolina"},
+      "nk": { "iid": "nk", "name": "North Dakota"},
+      "oh": { "iid": "oh", "name": "Ohio"},
+      "ok": { "iid": "ok", "name": "Oklahoma"},
+      "or": { "iid": "or", "name": "Oregon"},
+      "pa": { "iid": "pa", "name": "Pennsylvania"},
+      "ri": { "iid": "ri", "name": "Rhode Island"},
+      "sc": { "iid": "sc", "name": "South Carolina"},
+      "sd": { "iid": "sd", "name": "South Dakota"},
+      "tn": { "iid": "tn", "name": "Tennessee"},
+      "tx": { "iid": "tx", "name": "Texas"},
+      "ut": { "iid": "ut", "name": "Utah"},
+      "vt": { "iid": "vt", "name": "Vermont"},
+      "va": { "iid": "va", "name": "Virginia"},
+      "wa": { "iid": "wa", "name": "Washington"},
+      "wv": { "iid": "wv", "name": "West Virginia"},
+      "wi": { "iid": "wi", "name": "Wisconsin"},
+      "wy": { "iid": "wy", "name": "Wyoming"}
+    },
+    "statuses": {
+      "status1": {
+        "iid": "status1",
+        "accessRights": {
+          "write": {
+            "task": "task0"
+          }
+        },
+        "isPreferred": true,
+        "lockForUser": false,
+        "names": {
+          "action": "Ring Bell",
+          "prompt": "Ring Bell",
+          "ui": "Issue Identified"
+        },
+        "needsApproval": false,
+        "nextStatuses": [
+          {
+            "statusId": "status2",
+            "lock": false,
+            "default": true
+          }, {
+            "statusId": "status4",
+            "lock": false,
+            "default": false
+          }, {
+            "statusId": "status5",
+            "lock": false,
+            "default": false
+          }
+        ]
+      },
+      "status2": {
+        "iid": "status2",
+        "accessRights": {
+          "approve": {
+            "task": "task1"
+          },
+          "write": {
+            "task": "task1"
+          }
+        },
+        "isPreferred": true,
+        "lockForUser": false,
+        "names": {
+          "action": "Please resolve",
+          "ui": "Please resolve"
+        },
+        "needsApproval": false,
+        "nextStatuses": [
+          {
+            "statusId": "status3",
+            "lock": false,
+            "default": true
+          }, {
+            "statusId": "status4",
+            "lock": false,
+            "default": false
+          }
+        ],
+        "prevStatuses": {
+          "preApprove": false,
+          "options": ["status1"]
+        }
+      },
+      "status3": {
+        "iid": "status3",
+        "isPreferred": true,
+        "lockForUser": true,
+        "names": {
+          "action": "In Process",
+          "prompt": "In Process",
+          "ui": "In Process"
+        },
+        "needsApproval": false,
+        "nextStatuses": [
+          {
+            "statusId": "status4",
+            "lock": false,
+            "default": false
+          }, {
+            "statusId": "status5",
+            "lock": true,
+            "default": true          
+          }
+        ],
+        "prevStatuses": {
+          "preApprove": false,
+          "options": ["status1"]
+        }
+      },
+      "status4": {
+        "iid": "status4",
+        "accessRights": {
+          "write": {
+            "task": "task2"
+          }
+        },
+        "isPreferred": false,
+        "lockForUser": false,
+        "names": {
+          "ui": "Cancelled",
+          "prompt": "Cancelling",
+          "action": "Cancel"
+        },
+        "needsApproval": false,
+        "prevStatuses": {
+          "preApprove": false,
+          "options": ["status1", "status2", "status3"]
+        }
+      },
+      "status5": {
+        "iid": "status5",
+        "isPreferred": true,
+        "lockForUser": true,
+        "names": {
+          "ui": "Issue resolved",
+          "prompt": "Resolving",
+          "action": "Resolve issue"
+        },
+        "needsApproval": true,
+        "prevStatuses": {
+          "preApprove": true,
+          "options": ["status1", "status2", "status3"]
+        },
+        "proximityRules": [
+          {
+            "threshold": 15,
+            "condition": "<"
+          }
+        ]
+      }
+    },
+    "streetTypes": {
+      "st": {
+        "iid": "St.",
+        "name": "Street"
+      },
+      "ave": {
+        "iid": "Ave.",
+        "name": "Avenue"
+      },
+      "dr": {
+        "iid": "Dr.",
+        "name": "Drive"
+      },
+      "blvd": {
+        "iid": "Blvd.",
+        "name": "Boulevard"
+      },
+      "wy": {
+        "iid": "Wy.",
+        "name": "Way"
+      },
+      "ct": {
+        "iid": "Ct.",
+        "name": "Court"
+      },
+      "ln": {
+        "iid": "Ln.",
+        "name": "Lane"
+      },
+      "rd": {
+        "iid": "Rd.",
+        "name": "Road"
+      }
+    }
+  }
+}
