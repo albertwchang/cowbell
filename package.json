@@ -13,7 +13,7 @@
     "lodash": "^3.10.0",
     "moment": "^2.10.3",
     "promise-defer": "^1.0.0",
-    "react-native": "^0.16.0",
+    "react-native": "0.11.4",
     "react-native-button": "^1.2.0",
     "react-native-camera": "^0.3.7",
     "react-native-carousel": "^0.3.3",

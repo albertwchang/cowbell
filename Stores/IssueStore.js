@@ -108,19 +108,6 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-	_mapVehicleData: function(vehicleData) {
-		let dataMap = this._lookups.hosts.vehicle["dataMap"];
-    
-    return {
-  		drivetrain: dataMap.drivetrain[vehicleData.drivenWheels] || "",
-  		transmission: dataMap.transmission[vehicleData.transmission.transmissionType] || "",
-   		vehicleType: dataMap.vehicleType[vehicleData.categories.vehicleType] || "",
-  		make: vehicleData.make.name || "",
-	    model: vehicleData.model.name || "",
-	    year: vehicleData.years[0].year.toString() || 0
-  	}
-  },
-
   _sortIssues: function(issues) {
   	let now = Moment();
 
@@ -423,14 +410,8 @@ var IssueStore = Reflux.createStore({
 		}, (err) => {
 			if (err)
 				IssueActions.removeFromImages.failed("Couldn't remove ${imgTypeId} img");
-			else {
-				IssueActions.setTodoStatus.triggerPromise(issue, "images", "done", imgTypeId, false)
-					.then(() => {
-						IssueActions.removeFromImages.completed("Successfully removed ${imgTypeId} image");
-					}).catch((err) => {
-						IssueActions.removeFromImages.failed("Couldn't remove ${imgTypeId} img");
-					});
-				
+      else
+				IssueActions.removeFromImages.completed("Successfully removed ${imgTypeId} image");	
 			}
 		});
 	},
