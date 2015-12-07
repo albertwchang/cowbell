@@ -105,7 +105,7 @@ var MapScene = React.createClass({
 			// a temporary solution to resolve FPS issue w/ Map rendering (advised by Brent Vatne of Facebook)
 			this._timer = this.setTimeout(() => {
 	      this.setState({ showMap: true });
-	    }, 250);
+	    }, 300);
 		});
 	},
 

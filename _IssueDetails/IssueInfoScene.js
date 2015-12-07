@@ -149,7 +149,7 @@ var IssueInfoScene = React.createClass({
 		// a temporary solution to resolve FPS issue w/ Map rendering (advised by Brent Vatne of Facebook)
 		this._timer = this.setTimeout(() => {
       this.setState({ showMap: true });
-    }, 350);
+    }, 400);
 	},
 
 	componentWillUpdate: function(newProps, newState) {
@@ -159,7 +159,7 @@ var IssueInfoScene = React.createClass({
 			_.assign(updatedState, this._refreshMap(newProps));
 
 		if ( !_.isEqual(newProps.currentUser, oldProps.currentUser) || !_.isEqual(newProps.currentSiteRight, oldProps.currentSiteRight) )
-			_.assign(updatedState, this._refreshissue(newProps));
+			_.assign(updatedState, this._refreshIssue(newProps));
 
 		if ( !_.isEqual(newProps.issue, oldState.issue) )
 			_.assign(updatedState, this._refreshIssue(newProps));

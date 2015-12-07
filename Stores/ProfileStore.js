@@ -81,14 +81,14 @@ var ProfileStore = Reflux.createStore({
 		});
 	},
 
-	onRemoveRequestId: function(userId) {
-		var userStateRef = this._db.child(userId).child("state").child("requestId");
+	onRemoveIssueId: function(userId) {
+		var userStateRef = this._db.child(userId).child("state").child("issueId");
 
 		userStateRef.set("", (err) => {
 			if (err)
-				ProfileActions.removeRequestId.failed(err);
+				ProfileActions.removeIssueId.failed(err);
 			else {
-				ProfileActions.removeRequestId.completed();
+				ProfileActions.removeIssueId.completed();
 			}
 		});
 	},
@@ -155,15 +155,14 @@ var ProfileStore = Reflux.createStore({
 		});
 	},
 
-	onSetRequestId: function(requestId, userId) {
-		let userStateRef = this._db.child(userId).child("state").child("requestId");
+	onSetIssueId: function(issueId, userId) {
+		let userStateRef = this._db.child(userId).child("state").child("issueId");
 
-		userStateRef.set(requestId, (err) => {
+		userStateRef.set(issueId, (err) => {
 			if (err)
-				ProfileActions.setRequestId.failed(err);
-			else {
-				ProfileActions.setRequestId.completed();
-			}
+				ProfileActions.setIssueId.failed(err);
+			else
+				ProfileActions.setIssueId.completed();
 		});
 	},
 
@@ -211,7 +210,7 @@ var ProfileStore = Reflux.createStore({
 		this._currentUser = null;
 		
 		LookupActions.endListeners();
-		RequestActions.endListeners();
+		IssueActions.endListeners();
 		SiteActions.endListeners();
 		UserActions.endListeners();
 	},

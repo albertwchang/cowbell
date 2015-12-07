@@ -224,7 +224,7 @@ var IssueStore = Reflux.createStore({
 		  , newUser = this._currentUser;
     
     LocationActions.getPosition.triggerPromise().then((position) => {
-	    let prevUserId = _.last(issue.statusEntries).author.id;
+	    let prevUserId = _.last(issue.statusEntries).authorId;
 	    let statusEntry = {
 	      timestamp: Moment(Moment().toDate()).format(),
 	      geoPoint: position,

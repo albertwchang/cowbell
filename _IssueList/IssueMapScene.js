@@ -9,7 +9,6 @@ var Refresh = require("react-native-refreshable-listview");
 
 // CUSTOM COMPONENTS
 var Site = require("../Comps/Site");
-var Eta = require("../Comps/Eta");
 var LineSeparator = require("../Comps/LineSeparator");
 var IssueImages = require("../Comps/IssueImages");
 var StatusEntry = require("../Comps/StatusEntry");
@@ -49,12 +48,7 @@ var _styles = StyleSheet.create({
 		flex: 3,
 		flexDirection: "column",
 		paddingVertical: 4,
-	}, eta: {
-		flex: 1,
-		flexDirection: "row",
-		justifyContent: "center",
-		paddingVertical: 4
-	},
+	}
 });
 
 var statusEntryStyle = StyleSheet.create({
@@ -150,7 +144,6 @@ var IssueListScene = React.createClass({
 							vendor={vendor} />
 					</View>
 				</View>
-				{/*<Eta style={_styles.eta} />*/}
 			</TouchableHighlight>
 		);
 	},

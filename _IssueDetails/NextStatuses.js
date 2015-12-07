@@ -12,8 +12,6 @@ var TimerMixin = require('react-timer-mixin');
 var ActionButtons = require("../Comps/ActionButtons");
 var LineSeparator = require("../Comps/LineSeparator");
 var Pending = require("../Comps/Pending");
-var ReasonMgr = require("../Comps/ReasonMgr");
-var Signature = require("../Comps/Signature");
 
 // ACTIONS && STORES
 var IssueActions = require("../Actions/IssueActions");
@@ -179,14 +177,16 @@ var NextStatuses = React.createClass({
 
 		IssueActions.extractNextStatuses.triggerPromise(newProps.statusEntry, newProps.issue.iid)
 			.then((nextStatuses) => {
-				if (!nextStatuses) {
+				let state = {};
+
+				if ( _.isEmpty(nextStatuses) ) {
 					this.props.setBtnDims();
-					this.state.chosenStatus = undefined;
+					state["chosenStatus"] = undefined;
 				} else
-					this._setStatus(_.findWhere(nextStatuses, {"isPreferred": true}) || _.first(nextStatuses));
+					state["chosenStatus"] = _.findWhere(nextStatuses, {"isPreferred": true}) || _.first(nextStatuses);
 				
-				this.state.nextStatuses = nextStatuses;	
-				this.setState(this.state);
+				state["nextStatuses"] = nextStatuses;	
+				this.setState(state);
 			});
 	},
 
@@ -258,7 +258,7 @@ var NextStatuses = React.createClass({
 		return (
 			<TouchableHighlight
 				key={nextStatus.iid}
-				onPress={ () => this.setStatus({ chosenStatus: nextStatus }) }>
+				onPress={ () => this.setState({ chosenStatus: nextStatus }) }>
 				<View style={this._styles.statusEntry}>
 					{IndicatorIcon}
 					<View style={this._styles.itemBox}>{StatusText}</View>
