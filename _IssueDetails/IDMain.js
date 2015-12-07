@@ -344,10 +344,12 @@ var RDMain = React.createClass({
 	},
 
 	render: function() {
-		let props = this.props.route.passProps;
-		let themeColor = props.themeColors[this.props.currentSiteRight.orgTypeId];
+		let props = this.props
+			, passedProps = props.route.passProps
+			, themeColor = passedProps.themeColor;
+		
 		let backBtn =
-			<NavBtn onPress={this.props.navigator.pop}>
+			<NavBtn onPress={props.navigator.pop}>
 				<Icon name={"arrow-left-a"} style={styles.navBtn} />
 			</NavBtn>;
 
@@ -374,33 +376,33 @@ var RDMain = React.createClass({
 				prevTitle="Back"
 				customTitle={navBarTitle} />
 
-		if (this.state.signature)
-			return (
-				<Modal
-					animation={false}
-					visible={this.state.signature}>
-					<Signature onSaveEvent={this._saveSignature} />
-					<TouchableHighlight
-						underlayColor="#A4A4A4"
-						onPress={() => this._showSignature(false)}
-						style={styles.close}>
-						<View>
-							<Text>Cancel</Text>
-						</View>
-					</TouchableHighlight>
-				</Modal>
-			);
-		else {
-			return (
-				<Navigator
-					configureScene={this._configureScene}
-					renderScene={this._renderScene}
-					initialRoute={{
-					  navigationBar: navBar,
-					  themeColors: props.themeColors
-					}} />
-			);
-		}
+		// if (this.state.signature)
+		// 	return (
+		// 		<Modal
+		// 			animation={false}
+		// 			visible={this.state.signature}>
+		// 			<Signature onSaveEvent={this._saveSignature} />
+		// 			<TouchableHighlight
+		// 				underlayColor="#A4A4A4"
+		// 				onPress={() => this._showSignature(false)}
+		// 				style={styles.close}>
+		// 				<View>
+		// 					<Text>Cancel</Text>
+		// 				</View>
+		// 			</TouchableHighlight>
+		// 		</Modal>
+		// 	);
+		// else {
+		return (
+			<Navigator
+				configureScene={this._configureScene}
+				renderScene={this._renderScene}
+				initialRoute={{
+				  navigationBar: navBar,
+				  themeColor: passedProps.themeColor
+				}} />
+		);
+		// }
 	}
 });
 
