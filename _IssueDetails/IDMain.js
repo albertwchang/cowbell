@@ -86,6 +86,7 @@ var styles = StyleSheet.create({
 var RDMain = React.createClass({
 	mixins: [IssueMixin, SiteMixin, ViewMixin],
 	_btnRect: {},
+	_ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
 	_loaded: false,
 	_prevGeoPoint: null,
 	_issueRef: null,
@@ -274,11 +275,11 @@ var RDMain = React.createClass({
 	   				context="all"
 	   				currentSiteRight={props.currentSiteRight}
 	   				currentUser={props.currentUser}
+	   				ds={this._ds}
 	   				lookups={props.lookups}
 	   				nav={nav}
 	   				issue={state.issue}
 	   				site={site}
-	   				statusLookups={props.lookups.statuses}
 	   				themeColor={themeColor}
 	   				users={users} />
 			break;

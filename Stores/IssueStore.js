@@ -217,9 +217,9 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-	onAddStatus: function(nextStatus, issue, notes, sites) {
+	onAddStatus: function(nextStatus, issue, notes, site) {
 		console.log("issueId: ", issue.iid);
-		// let issueStatusEntriesRef = this._db.child(issue.iid).child("statusEntries");
+
 		let siteRight = this._currentSiteRight
 		  , newUser = this._currentUser;
     
@@ -229,79 +229,24 @@ var IssueStore = Reflux.createStore({
 	      timestamp: Moment(Moment().toDate()).format(),
 	      geoPoint: position,
 	      statusId: nextStatus.iid,
-	      author: {
-	        id: newUser.iid,
-	        orgTypeId: siteRight.orgTypeId,
-	      },
+	      authorId: newUser.iid,
 	      notes: notes,
 	    };
 
-			Async.parallel([
-				(statusEntryCb) => {
-					IssueActions.setParam.triggerPromise(issue, ["statusEntries", issue.statusEntries.length], statusEntry)
-					.then(() => {
-						// 1. assign issue Id to user's current State when next status has islocked: true
-	        	if (nextStatus.assignTo[siteRight.orgTypeId].user)
-	            return ProfileActions.setIssueId(issue.iid, newUser.iid);
-	         	else {
-	         		// need to also remove from user of previous status
-	         		return ProfileActions.removeIssueId(prevUserId);
-	         	}
-					}).then(() => {
-						statusEntryCb(null, "Status Entry has been saved");
-					}).catch((err) => {
-						statusEntryCb("Couldn't add status entry", null);
-					});	
-				},
-				(siteAndIssueCb) => {
-					// 2. Add issue Id to all other allies' issue list
-		    	if ( nextStatus.assignTo[this._orgTypeIds.VENDOR].site ) {
-		    		// iterate through all ally orgTypes of client
-		    		let allySites = _.omit(sites, this._orgTypeIds.CLIENT)
-		    			, qAllySites = [];
-
-						_.each(allySites, (allySite, key) => {
-							let qAllySite = new Promise((resolve, reject) => {
-								Async.parallel([
-									(issueIdCb) => {
-										SiteActions.setIssueId.triggerPromise(issue.iid, allySite.iid, key).then(() => {
-											issueIdCb(null, "issueId added to " +key);
-										}).catch((err) => {
-											issueIdCb(err +": issueId NOT added to " +key, null);
-										});
-									},
-									(siteIdCb) => {
-										IssueActions.setParam.triggerPromise(issue, ["sites", key, "siteId"], allySite.iid).then(() => {
-											siteIdCb(null, allySite.iid +" added to issue: " +issue.iid);
-										}).catch((err) => {
-											siteIdCb(err +": " +allySite.iid +"NOT added to issue: " +issue.iid, null);
-										});
-									}
-								], (err, results) => {
-									if (err)
-										reject();
-									else
-										resolve();
-								});
-							});
-
-							qAllySites.push(qAllySite);
-						});
-
-						new Promise.all(qAllySites).then((results) => {
-		      		siteAndIssueCb(null, "IssueId added to all Ally sites, and all siteIds added to issue");
-		      	}).catch((err) => {
-	      			siteAndIssueCb(err +": Couldn't add issueId and/or SiteId", null);
-	      		});
-		    	} else
-		    		siteAndIssueCb(null, "IssueId and SiteId unecessary");
-				}
-			], (err, results) => {
-				if (err)
+			IssueActions.setParam.triggerPromise(issue, ["statusEntries", issue.statusEntries.length], statusEntry)
+				.then(() => {
+					// 1. assign issue Id to user's current State when next status has islocked: true
+        	if ( nextStatus.lockForUser )
+            return ProfileActions.setIssueId(issue.iid, newUser.iid);
+         	else {
+         		// need to also remove from user of previous status
+         		return ProfileActions.removeIssueId(prevUserId);
+         	}
+				}).then(() => {
+					IssueActions.addStatus.completed();
+				}).catch((err) => {
 					IssueActions.addStatus.failed(err);
-
-      	IssueActions.addStatus.completed();
-			});
+				});
 		});
 	},
 

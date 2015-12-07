@@ -262,6 +262,7 @@ var IssueInfoScene = React.createClass({
 			}
 		});
 
+		let lastStatusEntry = _.last(issue.statusEntries);
 		let viewHeight = Display.height - this.getInnerView() - this.Dimensions.ACTION_BTN_HEIGHT
 
 		return (
@@ -295,10 +296,10 @@ var IssueInfoScene = React.createClass({
 					issue={issue}
 					show={{status: true, update: true}}
 					site={props.site}
-					statusEntry={_.last(issue.statusEntries)}
+					statusEntry={lastStatusEntry}
 					styles={statusEntryStyle}
 					themeColor={themeColor}
-					users={props.users} />
+					user={props.users[lastStatusEntry.authorId]} />
 			</View>
 		);
 		// return (<View><Text>testing</Text></View>)

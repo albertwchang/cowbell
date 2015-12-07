@@ -164,7 +164,7 @@
           }
         },
         "isPreferred": true,
-        "lockForUser": true,
+        "lockForUser": false,
         "names": {
           "ui": "Issue resolved",
           "prompt": "Resolving",

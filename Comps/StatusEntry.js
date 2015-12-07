@@ -103,6 +103,16 @@ var StatusEntry = React.createClass({
 		}
 	},
 
+	_buildStatusEntryPart: function(style, value) {
+		return (
+			<View style={styles.paramBox}>
+				<Text
+					numberOfLines={1}
+					style={style}>{value}</Text>
+			</View>
+		);
+	},
+
 	_refreshStatusToApprove: function(props, preApproveCb) {
 		/* 1. find status that:
 			a) needs approval,
@@ -161,69 +171,38 @@ var StatusEntry = React.createClass({
 			, imgHostUrl = props.lookups.hosts.img.provider.url
 			, statusId = statusEntry.statusId
 			, statusRef = lookups.statuses[statusId]
-			, passedStyles = props.styles;
+			, passedStyles = props.styles
+			, user = props.user
 
-		if (props.show["author"]) {
-			let userParams = statusEntry.author
-				, user = props.user
-				, middleInitial = user.name.middle.charAt(0).toUpperCase();
-			
-			middleInitial = !middleInitial ? " " : middleInitial +". ";
-			
-			author = {
-				name: user.name.first +middleInitial +user.name.last,
-				uri: user.uri.selfie
-			};
-		}
+		let middleInitial = _.isEmpty(user.name.middle) ? " " : user.name.middle.charAt(0).toUpperCase() +". ";
 
-		let Author = props.show["author"] ?
-			<View style={styles.paramBox}>
-				<Text
-					numberOfLines={1}
-					style={passedStyles.author || styles.author}>{author.name}</Text>
-			</View> : null;
-		
-		let TimeAgo = props.show["timeAgo"] ?
-			<View style={styles.paramBox}>
-				<Text
-					numberOfLines={1}
-					style={passedStyles.timeAgo || styles.timeAgo}>{Moment(statusEntry.timestamp).fromNow()}</Text>
-			</View> : null;
-		
-		let Timestamp = props.show["timestamp"] ?
-			<View style={styles.paramBox}>
-				<Text
-					numberOfLines={1}
-					style={passedStyles.date || styles.date}>{Moment(statusEntry.timestamp).format('MMM Do YYYY @h:mm a')}</Text>
-			</View> : null;
-		
+		let author = {
+			name: user.name.first +middleInitial +user.name.last,
+			uri: user.uri.selfie
+		};
+
+		let Author = props.show["author"] ? this._buildStatusEntryPart(passedStyles.author || styles.author, author.name) : null;
+		let TimeAgo = props.show["timeAgo"] ? this._buildStatusEntryPart(passedStyles.timeAgo || styles.timeAgo, Moment(statusEntry.timestamp).fromNow()) : null;
+		let Timestamp = props.show["timestamp"] ? this._buildStatusEntryPart(passedStyles.date || styles.date, Moment(statusEntry.timestamp).format('MMM Do YYYY @h:mm a')) : null;
 		let Img = props.show["img"] ?
 			<Image
 				style={passedStyles.img}
 				source={{ uri: imgHostUrl +author.uri +"?fit=crop&w=49&h=49"}} /> : null;
 		
-		let Status;
-		if (props.show["status"]) {
-			let status = this._showPreApproval ? "Needs Approval" : statusRef.names.ui;
-			Status =
-				<Text
-					numberOfLines={1}
-					style={passedStyles.status || styles.status}>{status}</Text>;
-		}
+		let Status = props.show["status"] ?
+			<Text
+				numberOfLines={1}
+				style={passedStyles.status || styles.status}>{statusRef.names.ui}</Text> : null;
 
-		let Update = this.props.show["update"] ?
+		let Update = props.show["update"] ?
 			<NextStatuses
       	currentUser={props.currentUser}
       	currentSiteRight={props.currentSiteRight}
-      	imgHost={lookups.hosts["images"]}
       	lookups={lookups}
       	issue={props.issue}
       	setBtnDims={this._setBtnDims}
-      	showPreApproval={this._showPreApproval}
-      	sites={props.sites}
+      	site={props.site}
       	statusEntry={statusEntry}
-      	statusToApprove={this._statusToApprove}
-      	statuses={lookups.statuses}
       	themeColor={props.themeColor} /> : null;
 
 		return (

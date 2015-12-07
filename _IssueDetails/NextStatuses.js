@@ -54,14 +54,11 @@ var NextStatuses = React.createClass({
 	propTypes: {
 		currentSiteRight: PropTypes.object,
 		currentUser: PropTypes.object,
-		imgHost: PropTypes.object,
 		lookups: PropTypes.object,
 		issue: PropTypes.object,
 		setBtnDims: PropTypes.func,
-		showPreApproval: PropTypes.bool,
-		sites: PropTypes.object,
+		site: PropTypes.object,
 		statusEntry: PropTypes.object,
-		statuses: PropTypes.object,
 		themeColor: PropTypes.string
 	},
 	mixins: [Reflux.ListenerMixin, Reflux.connect(UserStore), IssueMixin, SiteMixin, ViewMixin],
@@ -213,7 +210,7 @@ var NextStatuses = React.createClass({
 			, issue = props.issue;
 
   	// 1b. Add status to existing hazard issue
-  	IssueActions.addStatus.triggerPromise(nextStatus, issue, this._notes, props.sites)
+  	IssueActions.addStatus.triggerPromise(nextStatus, issue, this._notes, props.site)
 			.then(() => {
 				// Post add steps:
 				// 1. Reset this._notes to empty string
@@ -301,6 +298,13 @@ var NextStatuses = React.createClass({
 						<LineSeparator vertMargin={10} height={0.5} />
 	        	{StatusOptions}
 	        	<LineSeparator vertMargin={8} height={0} />
+	        	<ActionButtons
+							cancel={() => this._toggleScene("finalize", false)}
+							inputChanged={ !_.isEmpty(state.chosenStatus) }
+							saveData={() => this._saveStatus(state.chosenStatus)}
+							showDoneBtn={true}
+							style={this._styles.actionButtons}
+							themeColor={props.themeColor} />
 						<Pending
 							workflowMessages={this._workflowMessages}
 							workflowStages={state.workflowStages}
