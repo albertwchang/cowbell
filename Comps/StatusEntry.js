@@ -1,3 +1,6 @@
+'use strict';
+
+// REACT PARTS
 var React = require("react-native");
 var Reflux = require("reflux");
 
@@ -60,8 +63,8 @@ var StatusEntry = React.createClass({
 		site: PropTypes.object,
 		statusEntry: PropTypes.object,
 		styles: PropTypes.object,
-		themeColors: PropTypes.string,
-		users: PropTypes.object
+		themeColor: PropTypes.string,
+		user: PropTypes.object
 	},
 	_showPreApproval: false,
 	_statusToApprove: null,
@@ -162,7 +165,7 @@ var StatusEntry = React.createClass({
 
 		if (props.show["author"]) {
 			let userParams = statusEntry.author
-				, user = props.users[userId]
+				, user = props.user
 				, middleInitial = user.name.middle.charAt(0).toUpperCase();
 			
 			middleInitial = !middleInitial ? " " : middleInitial +". ";
@@ -221,7 +224,7 @@ var StatusEntry = React.createClass({
       	statusEntry={statusEntry}
       	statusToApprove={this._statusToApprove}
       	statuses={lookups.statuses}
-      	themeColors={props.themeColors} /> : null;
+      	themeColor={props.themeColor} /> : null;
 
 		return (
 			<View style={passedStyles.main || styles.main}>

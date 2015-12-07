@@ -145,7 +145,7 @@ var IssueListScene = React.createClass({
 						statusEntry={lastStatusEntry}
 						styles={statusEntryStyles}
 						themeColor={props.themeColor}
-						users={props.users} />
+						user={user} />
 					<View
 						accessibilityOnTap={true}
 						key={rowId}

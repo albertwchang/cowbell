@@ -49,7 +49,6 @@ var HistoryScene = React.createClass({
 	propTypes: {
 		currentSiteRight: PropTypes.object,
 		currentUser: PropTypes.object,
-		ds: PropTypes.object,
 		lookups: PropTypes.object,
 		issue: PropTypes.object,
 		sites: PropTypes.object,
@@ -57,6 +56,7 @@ var HistoryScene = React.createClass({
 		themeColors: PropTypes.array,
 		users: PropTypes.array
 	},
+	_ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
 
 	getInitialState: function() {
 		return {
@@ -139,7 +139,7 @@ var HistoryScene = React.createClass({
 		return (
 			<ListView
 				contentInset={{top: -(this.Dimensions.STATUS_BAR_HEIGHT * 3 / 4)}}
-				dataSource={props.ds.cloneWithRows(statusEntries.reverse())}
+				dataSource={this._ds.cloneWithRows(statusEntries.reverse())}
 				initialListSize={statusEntries.length}
 				removeClippedSubviews={true}
 				renderRow={(statusEntry, sectionId, rowId) => this._renderRow(statusEntry, sectionId, rowId, props.themeColors)}

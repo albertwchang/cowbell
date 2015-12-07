@@ -59,9 +59,12 @@ var styles = StyleSheet.create({
 
 var MapScene = React.createClass({
 	mixins: [TimerMixin, SiteMixin],
+	_siteStreet: null,
+	_timer: null,
+
 	getInitialState: function() {
 		return {
-			clientStreet: null,
+			siteStreet: null,
 			mapParams: null,
 			showMap: false,
 		};
@@ -71,46 +74,49 @@ var MapScene = React.createClass({
 		/************************************************
 			Determine Map Details
 		************************************************/
-		var props = this.props.route.passProps;
-		var clientStreet = props.sites.client.address.street;
-		var geoPoints = new Array(props.issue.geoPoint);
+		let passedProps = this.props.route.passProps
+			, geoPoints = new Array(passedProps.issue.geoPoint);
+		
+		this._siteStreet = this.buildPrimaryAddyLine(passedProps.site.address.street);
 
-		this.setState({
-			clientStreet: clientStreet.number +" " +clientStreet.name +" " +clientStreet.type +" " +clientStreet.unit
-		});
-
-		MapActions.pullMapParams.triggerPromise(geoPoints, props.dims).then((results) => {
-			if (results != undefined) {
-				_.extend(results, {
+		MapActions.pullMapParams.triggerPromise(geoPoints, passedProps.dims).then((results) => {
+			if ( !_.isEmpty(results) ) {
+				_.assign(results, {
 					"annotations": [{
-						latitude: props.issue.geoPoint.lat,
-						longitude: props.issue.geoPoint.long,
-						title: props.sites.client.name,
-						subtitle: clientStreet.number +" " +clientStreet.name +" " +clientStreet.type +" " +clientStreet.unit,
+						latitude: geoPoints[0].lat,
+						longitude: geoPoints[0].long,
+						title: passedProps.site.name,
+						subtitle: this._siteStreet,
 						hasLeftCallout: true,
 		        onLeftCalloutPress: function() {
 		        	console.log("map item pressed");
 		        }
 					}]
 				});
-			
-				this.setState({
-					mapParams: results
-				});
 			}
+
+			return results;
+		}).catch((err) => {
+			console.log(err);
+			return;
+		}).finally((mapParams) => {
+			this.setState({ mapParams: mapParams });
+			
+			// a temporary solution to resolve FPS issue w/ Map rendering (advised by Brent Vatne of Facebook)
+			this._timer = this.setTimeout(() => {
+	      this.setState({ showMap: true });
+	    }, 250);
 		});
 	},
 
-	componentDidMount: function() {
-		this.setTimeout(() => {
-      this.setState({
-      	showMap: true,
-      });
-    }, 400);
+	componentWillUnmount: function() {
+		this.clearTimeout(this._timer);
 	},
 
 	_renderScene: function(route, nav) {
-		var navBar = null;
+		let navBar = null
+			, passedProps = this.props.route.passProps
+			, state = this.state;
 
 		if (route.navigationBar) {
 		 	navBar = React.addons.cloneWithProps(route.navigationBar, {
@@ -119,39 +125,37 @@ var MapScene = React.createClass({
 		 	});
 		}
 
-		var mapStyle = {
+		let mapStyle = StyleSheet.create({
 			flex: 1,
-			height: this.props.route.passProps.dims.height,
-			width: this.props.route.passProps.dims.width,
-		};
+			height: passedProps.dims.height,
+			width: passedProps.dims.width
+		});
 
-		if (this.state.showMap)
-			return (
-				<View style={styles.container}>
-					{navBar}
-					<MapView
-		  			annotations={this.state.mapParams.annotations}
-		  			region={this.state.mapParams.region}
-						style={mapStyle} />
-				</View>
-			);
-		else
-			return (
-				<View style={styles.container}>
-					{navBar}
-					<ActivityIndicatorIOS
-						animating={true}
-						style={styles.loading}
-						size="large" />
-				</View>
-			);
+		let Content = state.showMap ?
+			<MapView
+  			annotations={state.mapParams.annotations}
+  			region={state.mapParams.region}
+				style={mapStyle} /> :
+			<ActivityIndicatorIOS
+				animating={!state.showMap}
+				style={styles.loading}
+				size="large" />
+
+		return (
+			<View style={styles.container}>
+				{navBar}
+				{Content}	
+			</View>
+		);
 	},
 
 	render: function() {
-		var props = this.props.route.passProps;
+		let state = this.state
+			, props = this.props
+			, passedProps = props.route.passProps;
 
 		var backBtn =
-			<NavBtn onPress={this.props.navigator.jumpBack}>
+			<NavBtn onPress={props.navigator.jumpBack}>
 				<Icon name={"arrow-left-a"} style={styles.navBtn} />
 			</NavBtn>;
 
@@ -160,22 +164,20 @@ var MapScene = React.createClass({
 				<Text
 					numberOfLines={1}
 					style={styles.navBarTitle}>
-					{this.state.clientStreet}
+					{this._siteStreet}
 				</Text>
 			</View>
 
 		var navBar =
 			<NavBar
-				backgroundColor={props.themeColors[props.currentSiteRight.orgTypeId]}
+				backgroundColor={passedProps.themeColor}
 				customPrev={backBtn}
 				customTitle={navBarTitle} />
 
 		return (
 			<Navigator
 				renderScene={this._renderScene}
-				initialRoute={{
-				  navigationBar: navBar,
-				}} />
+				initialRoute={{ navigationBar: navBar }} />
 		);
 	}
 });

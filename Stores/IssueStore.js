@@ -380,8 +380,8 @@ var IssueStore = Reflux.createStore({
     };
 
     let checkUserRights = function(prevStatusRef, nextStatusRef) {
-	    let statusRef = self._lookups.statuses[nextStatusRef.statusId]
-        , writeRight = statusRef.accessRights.write
+	    let statusDef = self._lookups.statuses[nextStatusRef.statusId]
+        , writeRight = _.has(statusDef, "accessRights") ? statusDef.accessRights.write : null
         , taskRefs = self._lookups.tasks
         , allowed;
 	    
@@ -390,12 +390,12 @@ var IssueStore = Reflux.createStore({
 	      if (prevStatusRef.lockForUser)
 	        allowed = assignedToThisIssue(issueId);
 	      else
-	        allowed = assignedToOtherIssue(issueId) && _.has(statusRef, "nextStatuses") ? false : true;
+	        allowed = assignedToOtherIssue(issueId) && _.has(statusDef, "nextStatuses") ? false : true;
 	    } else {
 	      allowed = false;
 	    }
 
-	    return allowed ? statusRef : undefined;
+	    return allowed ? statusDef : undefined;
 	  };
 
     let statusRef = this._lookups.statuses[statusEntry.statusId]

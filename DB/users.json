@@ -11,7 +11,7 @@
     "siteRights": [
       {
         "siteId": "site0",
-        "tasks": ["task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
       }
     ],
     "jobs": ["issue5"],
@@ -50,7 +50,7 @@
     "siteRights": [
       {
         "siteId": "site0",
-        "tasks": ["task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
       }
     ],
     "jobs": ["issue6"],
@@ -101,7 +101,7 @@
     "siteRights": [
       {
         "siteId": "site0",
-        "tasks": ["task0", "task1", "task2", "task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
         }
     ],
     "jobs": ["issue7"],
@@ -139,7 +139,7 @@
     "siteRights": [
       {
         "siteId": "site0",
-        "tasks": ["task1", "task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
       }
     ],
     "jobs": ["issue8"],
@@ -178,7 +178,7 @@
     "siteRights": [
       {
         "siteId": "site0",
-        "tasks": ["task1", "task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
       }
     ],
     "jobs": ["issue9"],
@@ -216,7 +216,7 @@
     "siteRights": [
       {
         "siteId": "site1",
-        "tasks": ["task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
       }
     ],
     "jobs": ["issue0", "issue1", "issue2", "issue3", "issue4"],
@@ -254,7 +254,7 @@
     "siteRights": [
       {
         "siteId": "site2",
-        "tasks": ["task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
       }
     ],
     "jobs": ["issue10", "issue11"],
@@ -292,7 +292,7 @@
     "siteRights": [
       {
         "siteId": "site2",
-        "tasks": ["task0", "task1", "task2", "task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
       }
     ],
     "jobs": ["issue12", "issue13", "issue14"],
@@ -318,7 +318,7 @@
     "siteRights": [
       {
         "siteId": "site3",
-        "tasks": ["task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
       }
     ],
     "jobs": ["issue15"],
@@ -370,7 +370,7 @@
     "siteRights": [
       {
         "siteId": "site3",
-        "tasks": ["task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
       }
     ],
     "jobs": ["issue16", "issue17"],
@@ -409,7 +409,7 @@
     "siteRights": [
       {
         "siteId": "site3",
-        "tasks": ["task0", "task1", "task3", "task4", "task5"]
+        "tasks": ["task0", "task1"]
       }
     ],
     "jobs": ["issue18", "issue19"],
