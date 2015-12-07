@@ -412,7 +412,6 @@ var IssueStore = Reflux.createStore({
 				IssueActions.removeFromImages.failed("Couldn't remove ${imgTypeId} img");
       else
 				IssueActions.removeFromImages.completed("Successfully removed ${imgTypeId} image");	
-			}
 		});
 	},
 

@@ -157,7 +157,7 @@
         }
       },
       "status3": {
-        "iid": "status5",
+        "iid": "status3",
         "accessRights": {
           "write": {
             "task": "task1"
