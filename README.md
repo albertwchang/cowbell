@@ -3,7 +3,7 @@
 ## Synopsis
 "CowBell" is a lightweight, sample project app where users that work for a business, e.g. Philz Coffee, Safeway, Jack 'N The Crack, can call out safety hazards.  As an onDemand application, users are assigned various "rights and respnosibilities", being able to fulfill a certain number of workflow updates, such as 1) create new hazard issue, 2) take a job, 3) cancel the identified hazard, and lastly: "fix the problem".
 
-This is application is currently WIP (Work In Progress), and is based on an earlier project of mine, which is far more comphrensive, complex, and rich with far more value-added features.  A "Category 5" application if you will.
+This application is WIP (Work In Progress), and is based on an earlier project of mine, which is far more comphrensive, complex, and rich with far more value-added features.  A "Category 5" application if you will.
 
 ## Pre-requisites
 1. Mac OSX with OS version > Mavericks
@@ -22,4 +22,7 @@ This is application is currently WIP (Work In Progress), and is based on an earl
 1. Go into your finder.  In case you don't know, it is a Mac OS application that you can typically find System dock (it's the 2-faced-looking icon).
 2. Navigate to the same directory you have been working in.  Once there, go into the "ios" directory
 3. Double-click the "CowBell.xcodeproj" file.  Running this file will get the app closer to starting.
-4. This next part is a little tricky.  You have to ensure certain settings are set correctly.  See attached image.
+4. This next part is a little tricky.  You have to ensure certain settings are set correctly.  Ensure your Xcode environment reflects what you see circled in red from the image:
+
+![Image of Xcode environment](https://cloud.githubusercontent.com/assets/3760499/11639259/a233a958-9ce0-11e5-87fa-a199931995e0.png)
+
