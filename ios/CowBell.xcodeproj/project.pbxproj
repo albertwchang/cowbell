@@ -31,6 +31,7 @@
 		F50A9C761C1263C5006C997C /* libRNPrint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F50A9C691C126391006C997C /* libRNPrint.a */; };
 		F50A9C771C1263C5006C997C /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F50A9C711C1263A5006C997C /* libRNVectorIcons.a */; };
 		F50A9C851C1263D7006C997C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F50A9C7D1C1263D7006C997C /* Ionicons.ttf */; };
+		F5D1EA2F1C14F05400436A6B /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D1EA2E1C14F03E00436A6B /* libRNSearchBar.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +168,13 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		F5D1EA2D1C14F03E00436A6B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F5D1EA291C14F03E00436A6B /* RNSearchBar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNSearchBar;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -202,6 +210,7 @@
 		F50A9C631C126391006C997C /* RNPrint.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNPrint.xcodeproj; path = "../node_modules/react-native-print/RNPrint.xcodeproj"; sourceTree = "<group>"; };
 		F50A9C6C1C1263A5006C997C /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		F50A9C7D1C1263D7006C997C /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		F5D1EA291C14F03E00436A6B /* RNSearchBar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSearchBar.xcodeproj; path = "../node_modules/react-native-search-bar/RNSearchBar.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +225,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5D1EA2F1C14F05400436A6B /* libRNSearchBar.a in Frameworks */,
 				F50A9C721C1263C5006C997C /* libRCTCamera.a in Frameworks */,
 				F50A9C731C1263C5006C997C /* libRNFS.a in Frameworks */,
 				F50A9C741C1263C5006C997C /* libRNHTMLtoPDF.a in Frameworks */,
@@ -347,6 +357,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F5D1EA291C14F03E00436A6B /* RNSearchBar.xcodeproj */,
 				F50A9C6C1C1263A5006C997C /* RNVectorIcons.xcodeproj */,
 				F50A9C631C126391006C997C /* RNPrint.xcodeproj */,
 				F50A9C5D1C12637E006C997C /* RNMultiPicker.xcodeproj */,
@@ -464,6 +475,14 @@
 			);
 			name = Fonts;
 			path = "../node_modules/react-native-vector-icons/Fonts";
+			sourceTree = "<group>";
+		};
+		F5D1EA2A1C14F03E00436A6B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F5D1EA2E1C14F03E00436A6B /* libRNSearchBar.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -593,6 +612,10 @@
 				{
 					ProductGroup = F50A9C641C126391006C997C /* Products */;
 					ProjectRef = F50A9C631C126391006C997C /* RNPrint.xcodeproj */;
+				},
+				{
+					ProductGroup = F5D1EA2A1C14F03E00436A6B /* Products */;
+					ProjectRef = F5D1EA291C14F03E00436A6B /* RNSearchBar.xcodeproj */;
 				},
 				{
 					ProductGroup = F50A9C6D1C1263A5006C997C /* Products */;
@@ -732,6 +755,13 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = F50A9C701C1263A5006C997C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F5D1EA2E1C14F03E00436A6B /* libRNSearchBar.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSearchBar.a;
+			remoteRef = F5D1EA2D1C14F03E00436A6B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -917,7 +947,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -957,7 +987,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

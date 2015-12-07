@@ -49,6 +49,7 @@ var {
   StatusBarIOS,
   StyleSheet,
   TabBarIOS,
+  Text,
   View,
 } = React;
 
@@ -184,19 +185,15 @@ var CowBell = React.createClass({
     // 2 Establish current/target site
     return SiteActions.pullEmployerSite.triggerPromise(siteRight.siteId).then((site) => {
         // get users for retrieved employer site
-        let users = site.users;
-        let userIds = _.chain(users).transform((result, users) => {
-          _.assign(result, users);
-        }).keys().value();
+        let users = site.users
+          , userIds = _.chain(users).where({isActive: true}).pluck("id").value();
 
-        return;
-        // return _.isEmpty(userIds) ? new Promise.resolve() : UserActions.pullUsers("site", userIds);
+        return _.isEmpty(userIds) ? new Promise.resolve() : UserActions.pullUsers(site.iid, userIds);
       }).catch((err) => {
         console.log("Overall Error:  couldn't get a lot of dependencies: ", err);
         return;
       }).finally(() => {
         this.setState({ initDone: true });
-        return;
       });
   },
 

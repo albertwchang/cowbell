@@ -57,11 +57,11 @@ var StatusEntry = React.createClass({
 		lookups: PropTypes.object,
 		issue: PropTypes.object,
 		show: PropTypes.object,
-		sites: PropTypes.object,
+		site: PropTypes.object,
 		statusEntry: PropTypes.object,
 		styles: PropTypes.object,
-		themeColors: PropTypes.array,
-		users: PropTypes.array
+		themeColors: PropTypes.string,
+		users: PropTypes.object
 	},
 	_showPreApproval: false,
 	_statusToApprove: null,
@@ -80,11 +80,7 @@ var StatusEntry = React.createClass({
 	},
 
 	getInitialState: function() {
-		return {
-			updateStatusBtn: {
-				height: 0
-			}
-		}
+		return { updateStatusBtn: {height: 0} };
 	},
 
 	componentWillMount: function() {
@@ -119,11 +115,7 @@ var StatusEntry = React.createClass({
 			this._statusToApprove = _.find(lastStatus.nextStatuses, (nextStatusRef) => {
 				let nextStatus = lookups.statuses[nextStatusRef.statusId];
 				
-				if (nextStatus.prevStatuses.preApprove) {
-					return true;
-				}
-				else
-					return false;
+				return !_.isEmpty(nextStatus.prevStatuses.preApprove);
 			});
 
 			if (!this._statusToApprove)
@@ -162,36 +154,23 @@ var StatusEntry = React.createClass({
 		let props = this.props, state = this.state;
 		let lookups = props.lookups
 			, statusEntry = props.statusEntry
-			, statusUser = statusEntry.author
-			, imgHostUrl = props.lookups.hosts["images"].url
+			, userId = statusEntry.authorId
+			, imgHostUrl = props.lookups.hosts.img.provider.url
 			, statusId = statusEntry.statusId
-			, statusRef = lookups.statuses[statusEntry.statusId]
-			, currentUserOrgTypeId = props.currentSiteRight.orgTypeId
-			, passedStyles = props.styles
-			, author = null;
+			, statusRef = lookups.statuses[statusId]
+			, passedStyles = props.styles;
 
 		if (props.show["author"]) {
-			let allowedToSeeUser = statusRef.accessRights.read.author[statusUser.orgTypeId][currentUserOrgTypeId];
+			let userParams = statusEntry.author
+				, user = props.users[userId]
+				, middleInitial = user.name.middle.charAt(0).toUpperCase();
 			
-			if (allowedToSeeUser) {
-				let userParams = statusEntry.author;
-				let user = props.users[statusUser.orgTypeId][statusUser.id];
-				let middleInitial = user.name.middle.charAt(0).toUpperCase();
-				
-				middleInitial = !middleInitial ? " " : middleInitial +". ";
-				
-				author = {
-					name: user.name.first +middleInitial +user.name.last,
-					uri: user.uri.selfie
-				};
-			} else {
-				let site = props.sites[statusUser.orgTypeId];
-				
-				author = {
-					name: site.name,
-					uri: site.uri
-				};
-			}
+			middleInitial = !middleInitial ? " " : middleInitial +". ";
+			
+			author = {
+				name: user.name.first +middleInitial +user.name.last,
+				uri: user.uri.selfie
+			};
 		}
 
 		let Author = props.show["author"] ?

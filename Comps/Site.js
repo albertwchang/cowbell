@@ -78,15 +78,15 @@ var Site = React.createClass({
 	},
 
 	render: function() {
-		let info = this.props.info
+		let props = this.props
+			, info = props.info
 			, address = info.address
-			, imgUri = this.props.imgHost.url +info.uri +"?w=49"
-			, showAddy = this.props.showAddy
-			, themeColors = this.props.themeColors;
+			, imgUri = props.imgHost.url +info.img.icon +"?w=49"
+			, showAddy = props.showAddy
+			, themeColors = props.themeColors;
 
-		let Img = this.props.showImg ?
+		let Img = props.showImg ?
 			<Image
-				defaultSource={require('image!client')}
 				style={styles.img}
 				source={{ uri: imgUri }} />
 			: null;

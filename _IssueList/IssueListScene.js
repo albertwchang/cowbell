@@ -6,10 +6,10 @@ var Display = require('react-native-device-display');
 var Icon = require("react-native-vector-icons/Ionicons");
 var Reflux = require("reflux");
 var Refresh = require("react-native-refreshable-listview");
+var SearchBar = require("react-native-search-bar");
 
 // CUSTOM COMPONENTS
 var Site = require("../Comps/Site");
-var Eta = require("../Comps/Eta");
 var LineSeparator = require("../Comps/LineSeparator");
 var IssueImages = require("../Comps/IssueImages");
 var StatusEntry = require("../Comps/StatusEntry");
@@ -45,21 +45,18 @@ var _styles = StyleSheet.create({
 		borderRightWidth: 0.5,
 		borderTopWidth: 0.5,
 		flexDirection: "row",
-	}, img: {
+	},
+	img: {
 		justifyContent: "center",
 		flex: 1,
 		height: 77,
 		resizeMode: "contain",
 		width: 77
-	}, info: {
+	},
+	info: {
 		flex: 3,
 		flexDirection: "column",
 		paddingVertical: 4,
-	}, eta: {
-		flex: 1,
-		flexDirection: "row",
-		justifyContent: "center",
-		paddingVertical: 4
 	}
 });
 
@@ -72,11 +69,12 @@ var IssueListScene = React.createClass({
 		lookups: PropTypes.object,
 		reloadIssues: PropTypes.func,
 		issues: PropTypes.object,
+		openIssue: PropTypes.func,
 		route: PropTypes.object,
 		showSearchBar: PropTypes.bool,
 		sites: PropTypes.object,
 		themeColor: PropTypes.string,
-		users: PropTypes.array
+		users: PropTypes.object
 	},
 	mixins: [SiteMixin, ViewMixin],
 	_imgDims: {
@@ -103,16 +101,16 @@ var IssueListScene = React.createClass({
 
 	_renderIssue: function(issue, sectionId, rowId) {
 		let props = this.props;
-		let img = _.findWhere(issue.images, {imgTypeId: "vehicle"})
-			, siteRight = props.currentSiteRight
-			. imgHost = props.lookups.hosts.img.provider
-			, imgUri = imgHost.url +img.uri +"?fit=crop&w=" +this._imgDims.width +"&h=" +this._imgDims.height
-			, lastStatusEntry = _.last(issue.statusEntries)
-			, site = props.sites[issue.siteId]
-			, statusDef = props.lookups.statuses[lastStatusEntry.statusId]
-			, user = props.users[lastStatusEntry.author.id]
-			, isDoneStyle = !_.has(statusDef, "nextStatuses") ? {borderColor: props.themeColor} : this.Styles._viewStyle.off
-			, statusEntryStyles = StyleSheet.create({
+		let img = _.first(issue.images)
+		let siteRight = props.currentSiteRight
+		let imgHost = props.lookups.hosts.img.provider
+		let imgUri = imgHost.url +img.uri +"?fit=crop&w=" +this._imgDims.width +"&h=" +this._imgDims.height
+		let lastStatusEntry = _.last(issue.statusEntries)
+		let site = props.sites[issue.siteId]
+		let statusDef = props.lookups.statuses[lastStatusEntry.statusId]
+		let user = props.users[lastStatusEntry.authorId]
+		let isDoneStyle = !_.has(statusDef, "nextStatuses") ? {borderColor: props.themeColor} : this.Styles._viewStyle.off
+		let statusEntryStyles = StyleSheet.create({
 				info: {
 					backgroundColor: "#424242",
 					flexDirection: "row",
@@ -143,24 +141,23 @@ var IssueListScene = React.createClass({
 						lookups={props.lookups}
 						issue={issue}
 						show={{timeAgo: true, status: true}}
-						sites={props.sites}
+						site={site}
 						statusEntry={lastStatusEntry}
 						styles={statusEntryStyles}
 						themeColor={props.themeColor}
-						users={props.users} />	
+						users={props.users} />
 					<View
 						accessibilityOnTap={true}
 						key={rowId}
-						removeClippedSubviews={true}
 						style={ [_styles.issueBox, isDoneStyle] }>
 						<Image
 							source={{uri: imgUri}}
 							style={_styles.img} />
 						<Site
 							info={site}
-							imgHost={props.imgHost}
+							imgHost={imgHost}
 							showAddy={{street: true, city: true}}
-							showImg={false}
+							showImg={true}
 							style={_styles.info} />
 					</View>
 				</View>
@@ -175,7 +172,7 @@ var IssueListScene = React.createClass({
 		return (
 			<LineSeparator
 				key={issueId}
-				color={props.themeColors[props.currentSiteRight.orgTypeId]} 
+				color={props.themeColor} 
 				height={1}
 				horzMargin={Display.width * hMargin}
 				vertMargin={Display.width * (0.5 - hMargin)} />
@@ -185,8 +182,9 @@ var IssueListScene = React.createClass({
 	render: function() {
 		let props = this.props
 			, siteRight = props.currentSiteRight
-			, listHeight = Display.height - this.getInnerView()
-			, Header = props.showSearchBar ?
+			, listHeight = Display.height - this.getInnerView();
+		
+		let Header = props.showSearchBar ?
 			<SearchBar
 		    placeholder='Search'
 		    onChangeText={(value) => console.log(value)}

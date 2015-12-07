@@ -82,7 +82,7 @@ var IssueStore = Reflux.createStore({
 		return _.filter(issues, (issue) => {
 			let includeIssue = false;
 
-			if (_.isEmpty(issue))
+			if ( _.isEmpty(issue) )
 				return includeIssue;
 			
 			let siteRight = this._currentSiteRight
@@ -96,9 +96,10 @@ var IssueStore = Reflux.createStore({
 				_.each(nextStatusIds, (statusId) => {
 					let nextStatusRef = this._lookups.statuses[statusId];
 					
-					includeIssue = nextStatusRef.accessRights.read.status[siteRight.orgTypeId]
-							? filterState[IssueMixin.Filters.OPEN]
-							: filterState[IssueMixin.Filters.DONE]
+					includeIssue = !_.has(nextStatusRef.accessRights, "read")
+            || _.contains(siteRight.tasks, nextStatusRef.accessRights.read.taskId)
+						? filterState[IssueMixin.Filters.OPEN]
+						: filterState[IssueMixin.Filters.DONE]
 				});
 			} else
 				includeIssue = filterState[IssueMixin.Filters.DONE]

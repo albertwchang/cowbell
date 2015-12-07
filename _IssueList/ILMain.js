@@ -123,8 +123,8 @@ var CustomSceneConfig = _.assign({}, BaseConfig, {
 });
 
 var RLMain = React.createClass({
-	mixins: [Reflux.ListenerMixin , Reflux.connect(IssueStore)
-				, Reflux.connect(UserStore), IssueMixin, SiteMixin, ViewMixin],
+	mixins: [Reflux.ListenerMixin , Reflux.connect(IssueStore), Reflux.connect(UserStore)
+				, IssueMixin, SiteMixin, ViewMixin],
 	propTypes: {
 		currentUser: PropTypes.object,
 		currentSiteRight: PropTypes.object,
@@ -135,7 +135,7 @@ var RLMain = React.createClass({
 	},
 	_nav: null,
 	prevIssue: null,
-	scenes: {
+	_scenes: {
 		map: IssueMapScene,
 		list: IssueListScene
 	},
@@ -144,7 +144,6 @@ var RLMain = React.createClass({
 		return {
 			btnRect: {},
 			dims: null,
-			entityType: "site",
 			gettingData: true,
 			nowScene: "list",
 			showFilter: false,
@@ -166,7 +165,7 @@ var RLMain = React.createClass({
 	shouldComponentUpdate: function(newProps, newState) {
 		let updateStatus = false;
 
-		if (newState.gettingData || !newState.users[this.state.entityType])
+		if (newState.gettingData || !newState.users[newProps.currentSiteRight.siteId])
 			updateStatus = false;
 		else if ( !_.eq(newState, this.state) || !_.eq(newProps, this.props));
 			updateStatus = true;
@@ -184,7 +183,7 @@ var RLMain = React.createClass({
 	},
 
 	_openIssue: function(issue) {
-  	var route = {
+  	let route = {
 		  component: IssueDetails,
 		  passProps: {
 		  	context: "one",
@@ -205,7 +204,7 @@ var RLMain = React.createClass({
 			, employerSite = props.sites[siteRight.siteId];
 		
 		return new Promise((resolve, reject) => {
-			IssueActions.pullIssues.triggerPromise(employerSite.issues, this.state.entityType)
+			IssueActions.pullIssues.triggerPromise(employerSite.issues)
 				.then((issues) => {
 	        resolve(issues);
 				}).catch((err) => {
@@ -252,8 +251,8 @@ var RLMain = React.createClass({
   		this.setState({showFilter: state});
   },
 
-	_toggleSearchBar: function(state) {
-		this.setState({searchBar: state});
+	_toggleSearchBar: function() {
+		this.setState({searchBar: !this.state.searchBar});
 	},
 
 	_renderFilter: function(option, sectionId, rowId, onIcon, offIcon) {
@@ -332,12 +331,13 @@ var RLMain = React.createClass({
 	   				issues={state.issues}
 	   				lookups={props.lookups}
 	   				navigator={nav}
+	   				openIssue={this._openIssue}
 	   				reloadIssues={this._reloadIssues}
 	   				route={route}
 	   				showSearchBar={state.searchBar}
 	   				sites={props.sites}
 	   				themeColor={props.themeColor}
-	   				users={state.users[state.entityType]} />
+	   				users={state.users[props.currentSiteRight.siteId]} />
 			  </View>
 			  <Popover
           fromRect={state.btnRect}
@@ -353,15 +353,17 @@ var RLMain = React.createClass({
 	},
 
 	render: function() {		
+		let state = this.state;
+
 		if (this.state.gettingData)
 			return (
 				<ActivityIndicatorIOS
-					animating={this.state.gettingData}
+					animating={state.gettingData}
 					style={styles.loading}
 					size="large" />
 			);
 		else {
-			var issueCount = _.toArray(this.state.issues).length;
+			var issueCount = _.toArray(state.issues).length;
 			var mapBtn =
 				<NavBtn onPress={() => this._changeScene("map")}>
 					<Icon name={"map"} style={styles.navBtn} />
@@ -374,7 +376,7 @@ var RLMain = React.createClass({
 
 			var title =
 				<NavBtn
-					onPress={() => this._toggleSearchBar(!this.state.searchBar) }
+					onPress={this._toggleSearchBar}
 					style={{borderColor: "red", borderWidth: 0.75, borderRadius: 2, backgroundColor: "#FFFFFF"}}>
 					<Text>Search</Text>
 				</NavBtn>;
@@ -394,7 +396,7 @@ var RLMain = React.createClass({
 					renderScene={this._renderScene}
 					initialRoute={{
 					  navigationBar: navBar,
-					  component: this._scenes[this.state.nowScene]
+					  component: this._scenes[state.nowScene]
 					}} />
 			);
 		}

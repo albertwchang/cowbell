@@ -85,16 +85,9 @@ var styles = StyleSheet.create({
 
 var RDMain = React.createClass({
 	mixins: [IssueMixin, SiteMixin, ViewMixin],
-	_pendingTodoItems: null,
 	_loaded: false,
 	_prevGeoPoint: null,
 	_issueRef: null,
-	_sites: {
-		client: null,
-		police: null,
-		security: null,
-		vendor: null
-	},
 
 	getInitialState: function() {
 		let props = this.props.route.passProps;
@@ -114,15 +107,9 @@ var RDMain = React.createClass({
 	},
 
 	componentWillMount: function() {
-		var issue = this.state.issue;
-		var sites = this.props.sites;
+		let issue = this.state.issue
+			, sites = this.props.sites;
 
-		// *** NEED TO REDO:  1) ready from issue itself, otherwise 2) look @ client allies
-		this._sites[this._orgTypeIds.CLIENT] = this._getSite(this._orgTypeIds.CLIENT);
-		this._sites[this._orgTypeIds.VENDOR] = this._getSite(this._orgTypeIds.VENDOR);
-		this._sites[this._orgTypeIds.SECURITY] = this._getSite(this._orgTypeIds.SECURITY);
-		this._sites[this._orgTypeIds.POLICE] = this._getSite(this._orgTypeIds.POLICE);
-		this._refreshPendingTodoItems(issue.todoMap);
 		this._issueRef = this.props.db.child("issues").child(issue.iid);
 			
 		// listener for any changes to current issue
@@ -131,16 +118,16 @@ var RDMain = React.createClass({
 		});
 
 		this._issueRef.on("child_added", (snap) => {
-			if (!this._loaded)
-				return;
-
-			this._updateIssue(snap);
+			if (this._loaded)
+				this._updateIssue(snap);
+			else
+				this._loaded = true;
 		});
 	},
 
 	componentWillUpdate: function(newProps, newState) {
-		if ( !_.eq(newState.issue.todoMap, this.state.issue.todoMap) )
-			this._refreshPendingTodoItems(newState.issue.todoMap);
+		// if ( !_.eq(newState.issue.todoMap, this.state.issue.todoMap) )
+		// 	this._refreshPendingTodoItems(newState.issue.todoMap);
 	},
 
 	componentWillUnmount: function() {
@@ -150,13 +137,9 @@ var RDMain = React.createClass({
 		this._issueRef.off();
 	},
 
-	componentDidMount: function() {
-		this._loaded = true;
-	},
-
 	shouldComponentUpdate: function(newProps, newState) {
-  	var oldProps = this.props, oldState = this.state;
-  	var stateChanged = false;
+  	let oldProps = this.props, oldState = this.state;
+  	let stateChanged = false;
 
   	if ( !_.eq(newProps.issues, oldProps.issues) )
   		stateChanged = false;
@@ -170,25 +153,12 @@ var RDMain = React.createClass({
   },
 
 	_changeScene: function(e) {
-		var newSceneIndex = e.nativeEvent.selectedSegmentIndex;
+		let newSceneIndex = e.nativeEvent.selectedSegmentIndex;
+
 		if (this.state.sceneIndex != newSceneIndex)
 			this.setState({
 				sceneIndex: newSceneIndex,
 			});
-	},
-
-	_getSite: function(orgTypeId) {
-		var issue = this.state.issue
-			, sites = this.props.sites;
-	
-		var siteId = _.has(issue.sites, orgTypeId) ? issue.sites[orgTypeId].siteId : null;
-		
-		if ( _.isEmpty(siteId) ) {
-			var site = _.findWhere(this._sites[this._orgTypeIds.CLIENT].allies, {"isActive": true, "orgTypeId": orgTypeId});
-			siteId = site ? site.id : null;
-		}
-
-		return _.isEmpty(siteId) ? null : sites[orgTypeId][siteId];
 	},
 
 	_goToScene: function(index) {
@@ -209,7 +179,7 @@ var RDMain = React.createClass({
 			&& ( _.matches(this._prevGeoPoint, this.state.issue.geoPoint) ))
 			this.props.navigator.jumpForward();
 		else {
-			var route = {
+			let route = {
 			  component: MapScene,
 			  passProps: {
 			  	currentSiteRight: this.props.currentSiteRight,
@@ -247,13 +217,9 @@ var RDMain = React.createClass({
 		this.props.navigator.push(route);
 	},
 
-	_refreshPendingTodoItems: function(todoMap) {
-		this._pendingTodoItems = _.where(todoMap, {done: false});
-	},
-
 	_setDims: function(e) {
 		if (this.state.dims == null) {
-			var layout = e.nativeEvent.layout; 
+			let layout = e.nativeEvent.layout; 
 			
 			this.setState({
 				dims: {
@@ -279,7 +245,7 @@ var RDMain = React.createClass({
 
   _updateIssue: function(snap) {
 		console.log("Tow issue has been updated");
-		var issue = this.state.issue;
+		let issue = this.state.issue;
 		issue[snap.key()] = snap.val();
 
 		this.setState({
@@ -288,11 +254,11 @@ var RDMain = React.createClass({
   },
 
 	_renderScene: function(route, nav) {	
-		var navBar = null
+		let navBar = null
 			, props = this.props.route.passProps
 			, issue = this.state.issue
 			, Scene
-			, themeColors = props.themeColors
+			, themeColor = props.themeColor
 			, users = this.props.users;
 
 		if (route.navigationBar) {
@@ -378,19 +344,19 @@ var RDMain = React.createClass({
 	},
 
 	render: function() {
-		var props = this.props.route.passProps;
-		var themeColor = props.themeColors[this.props.currentSiteRight.orgTypeId];
-		var backBtn =
+		let props = this.props.route.passProps;
+		let themeColor = props.themeColors[this.props.currentSiteRight.orgTypeId];
+		let backBtn =
 			<NavBtn onPress={this.props.navigator.pop}>
 				<Icon name={"arrow-left-a"} style={styles.navBtn} />
 			</NavBtn>;
 
-		var invoiceBtn =
+		let invoiceBtn =
 			<NavBtn onPress={() => this._togglePopover(true)}>
 				<Icon ref="print" name={"document-text"} style={styles.navBtn} />
 			</NavBtn>;
 
-		var navBarTitle =
+		let navBarTitle =
 			<SegmentedControlIOS
 				enabled={true}
 				onChange={this._changeScene}
@@ -399,7 +365,7 @@ var RDMain = React.createClass({
 				tintColor={this.Colors.night.section}
 				values={["Home", "History"]} />
 
-		var navBar =
+		let navBar =
 			<NavBar
 				backgroundColor={themeColor}
 				customNext={invoiceBtn}

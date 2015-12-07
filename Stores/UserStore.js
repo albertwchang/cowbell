@@ -29,17 +29,21 @@ var UserStore = Reflux.createStore({
 
 		if ( _.isEmpty(userIds) || !_.isEmpty(this._users[siteId]) )
 			UserActions.pullUsers.completed();
-		else
-			uesrsRef.once("value", (snapshot) => {
-				let allUsers = snapshot.val();
+		else {
+			this._users[siteId] = {};
 
-				this._users[siteId] = _.mapValues(userIds, (key) => {
-					return allUsers[key];
+			usersRef.once("value", (snapshot) => {
+				let allUsers = snapshot.val()
+					, siteUsers = this._users[siteId];
+
+				_.each(userIds, (key) => {
+					siteUsers[key] = allUsers[key];
 				});
 
 				UserActions.pullUsers.completed(this._users[siteId]);
 				this.trigger({users: this._users});
 			});
+		}
 	},
 
 	_updateDb: function(data) {
