@@ -26,3 +26,5 @@ This application is WIP (Work In Progress), and is based on an earlier project o
 
 ![Image of Xcode environment](https://cloud.githubusercontent.com/assets/3760499/11639259/a233a958-9ce0-11e5-87fa-a199931995e0.png)
 
+* This should at least get the Xcode simulator to run the app.  Please submit an issue if you are have any questions/suggestions/difficulties.
+
