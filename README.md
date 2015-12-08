@@ -28,5 +28,3 @@ This is application is currently WIP (Work In Progress), and is based on an earl
 ![Image of Xcode environment](https://cloud.githubusercontent.com/assets/3760499/11639259/a233a958-9ce0-11e5-87fa-a199931995e0.png)
 
 * This should at least get the Xcode simulator to run the app.  Please submit an issue if you are have any questions/suggestions/difficulties.
-
-4. This next part is a little tricky.  You have to ensure certain settings are set correctly.  See attached image.
