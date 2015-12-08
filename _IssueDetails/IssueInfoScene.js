@@ -54,8 +54,7 @@ var styles = StyleSheet.create({
 });
 
 var IssueInfoScene = React.createClass({
-	mixins: [Reflux.ListenerMixin, TimerMixin, IssueMixin
-				, LocationMixin, SiteMixin, ViewMixin],
+	mixins: [Reflux.ListenerMixin, TimerMixin, IssueMixin, LocationMixin, SiteMixin, ViewMixin],
 	propTypes: {
 		currentUser: PropTypes.object,
 		currentSiteRight: PropTypes.object,
@@ -64,9 +63,9 @@ var IssueInfoScene = React.createClass({
 		nav: PropTypes.object,
 		openMap: PropTypes.func,
 		issue: PropTypes.object,
-		sites: PropTypes.object,
-		themeColors: PropTypes.array,
-		users: PropTypes.array
+		site: PropTypes.object,
+		themeColor: PropTypes.string,
+		users: PropTypes.object
 	},
 	_setStatusNote: "",
 	_styles: StyleSheet.create({
@@ -83,7 +82,7 @@ var IssueInfoScene = React.createClass({
 		},
 	  mapSection: {
 	  	borderWidth: 1.25,
-	  	flex: 1,
+	  	flex: 1
 	  },
 	  primaryInfo: {
 			flex: 1,
@@ -104,7 +103,14 @@ var IssueInfoScene = React.createClass({
 				fontFamily: "System",
 				fontSize: 32,
 				fontWeight: "200"
-			}
+			},
+		site: {
+			borderColor: "#A4A4A4",
+			borderWidth: 0.5,
+			flex: 1,
+			flexDirection: "row",
+			padding: 4
+		}
 	}),
 	_timer: null,
 	_workflowMessages: {
@@ -115,7 +121,7 @@ var IssueInfoScene = React.createClass({
 		return {
 			mapParams: null,
 			issue: null,
-			requirementsMet: false,
+			needsMet: false,
 			showMap: false,
 			workflowStages: [
       	{
@@ -147,9 +153,10 @@ var IssueInfoScene = React.createClass({
 	},
 
 	componentDidMount: function() {
+		// a temporary solution to resolve FPS issue w/ Map rendering (advised by Brent Vatne of Facebook)
 		this._timer = this.setTimeout(() => {
       this.setState({ showMap: true });
-    }, 500);
+    }, 400);
 	},
 
 	componentWillUpdate: function(newProps, newState) {
@@ -159,7 +166,7 @@ var IssueInfoScene = React.createClass({
 			_.assign(updatedState, this._refreshMap(newProps));
 
 		if ( !_.isEqual(newProps.currentUser, oldProps.currentUser) || !_.isEqual(newProps.currentSiteRight, oldProps.currentSiteRight) )
-			_.assign(updatedState, this._refreshissue(newProps));
+			_.assign(updatedState, this._refreshIssue(newProps));
 
 		if ( !_.isEqual(newProps.issue, oldState.issue) )
 			_.assign(updatedState, this._refreshIssue(newProps));
@@ -196,7 +203,7 @@ var IssueInfoScene = React.createClass({
 
 		return {
 			mapParams: mapParams,
-			requirementsMet: true
+			needsMet: true
 		};
 	},
 
@@ -225,17 +232,13 @@ var IssueInfoScene = React.createClass({
 
 	render: function() {
 		let props = this.props, state = this.state
-			, currentSiteRight = props.currentSiteRight
-			, currentUser = props.currentUser
 			, dims = props.dims
-			, lookups = props.lookups
 			, mapParams = state.mapParams
+			, imgHost = props.lookups.hosts.img.provider
 			, issue = state.issue
-			, sites = _.omit(props.sites, _.isEmpty)
 			, themeColor = props.themeColor
 	  	, imgUris = _.pluck(issue.images, "uri")
-	  	, lastStatusEntry = _.last(issue.statusEntries)
-	  	, MapSection = state.showMap && state.mapParams
+	  	, MapSection = state.showMap && mapParams
 		  	? <MapView
 		  			annotations={mapParams.annotations}
 		  			region={mapParams.region}
@@ -267,6 +270,7 @@ var IssueInfoScene = React.createClass({
 			}
 		});
 
+		let lastStatusEntry = _.last(issue.statusEntries);
 		let viewHeight = Display.height - this.getInnerView() - this.Dimensions.ACTION_BTN_HEIGHT
 
 		return (
@@ -280,43 +284,42 @@ var IssueInfoScene = React.createClass({
 					<View style={this._styles.primaryInfo}>
 						<IssueImages
 			   			aspectRatio={16/10}
-			   			imgHost={lookups.hosts["images"]}
+			   			imgHost={imgHost}
 							uris={imgUris} />
 						<LineSeparator vertMargin={4} height={0} />
 						<TouchableHighlight
 							underlayColor="#A4A4A4"
-							onPress={() => props.openMap(themeColors)}>
+							onPress={() => props.openMap(themeColor)}>
 							<View style={{borderColor: themeColor}}>
 					  		{MapSection}
 							</View>
 						</TouchableHighlight>
+						<LineSeparator vertMargin={4} height={0} />
+						<Site
+							info={props.site}
+							imgHost={imgHost}
+							showImg={true}
+							showPhoneBtn={true}
+							style={this._styles.site}
+							themeColor={themeColor} />
 					</View>
 				</ScrollView>
-				<LineSeparator color="#FFFFFF" height={0.8} horzMargin={0} vertMargin={0} />
+				<LineSeparator color="#FFFFFF" height={0.5} horzMargin={0} vertMargin={0} />
 				<StatusEntry
 					currentUser={props.currentUser}
-        	currentSiteRight={currentSiteRight}
-					lookups={lookups}
+        	currentSiteRight={props.currentSiteRight}
+					lookups={props.lookups}
 					issue={issue}
 					show={{status: true, update: true}}
-					sites={sites}
+					site={props.site}
 					statusEntry={lastStatusEntry}
 					styles={statusEntryStyle}
-					themeColors={themeColors}
-					users={props.users} />
-				<ActionButtons
-					cancel={ () => this.setState(this._refreshParamCopies(state)) }
-					inputChanged={!_.isMatch(state.paramCopies["sites"], props.issue.sites)}
-					saveData={this._saveSites}
-					style={this._styles.actionButtons}
-					themeColor={themeColors} />
+					themeColor={themeColor}
+					user={props.users[lastStatusEntry.authorId]} />
 			</View>
 		);
+		// return (<View><Text>testing</Text></View>)
 	}
-});
-
-
-
 });
 
 module.exports = IssueInfoScene;

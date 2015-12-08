@@ -7,7 +7,6 @@ var Display = require("react-native-device-display");
 var Icon = require('react-native-vector-icons/Ionicons');
 var NavBar = require("react-native-navbar");
 var React = require("react-native");
-// var Signature = require('react-native-signature-capture');
 
 // COMPONENTS
 var Invoicing = require("../Comps/Invoicing");
@@ -85,6 +84,8 @@ var styles = StyleSheet.create({
 
 var RDMain = React.createClass({
 	mixins: [IssueMixin, SiteMixin, ViewMixin],
+	_btnRect: {},
+	_ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
 	_loaded: false,
 	_prevGeoPoint: null,
 	_issueRef: null,
@@ -93,9 +94,7 @@ var RDMain = React.createClass({
 		let props = this.props.route.passProps;
 		
 		return {
-			btnRect: {},
 			context: props.context,
-			dims: props.dims,
 			imageDims: null,
 			nav: null,
 			issue: _.cloneDeep(props.issue),
@@ -110,9 +109,8 @@ var RDMain = React.createClass({
 		let issue = this.state.issue
 			, sites = this.props.sites;
 
+		// setup listener to handle real-time updates w/ issue
 		this._issueRef = this.props.db.child("issues").child(issue.iid);
-			
-		// listener for any changes to current issue
 		this._issueRef.on("child_changed", (snap) => {
 			this._updateIssue(snap);
 		});
@@ -131,9 +129,6 @@ var RDMain = React.createClass({
 	},
 
 	componentWillUnmount: function() {
-		/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			Find out how to  prevent re-rendering when this component unmounts
-		!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 		this._issueRef.off();
 	},
 
@@ -174,51 +169,35 @@ var RDMain = React.createClass({
  //    scrollResponder.scrollResponderScrollNativeHandleToKeyboard(nodeHandle, offset);
  //  },
 
-	_openMap: function(themeColors) {
+	_openMap: function(themeColor) {
+		let props = this.props
+			, passedProps = props.route.passProps
+			, state = this.state
+			, issue = state.issue;
+
 		if ((this._prevGeoPoint != null)
-			&& ( _.matches(this._prevGeoPoint, this.state.issue.geoPoint) ))
-			this.props.navigator.jumpForward();
+			&& ( _.matches(this._prevGeoPoint, issue.geoPoint) ))
+			props.navigator.jumpForward();
 		else {
 			let route = {
 			  component: MapScene,
 			  passProps: {
-			  	currentSiteRight: this.props.currentSiteRight,
-			  	dims: this.state.dims,
-			  	issue: this.state.issue,
-			  	sites: this._sites,
-			  	themeColors: themeColors
+			  	currentSiteRight: props.currentSiteRight,
+			  	dims: state.dims,
+			  	issue: issue,
+			  	site: props.sites[issue.siteId],
+			  	themeColor: themeColor
 			  },
 			  transitionType: "FloatFromBottom"
 			};
 			
-			this.props.navigator.push(route);
-			this._prevGeoPoint = this.state.issue.geoPoint;
+			props.navigator.push(route);
+			this._prevGeoPoint = issue.geoPoint;
 		}
 	},
 
-	_openAssistedInput: function(imgTypeId, params, inputValue) {
-		let props = this.props, state = this.state;
-		let route = {
-		  component: InputHelperScene,
-		  passProps: {
-		  	db: props.db,
-		  	imgTypeId: imgTypeId,
-		  	inputValue: inputValue,
-		  	lookups: props.lookups,
-		  	params: params,
-		  	prevImg: _.findWhere(state.issue.images, {"imgTypeId": imgTypeId}),
-		  	issue: state.issue,
-		  	sceneDims: state.dims,
-		  	themeColor: props.lookups.orgTypes[props.currentSiteRight.orgTypeId].color
-		  },
-		  transitionType: "FloatFromBottom"
-		};
-
-		this.props.navigator.push(route);
-	},
-
 	_setDims: function(e) {
-		if (this.state.dims == null) {
+		if ( _.isEmpty(this.state.dims) ) {
 			let layout = e.nativeEvent.layout; 
 			
 			this.setState({
@@ -231,35 +210,34 @@ var RDMain = React.createClass({
 			return;
   },
 
-  _togglePopover: function(state) {
-  	if (!this.state.showPopover && state === true)
+  _togglePopover: function(popoverState) {
+  	if (!this.state.showPopover && popoverState === true)
 	  	this.refs.print._root.measure((ox, oy, width, height, px, py) => {
-	  		this.setState({
-	  			showPopover: state,
-	  			btnRect: {x: px, y: py, width: width, height: height}
-	  		});
+	  		this._btnRect = {x: px, y: py, width: width, height: height};
+	  		this.setState({ showPopover: popoverState });
 	  	});
 	 	else
-	 		this.setState({showPopover: state});
+	 		this.setState({showPopover: popoverState});
   },
 
   _updateIssue: function(snap) {
-		console.log("Tow issue has been updated");
+		console.log("Hazard issue has been updated");
 		let issue = this.state.issue;
 		issue[snap.key()] = snap.val();
 
-		this.setState({
-			issue: issue
-		});
+		this.setState({ issue: issue });
   },
 
 	_renderScene: function(route, nav) {	
 		let navBar = null
-			, props = this.props.route.passProps
-			, issue = this.state.issue
-			, Scene
+			, props = this.props
+			, passedProps = props.route.passProps
+			, state = this.state
 			, themeColor = props.themeColor
-			, users = this.props.users;
+			, users = props.users
+			, Scene;
+
+		let site = props.sites[state.issue.siteId];
 
 		if (route.navigationBar) {
 		 	navBar = React.addons.cloneWithProps(route.navigationBar, {
@@ -273,31 +251,29 @@ var RDMain = React.createClass({
 				Scene =
 					<HistoryScene
 	   				context="all"
-	   				currentSiteRight={this.props.currentSiteRight}
-	   				currentUser={this.props.currentUser}
-	   				ds={ new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}) }
-	   				lookups={this.props.lookups}
+	   				currentSiteRight={props.currentSiteRight}
+	   				currentUser={props.currentUser}
+	   				ds={this._ds}
+	   				lookups={props.lookups}
 	   				nav={nav}
-	   				issue={issue}
-	   				sites={this._sites}
-	   				statusLookups={this.props.lookups.statuses}
-	   				themeColors={themeColors}
+	   				issue={state.issue}
+	   				site={site}
+	   				themeColor={themeColor}
 	   				users={users} />
-
 			break;
 
 			default:
 				Scene =
 					<IssueInfoScene
-						currentSiteRight={_.cloneDeep(this.props.currentSiteRight)}
-						currentUser={this.props.currentUser}
-						dims={props.dims}
-						lookups={this.props.lookups}
+						currentSiteRight={_.cloneDeep(props.currentSiteRight)}
+						currentUser={props.currentUser}
+						dims={passedProps.dims}
+						lookups={props.lookups}
 						nav={nav}
 						openMap={this._openMap}
-						issue={issue}
-						sites={this._sites}
-						themeColors={themeColors}
+						issue={state.issue}
+						site={site}
+						themeColor={themeColor}
 						users={users} />
 			break;
 		}
@@ -305,26 +281,9 @@ var RDMain = React.createClass({
 		return (
 			<View style={styles.mainBox}>
 				{navBar}
-		   	<View
-		   		style={styles.main}
-		   		onLayout={this._setDims}>
+		   	<View style={styles.main} onLayout={this._setDims}>
 		   		{Scene}
 		   	</View>
-		   	<Popover
-          isVisible={this.state.showPopover}
-          fromRect={this.state.btnRect}
-          onClose={this._processPopover}>
-          <Invoicing
-          	clientSite={this._sites[this._orgTypeIds.CLIENT]}
-          	close={() => this._togglePopover(false)}
-          	currentSiteRight={this.props.currentSiteRight}
-          	lookups={this.props.lookups}
-          	pendingTodoItems={this._pendingTodoItems}
-          	issue={issue}
-          	sites={this.props.sites}
-          	showDocumentOptions={this._showDocumentOptions}
-          	themeColors={themeColors} />
-        </Popover>
 			</View>
 		);
 	},
@@ -365,7 +324,7 @@ var RDMain = React.createClass({
 				selectedIndex={this.state.sceneIndex}
 				style={styles.navBarTitle}
 				tintColor={this.Colors.night.section}
-				values={["Home", "History"]} />
+				values={["Details", "History"]} />
 
 		let navBar =
 			<NavBar
@@ -376,23 +335,6 @@ var RDMain = React.createClass({
 				prevTitle="Back"
 				customTitle={navBarTitle} />
 
-		// if (this.state.signature)
-		// 	return (
-		// 		<Modal
-		// 			animation={false}
-		// 			visible={this.state.signature}>
-		// 			<Signature onSaveEvent={this._saveSignature} />
-		// 			<TouchableHighlight
-		// 				underlayColor="#A4A4A4"
-		// 				onPress={() => this._showSignature(false)}
-		// 				style={styles.close}>
-		// 				<View>
-		// 					<Text>Cancel</Text>
-		// 				</View>
-		// 			</TouchableHighlight>
-		// 		</Modal>
-		// 	);
-		// else {
 		return (
 			<Navigator
 				configureScene={this._configureScene}
@@ -402,7 +344,6 @@ var RDMain = React.createClass({
 				  themeColor: passedProps.themeColor
 				}} />
 		);
-		// }
 	}
 });
 

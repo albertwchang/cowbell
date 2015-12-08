@@ -52,11 +52,11 @@ var HistoryScene = React.createClass({
 		ds: PropTypes.object,
 		lookups: PropTypes.object,
 		issue: PropTypes.object,
-		sites: PropTypes.object,
-		statusLookups: PropTypes.object,
-		themeColors: PropTypes.array,
-		users: PropTypes.array
+		site: PropTypes.object,
+		themeColor: PropTypes.string,
+		users: PropTypes.object
 	},
+	// _ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
 
 	getInitialState: function() {
 		return {
@@ -68,13 +68,15 @@ var HistoryScene = React.createClass({
 		let abc = 5;
 	},
 
-	_renderRow: function(statusEntry, sectionId, rowId, themeColors) {
+	_renderRow: function(statusEntry, sectionId, rowId) {
 		let props = this.props
-			, statusRef = props.statusLookups[statusEntry.statusId]
-			, statusEntryStyle = StyleSheet.create({
+			, themeColor = props.themeColor
+			, user = props.users[statusEntry.authorId];
+
+		let statusEntryStyle = StyleSheet.create({
 				info: {
 					backgroundColor: this.Colors.night.section,
-					borderColor: props.themeColors[statusEntry.author.orgTypeId],
+					borderColor: themeColor,
 					borderRadius: 2,
 					borderTopWidth: 0.5,
 					borderLeftWidth: 0.5,
@@ -84,14 +86,14 @@ var HistoryScene = React.createClass({
 					paddingHorizontal: 10,
 					paddingVertical: 5
 				}, status: {
-						color: props.themeColors[statusEntry.author.orgTypeId],
+						color: themeColor,
 						flex: 1,
 						fontSize: 24,
 						fontFamily: "System",
 						fontWeight: "200",
 						letterSpacing: 2
 					}, author: {
-						color: themeColors[statusEntry.author.orgTypeId],
+						color: themeColor,
 						fontSize: 14,
 						letterSpacing: 1
 					}, date: {
@@ -102,29 +104,26 @@ var HistoryScene = React.createClass({
 						letterSpacing: 1
 					},
 				img: {
-					borderColor: themeColors[statusEntry.author.orgTypeId],
+					borderColor: themeColor,
 					borderWidth: 0.5,
 					flex: 1
 				}
 			});
 
-		if (statusRef.accessRights.read.status[this.props.currentSiteRight.orgTypeId])
-			return (
-				<StatusEntry
-					key={statusEntry.statusId}
-					currentUser={props.currentUser}
-        	currentSiteRight={props.currentSiteRight}
-					lookups={props.lookups}
-					issue={props.issue}
-					show={{author: true, timestamp: true, img: true, status: true}}
-					sites={props.sites}
-					statusEntry={statusEntry}
-					styles={statusEntryStyle}
-					themeColors={props.themeColors}
-					users={props.users} />
-			);
-		else
-			return null;
+		return (
+			<StatusEntry
+				key={statusEntry.statusId}
+				currentUser={props.currentUser}
+      	currentSiteRight={props.currentSiteRight}
+				lookups={props.lookups}
+				issue={props.issue}
+				show={{author: true, timestamp: true, img: true, status: true}}
+				site={props.site}
+				statusEntry={statusEntry}
+				styles={statusEntryStyle}
+				themeColor={themeColor}
+				user={user} />
+		);
 	},
 
 	_renderSeparator: function(status, rowId) {
@@ -133,7 +132,8 @@ var HistoryScene = React.createClass({
 	},
 
 	render: function() {
-		let props = this.props, state = this.state
+		let props = this.props
+			, state = this.state
 			, statusEntries = _.cloneDeep(props.issue.statusEntries);
 
 		return (
@@ -142,7 +142,7 @@ var HistoryScene = React.createClass({
 				dataSource={props.ds.cloneWithRows(statusEntries.reverse())}
 				initialListSize={statusEntries.length}
 				removeClippedSubviews={true}
-				renderRow={(statusEntry, sectionId, rowId) => this._renderRow(statusEntry, sectionId, rowId, props.themeColors)}
+				renderRow={this._renderRow}
 				renderSeparator={this._renderSeparator}
 				style={_styles.container} />
 		);

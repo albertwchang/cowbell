@@ -108,19 +108,6 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-	_mapVehicleData: function(vehicleData) {
-		let dataMap = this._lookups.hosts.vehicle["dataMap"];
-    
-    return {
-  		drivetrain: dataMap.drivetrain[vehicleData.drivenWheels] || "",
-  		transmission: dataMap.transmission[vehicleData.transmission.transmissionType] || "",
-   		vehicleType: dataMap.vehicleType[vehicleData.categories.vehicleType] || "",
-  		make: vehicleData.make.name || "",
-	    model: vehicleData.model.name || "",
-	    year: vehicleData.years[0].year.toString() || 0
-  	}
-  },
-
   _sortIssues: function(issues) {
   	let now = Moment();
 
@@ -217,91 +204,36 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-	onAddStatus: function(nextStatus, issue, notes, sites) {
-		console.log("issueId: ", issue.iid);
-		// let issueStatusEntriesRef = this._db.child(issue.iid).child("statusEntries");
+	onAddStatus: function(nextStatus, issue, notes, site) {
+		console.log("Adding status to issue: ", issue.iid);
+
 		let siteRight = this._currentSiteRight
-		  , newUser = this._currentUser;
+      , newUser = this._currentUser;
     
     LocationActions.getPosition.triggerPromise().then((position) => {
-	    let prevUserId = _.last(issue.statusEntries).author.id;
+	    let prevUserId = _.last(issue.statusEntries).authorId;
 	    let statusEntry = {
 	      timestamp: Moment(Moment().toDate()).format(),
 	      geoPoint: position,
 	      statusId: nextStatus.iid,
-	      author: {
-	        id: newUser.iid,
-	        orgTypeId: siteRight.orgTypeId,
-	      },
+	      authorId: newUser.iid,
 	      notes: notes,
 	    };
 
-			Async.parallel([
-				(statusEntryCb) => {
-					IssueActions.setParam.triggerPromise(issue, ["statusEntries", issue.statusEntries.length], statusEntry)
-					.then(() => {
-						// 1. assign issue Id to user's current State when next status has islocked: true
-	        	if (nextStatus.assignTo[siteRight.orgTypeId].user)
-	            return ProfileActions.setIssueId(issue.iid, newUser.iid);
-	         	else {
-	         		// need to also remove from user of previous status
-	         		return ProfileActions.removeIssueId(prevUserId);
-	         	}
-					}).then(() => {
-						statusEntryCb(null, "Status Entry has been saved");
-					}).catch((err) => {
-						statusEntryCb("Couldn't add status entry", null);
-					});	
-				},
-				(siteAndIssueCb) => {
-					// 2. Add issue Id to all other allies' issue list
-		    	if ( nextStatus.assignTo[this._orgTypeIds.VENDOR].site ) {
-		    		// iterate through all ally orgTypes of client
-		    		let allySites = _.omit(sites, this._orgTypeIds.CLIENT)
-		    			, qAllySites = [];
-
-						_.each(allySites, (allySite, key) => {
-							let qAllySite = new Promise((resolve, reject) => {
-								Async.parallel([
-									(issueIdCb) => {
-										SiteActions.setIssueId.triggerPromise(issue.iid, allySite.iid, key).then(() => {
-											issueIdCb(null, "issueId added to " +key);
-										}).catch((err) => {
-											issueIdCb(err +": issueId NOT added to " +key, null);
-										});
-									},
-									(siteIdCb) => {
-										IssueActions.setParam.triggerPromise(issue, ["sites", key, "siteId"], allySite.iid).then(() => {
-											siteIdCb(null, allySite.iid +" added to issue: " +issue.iid);
-										}).catch((err) => {
-											siteIdCb(err +": " +allySite.iid +"NOT added to issue: " +issue.iid, null);
-										});
-									}
-								], (err, results) => {
-									if (err)
-										reject();
-									else
-										resolve();
-								});
-							});
-
-							qAllySites.push(qAllySite);
-						});
-
-						new Promise.all(qAllySites).then((results) => {
-		      		siteAndIssueCb(null, "IssueId added to all Ally sites, and all siteIds added to issue");
-		      	}).catch((err) => {
-	      			siteAndIssueCb(err +": Couldn't add issueId and/or SiteId", null);
-	      		});
-		    	} else
-		    		siteAndIssueCb(null, "IssueId and SiteId unecessary");
-				}
-			], (err, results) => {
-				if (err)
+			IssueActions.setParam.triggerPromise(issue, ["statusEntries", issue.statusEntries.length], statusEntry)
+				.then(() => {
+					// 1. assign issue Id to user's current State when next status has islocked: true
+        	if ( nextStatus.lockForUser )
+            return ProfileActions.setIssueId(issue.iid, newUser.iid);
+         	else {
+         		// need to also remove from user of previous status
+         		return ProfileActions.removeIssueId(prevUserId);
+         	}
+				}).then(() => {
+					IssueActions.addStatus.completed();
+				}).catch((err) => {
 					IssueActions.addStatus.failed(err);
-
-      	IssueActions.addStatus.completed();
-			});
+				});
 		});
 	},
 
@@ -380,8 +312,8 @@ var IssueStore = Reflux.createStore({
     };
 
     let checkUserRights = function(prevStatusRef, nextStatusRef) {
-	    let statusRef = self._lookups.statuses[nextStatusRef.statusId]
-        , writeRight = statusRef.accessRights.write
+	    let statusDef = self._lookups.statuses[nextStatusRef.statusId]
+        , writeRight = _.has(statusDef, "accessRights") ? statusDef.accessRights.write : null
         , taskRefs = self._lookups.tasks
         , allowed;
 	    
@@ -390,12 +322,12 @@ var IssueStore = Reflux.createStore({
 	      if (prevStatusRef.lockForUser)
 	        allowed = assignedToThisIssue(issueId);
 	      else
-	        allowed = assignedToOtherIssue(issueId) && _.has(statusRef, "nextStatuses") ? false : true;
+	        allowed = assignedToOtherIssue(issueId) && _.has(statusDef, "nextStatuses") ? false : true;
 	    } else {
 	      allowed = false;
 	    }
 
-	    return allowed ? statusRef : undefined;
+	    return allowed ? statusDef : undefined;
 	  };
 
     let statusRef = this._lookups.statuses[statusEntry.statusId]
@@ -478,15 +410,8 @@ var IssueStore = Reflux.createStore({
 		}, (err) => {
 			if (err)
 				IssueActions.removeFromImages.failed("Couldn't remove ${imgTypeId} img");
-			else {
-				IssueActions.setTodoStatus.triggerPromise(issue, "images", "done", imgTypeId, false)
-					.then(() => {
-						IssueActions.removeFromImages.completed("Successfully removed ${imgTypeId} image");
-					}).catch((err) => {
-						IssueActions.removeFromImages.failed("Couldn't remove ${imgTypeId} img");
-					});
-				
-			}
+      else
+				IssueActions.removeFromImages.completed("Successfully removed ${imgTypeId} image");	
 		});
 	},
 

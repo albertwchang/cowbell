@@ -56,47 +56,36 @@ var LocationStore = Reflux.createStore({
 				employerSite[paramRef.key()] = paramRef.val();
 			});
 		});
-
-		
-
-		// update current issue list when employer issue list updates
-		// let issuesRef = dbRef.child("issues");
-		// this._dbRefs.push(issuesRef);
-		
-		// requestsRef.on("child_added", (requestRef) => {
-		// 	let newRequestId = requestRef.val();
-		// 	RequestActions.pullRequest(newRequestId, "site");
-		// })
 	},
 
-	onSetRequestId: function(requestId, siteId) {
-		let siteRequestsRef = this._db.child(siteId).child("requests");
-		this._dbRefs.push(siteRequestsRef);
+	onSetIssueId: function(issueId, siteId) {
+		let siteIssuesRef = this._db.child(siteId).child("issues");
+		this._dbRefs.push(siteIssuesRef);
 
-		siteRequestsRef.transaction((prevList) => {
+		siteIssuesRef.transaction((prevList) => {
 		  /******************************************************************
-				Note: prevList represents the requests array.  Requests will be
-				null in the event no requestIds exist; therefore special actions
-				need to be taken in order to add the "requests" parameter before
+				Note: prevList represents the issues array.  Issues will be
+				null in the event no issueIds exist; therefore special actions
+				need to be taken in order to add the "issues" parameter before
 				populating
 		  ******************************************************************/
 		  if (prevList === null)
 		  	return "";
 		  else {
 		  	if (prevList === "")
-		  		return [requestId];
+		  		return [issueId];
 		  	else {
-		  		if ( !_.contains(prevList, requestId) )
-		  			prevList.push(requestId);
+		  		if ( !_.contains(prevList, issueId) )
+		  			prevList.push(issueId);
 
 		  		return prevList;
 		  	}
 		  }
 		}, (err, commit, snapshot) => {
 			if (err || !commit)
-				SiteActions.setRequestId.failed(err);
+				SiteActions.setIssueId.failed(err);
 			else
-				SiteActions.setRequestId.completed();
+				SiteActions.setIssueId.completed();
 		});
 	},
 

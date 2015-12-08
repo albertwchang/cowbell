@@ -79,8 +79,8 @@
       "wy": { "iid": "wy", "name": "Wyoming"}
     },
     "statuses": {
-      "status1": {
-        "iid": "status1",
+      "status0": {
+        "iid": "status0",
         "accessRights": {
           "write": {
             "task": "task0"
@@ -90,109 +90,81 @@
         "lockForUser": false,
         "names": {
           "action": "Ring Bell",
-          "prompt": "Ring Bell",
-          "ui": "Issue Identified"
+          "ui": "New Hazard"
         },
         "needsApproval": false,
         "nextStatuses": [
           {
-            "statusId": "status2",
+            "statusId": "status1",
             "lock": false,
             "default": true
           }, {
-            "statusId": "status4",
-            "lock": false,
-            "default": false
-          }, {
-            "statusId": "status5",
+            "statusId": "status2",
             "lock": false,
             "default": false
           }
         ]
       },
-      "status2": {
-        "iid": "status2",
+      "status1": {
+        "iid": "status1",
         "accessRights": {
-          "approve": {
-            "task": "task1"
-          },
           "write": {
             "task": "task1"
           }
         },
         "isPreferred": true,
-        "lockForUser": false,
-        "names": {
-          "action": "Please resolve",
-          "ui": "Please resolve"
-        },
-        "needsApproval": false,
-        "nextStatuses": [
-          {
-            "statusId": "status3",
-            "lock": false,
-            "default": true
-          }, {
-            "statusId": "status4",
-            "lock": false,
-            "default": false
-          }
-        ],
-        "prevStatuses": {
-          "preApprove": false,
-          "options": ["status1"]
-        }
-      },
-      "status3": {
-        "iid": "status3",
-        "isPreferred": true,
         "lockForUser": true,
         "names": {
-          "action": "In Process",
+          "action": "Take Job",
           "prompt": "In Process",
           "ui": "In Process"
         },
         "needsApproval": false,
         "nextStatuses": [
           {
-            "statusId": "status4",
+            "statusId": "status2",
             "lock": false,
             "default": false
           }, {
-            "statusId": "status5",
+            "statusId": "status3",
             "lock": true,
             "default": true          
           }
         ],
         "prevStatuses": {
           "preApprove": false,
-          "options": ["status1"]
+          "options": ["status0"]
         }
       },
-      "status4": {
-        "iid": "status4",
+      "status2": {
+        "iid": "status2",
         "accessRights": {
           "write": {
-            "task": "task2"
+            "task": "task1"
           }
         },
         "isPreferred": false,
         "lockForUser": false,
         "names": {
+          "action": "Cancel",
           "ui": "Cancelled",
-          "prompt": "Cancelling",
-          "action": "Cancel"
+          "prompt": "Cancelling"
         },
         "needsApproval": false,
         "prevStatuses": {
           "preApprove": false,
-          "options": ["status1", "status2", "status3"]
+          "options": ["status0", "status1"]
         }
       },
-      "status5": {
-        "iid": "status5",
+      "status3": {
+        "iid": "status3",
+        "accessRights": {
+          "write": {
+            "task": "task1"
+          }
+        },
         "isPreferred": true,
-        "lockForUser": true,
+        "lockForUser": false,
         "names": {
           "ui": "Issue resolved",
           "prompt": "Resolving",
@@ -201,14 +173,8 @@
         "needsApproval": true,
         "prevStatuses": {
           "preApprove": true,
-          "options": ["status1", "status2", "status3"]
-        },
-        "proximityRules": [
-          {
-            "threshold": 15,
-            "condition": "<"
-          }
-        ]
+          "options": ["status1"]
+        }
       }
     },
     "streetTypes": {
@@ -248,54 +214,19 @@
     "tasks": {
       "task0": {
         "iid": "task0",
-        "name": "God",
-        "desc": "Head user for site",
-        "orgTypeIds": {
-          "client": true,
-          "vendor": true
-        }
-      }, "task1": {
+        "name": "Callout",
+        "desc": "Callout hazardous issues"
+      },
+      "task1": {
         "iid": "task1",
-        "name": "Manage Users",
-        "desc": "Create, Update, and Inactivate users within the same company",
-        "orgTypeIds": {
-          "client": true,
-          "vendor": true
-        }
-      }, "task2": {
+        "name": "Take Job",
+        "desc": "Take responsibility over an outstanding issue"
+      },
+      "task2": {
         "iid": "task2",
-        "name": "Approve Request",
-        "desc": "Approve a tow request",
-        "orgTypeIds": {
-          "client": true,
-          "vendor": true
-        }
-      }, "task3": {
-        "iid": "task3",
-        "name": "Set Request Status",
-        "desc": "Update status of tow requests",
-        "orgTypeIds": {
-          "client": true,
-          "vendor": true
-        },
-        "requiredTasks": ["task4"]
-      }, "task4": {
-        "iid": "task4",
-        "name": "Update Request Info",
-        "desc": "Edit any (editable) information within a request, e.g. vehicle info",
-        "orgTypeIds": {
-          "client": false,
-          "vendor": true
-        }
-      }, "task5": {
-        "iid": "task5",
-        "name": "View tow request details",
-        "desc": "Baseline user for client site",
-        "orgTypeIds": {
-          "client": true,
-          "vendor": true
-        }
+        "name": "Approve Resolution",
+        "desc": "Approve a job which has been said to be resolved"
       }
-    },
+    }
   }
 }

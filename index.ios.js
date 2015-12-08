@@ -8,7 +8,7 @@ var Reflux = require("reflux");
 
 // CONTEXTS
 var Auth = require("./_Auth/AuthMain");
-var NewIssue = require("./_NewIssue/NIMain");
+// var NewIssue = require("./_NewIssue/NIMain");
 var IssueList = require("./_IssueList/ILMain");
 var Settings = require("./_Settings/SMain");
 var UserProfile = require("./_UserProfile/UPMain");
@@ -80,10 +80,10 @@ var CowBell = React.createClass({
       icon: "ios-glasses-outline",
       comp: IssueList
     },
-    "new": {
-      icon: "ios-compose",
-      comp: NewIssue
-    },
+    // "new": {
+    //   icon: "ios-compose",
+    //   comp: NewIssue
+    // },
     "profile": {
       icon: "ios-person",
       comp: UserProfile

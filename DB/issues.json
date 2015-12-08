@@ -9,6 +9,7 @@
       "latitude": 36.963558,
       "longitude": -122.0005906
     },
+    "hazard": 
     "siteId": "site1",
     "images": [
       {
@@ -20,7 +21,7 @@
           "latitude": 37.7824580,
           "longitude": -122.4077620
         },
-        "statusId": 4,
+        "statusId": "status0",
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue0-1.jpg",
@@ -31,7 +32,7 @@
           "latitude": 37.7824580,
           "longitude": -122.4077620
         },
-        "statusId": 1,
+        "statusId": "status0",
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue0-2.jpg",
@@ -42,7 +43,7 @@
           "latitude": 37.7824580,
           "longitude": -122.4077620
         },
-        "statusId": 1,
+        "statusId": "status0",
         "authorId": "afoley"
       }
     ],
@@ -55,7 +56,7 @@
           "latitude": 37.7824580,
           "longitude": -122.4077620
         },
-        "statusId": "status1",
+        "statusId": "status0",
         "authorId": "afoley",
         "notes": ""
       }
@@ -92,7 +93,7 @@
           "latitude": 37.7824552,
           "longitude": -122.4077629
         },
-        "statusId": 4,
+        "statusId": "status0",
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue1-1.jpg",
@@ -103,7 +104,7 @@
           "latitude": 37.7824552,
           "longitude": -122.4077629
         },
-        "statusId": 1,
+        "statusId": "status0",
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue1-2.jpg",
@@ -114,7 +115,7 @@
           "latitude": 37.7824552,
           "longitude": -122.4077629
         },
-        "statusId": 1,
+        "statusId": "status0",
         "authorId": "afoley"
       }
     ],
@@ -127,7 +128,7 @@
           "latitude": 37.7824552,
           "longitude": -122.4077629
         },
-        "statusId": "status1",
+        "statusId": "status0",
         "authorId": "afoley",
         "notes": ""
       }, {
@@ -138,11 +139,10 @@
           "latitude": 37.7824552,
           "longitude": -122.4077629
         },
-        "statusId": "status5",
+        "statusId": "status1",
         "authorId": "afoley",
         "notes": ""
       }, {
-        "statusId": "status6",
         "timestamp": "2014-05-28T11:13:22-08:00",
         "geoPoint": {
           "lat": 37.7824552,
@@ -150,6 +150,7 @@
           "latitude": 37.7824552,
           "longitude": -122.4077629
         },
+        "statusId": "status3",
         "authorId": "afoley",
         "notes": ""
       }
@@ -187,7 +188,7 @@
           "latitude": 37.7824511,
           "longitude": -122.4077639
         },
-        "statusId": 4,
+        "statusId": "status0",
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue2-1.jpg",
@@ -198,7 +199,7 @@
           "latitude": 37.7824511,
           "longitude": -122.4077639
         },
-        "statusId": 1,
+        "statusId": "status0",
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue2-2.jpg",
@@ -209,7 +210,7 @@
           "latitude": 37.7824511,
           "longitude": -122.4077639
         },
-        "statusId": 1,
+        "statusId": "status0",
         "authorId": "afoley"
       }
     ],
@@ -222,7 +223,7 @@
           "latitude": 37.7824511,
           "longitude": -122.4077639
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "afoley",
         "notes": ""
       }
@@ -259,7 +260,7 @@
           "latitude": 37.7824611,
           "longitude": -122.4077688
         },
-        "statusId": 4,
+        "statusId": "status0",
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue3-1.jpg",
@@ -270,7 +271,7 @@
           "latitude": 37.7824611,
           "longitude": -122.4077688
         },
-        "statusId": 1,
+        "statusId": "status0",
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue3-2.jpg",
@@ -281,7 +282,7 @@
           "latitude": 37.7824611,
           "longitude": -122.4077688
         },
-        "statusId": 1,
+        "statusId": "status0",
         "authorId": "afoley"
       }
     ],
@@ -294,7 +295,7 @@
           "latitude": 37.7824611,
           "longitude": -122.4077688
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "afoley",
         "notes": ""
       }
@@ -324,7 +325,7 @@
           "latitude": 37.7824781,
           "longitude": -122.4077222
         },
-        "statusId": 4,
+        "statusId": "status0",
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue4-1.jpg",
@@ -335,7 +336,7 @@
           "latitude": 37.7824781,
           "longitude": -122.4077222
         },
-        "statusId": 1,
+        "statusId": "status0",
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue4-2.jpg",
@@ -346,7 +347,7 @@
           "latitude": 37.7824781,
           "longitude": -122.4077222
         },
-        "statusId": 1,
+        "statusId": "status0",
         "authorId": "afoley"
       }
     ],
@@ -360,7 +361,7 @@
           "latitude": 37.7824781,
           "longitude": -122.4077222
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "afoley",
         "notes": ""
       }
@@ -385,7 +386,7 @@
           "latitude": 37.7824454,
           "longitude": -122.4204782
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-05-29T17:33:37-08:00",
         "uri": "/issues/issue5-0.jpg"
       }, {
@@ -396,7 +397,7 @@
           "latitude": 37.7824454,
           "longitude": -122.4204782
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-05-29T17:33:37-08:00",
         "uri": "/issues/issue5-1.jpg"
       }, {
@@ -407,7 +408,7 @@
           "latitude": 37.7824454,
           "longitude": -122.4204782
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-05-29T17:33:37-08:00",
         "uri": "/issues/issue5-2.jpg"
       }
@@ -422,7 +423,7 @@
           "latitude": 37.7824454,
           "longitude": -122.4204782
         },
-        "statusId": "status1",
+        "statusId": "status0",
         "authorId": "bgonzalez",
         "notes": ""
       }
@@ -458,7 +459,7 @@
           "latitude": 36.9759000,
           "longitude": -121.9840295
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
         "uri": "/issues/issue6-0.jpg"
       }, {
@@ -469,7 +470,7 @@
           "latitude": 36.9759000,
           "longitude": -121.9840295
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
         "uri": "/issues/issue6-1.jpg"
       }, {
@@ -480,7 +481,7 @@
           "latitude": 36.9759000,
           "longitude": -121.9840295
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
         "uri": "/issues/issue6-2.jpg"
       }
@@ -494,7 +495,7 @@
           "latitude": 36.9759000,
           "longitude": -121.9840295
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "tgonzalez",
         "notes": ""
       }
@@ -522,7 +523,7 @@
           "latitude": 36.978951,
           "longitude": -121.9840090
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-06-05T11:57:55-08:00",
         "uri": "/issues/issue7-0.jpg"
       }, {
@@ -533,7 +534,7 @@
           "latitude": 36.978951,
           "longitude": -121.9840090
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-05T11:57:55-08:00",
         "uri": "/issues/issue7-1.jpg"
       }, {
@@ -544,7 +545,7 @@
           "latitude": 36.978951,
           "longitude": -121.9840090
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-05T11:57:55-08:00",
         "uri": "/issues/issue7-2.jpg"
       }
@@ -558,7 +559,7 @@
           "latitude": 36.978951,
           "longitude": -121.9840090
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "jgonzalez",
         "notes": ""
       }
@@ -596,7 +597,7 @@
           "latitude": 36.9759229,
           "longitude": -121.9840220
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-06-12T20:01:15-08:00",
         "uri": "/issues/issue8-0.jpg"
       }, {
@@ -607,7 +608,7 @@
           "latitude": 36.9759229,
           "longitude": -121.9840220
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-12T20:01:15-08:00",
         "uri": "/issues/issue8-1.jpg"
       }, {
@@ -618,7 +619,7 @@
           "latitude": 36.9759229,
           "longitude": -121.9840220
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-12T20:01:15-08:00",
         "uri": "/issues/issue8-2.jpg"
       }
@@ -632,7 +633,7 @@
           "latitude": 36.9759229,
           "longitude": -121.9840220
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "ggonzalez",
         "notes": ""
       }
@@ -668,7 +669,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833012
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-06-15T22:16:33-08:00",
         "uri": "/issues/issue9-0.jpg"
       }, {
@@ -679,7 +680,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833012
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-15T22:16:33-08:00",
         "uri": "/issues/issue9-1.jpg"
       }, {
@@ -690,7 +691,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833012
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-15T22:16:33-08:00",
         "uri": "/issues/issue9-2.jpg"
       }
@@ -704,7 +705,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833012
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "ygonzalez",
         "notes": ""
       }
@@ -742,7 +743,7 @@
           "latitude": 37.7882350,
           "longitude": -122.4145820
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-06-19T07:26:22-08:00",
         "uri": "/issues/issue10-0.jpg"
       }, {
@@ -753,7 +754,7 @@
           "latitude": 37.7882350,
           "longitude": -122.4145820
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-19T07:26:22-08:00",
         "uri": "/issues/issue10-1.jpg"
       }, {
@@ -764,7 +765,7 @@
           "latitude": 37.7882350,
           "longitude": -122.4145820
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-19T07:26:22-08:00",
         "uri": "/issues/issue10-2.jpg"
       }
@@ -778,7 +779,7 @@
           "latitude": 37.7882350,
           "longitude": -122.4145820
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "gbettencourt",
         "notes": ""
       }
@@ -815,7 +816,7 @@
           "latitude": 37.7882335,
           "longitude": -122.4145945
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
         "uri": "/issues/issue11-0.jpg"
       }, {
@@ -826,7 +827,7 @@
           "latitude": 37.7882335,
           "longitude": -122.4145945
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
         "uri": "/issues/issue11-1.jpg"
       }, {
@@ -837,7 +838,7 @@
           "latitude": 37.7882335,
           "longitude": -122.4145945
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
         "uri": "/issues/issue11-2.jpg"
       }
@@ -851,7 +852,7 @@
           "latitude": 37.7882335,
           "longitude": -122.4145945
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "gbettencourt",
         "notes": ""
       }
@@ -888,7 +889,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833045
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-06-20T14:21:42-08:00",
         "uri": "/issues/issue12-0.jpg"
       }, {
@@ -899,7 +900,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833045
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-20T14:21:42-08:00",
         "uri": "/issues/issue12-1.jpg"
       }, {
@@ -910,7 +911,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833045
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-20T15:21:42-08:00",
         "uri": "/issues/issue12-2.jpg"
       }
@@ -924,7 +925,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833045
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "mramirez",
         "notes": ""
       }
@@ -961,7 +962,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833045
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
         "uri": "/issues/issue13-0.jpg"
       }, {
@@ -972,7 +973,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833045
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
         "uri": "/issues/issue13-1.jpg"
       }, {
@@ -983,7 +984,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833045
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
         "uri": "/issues/issue13-2.jpg"
       }
@@ -997,7 +998,7 @@
           "latitude": 36.9753199,
           "longitude": -121.9833045
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "mramirez",
         "notes": ""
       }
@@ -1034,7 +1035,7 @@
           "latitude": 36.9753185,
           "longitude": -121.9833049
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
         "uri": "/issues/issue14-0.jpg"
       }, {
@@ -1045,7 +1046,7 @@
           "latitude": 36.9753185,
           "longitude": -121.9833049
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
         "uri": "/issues/issue14-1.jpg"
       }, {
@@ -1056,7 +1057,7 @@
           "latitude": 36.9753185,
           "longitude": -121.9833049
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
         "uri": "/issues/issue14-2.jpg"
       }
@@ -1070,7 +1071,7 @@
           "latitude": 36.9753185,
           "longitude": -121.9833049
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "mramirez",
         "notes": ""
       }
@@ -1106,7 +1107,7 @@
           "latitude": 36.9753185,
           "longitude": -121.9833049
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-24T16:02:16-08:00",
         "uri": "/issues/issue15-0.jpg"
       }, {
@@ -1117,7 +1118,7 @@
           "latitude": 36.9753185,
           "longitude": -121.9833049
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-24T16:02:16-08:00",
         "uri": "/issues/issue15-1.jpg"
       }
@@ -1131,7 +1132,7 @@
           "latitude": 36.9753185,
           "longitude": -121.9833049
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "sconnery",
         "notes": ""
       }
@@ -1168,7 +1169,7 @@
           "latitude": 37.7875672,
           "longitude": -122.4095959
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-06-27T08:42:41-08:00",
         "uri": "/issues/issue16-0.jpg"
       }, {
@@ -1179,7 +1180,7 @@
           "latitude": 37.7875672,
           "longitude": -122.4095959
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-27T08:42:41-08:00",
         "uri": "/issues/issue16-1.jpg"
       }, {
@@ -1190,7 +1191,7 @@
           "latitude": 37.7875672,
           "longitude": -122.4095959
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-06-27T08:42:41-08:00",
         "uri": "/issues/issue16-2.jpg"
       }
@@ -1204,7 +1205,7 @@
           "latitude": 37.7875672,
           "longitude": -122.4095959
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "jtravolta",
         "notes": ""
       }
@@ -1232,7 +1233,7 @@
           "longitude": -122.4095979
         },
           "imgTypeId": "vin",
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-07-01T19:51:05-08:00",
         "uri": "/issues/issue17-0.jpg"
       }, {
@@ -1243,7 +1244,7 @@
           "latitude": 37.7875682,
           "longitude": -122.4095979
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-07-01T19:51:05-08:00",
         "uri": "/issues/issue17-1.jpg"
       }, {
@@ -1254,7 +1255,7 @@
           "latitude": 37.7875682,
           "longitude": -122.4095979
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-07-01T19:51:05-08:00",
         "uri": "/issues/issue17-2.jpg"
       }
@@ -1268,7 +1269,7 @@
           "latitude": 37.7875682,
           "longitude": -122.4095979
         },
-        "statusId": "status1",
+        "statusId": "status0",
         "authorId": "jtravolta",
         "notes": ""
       }
@@ -1305,7 +1306,7 @@
           "latitude": 37.7875641,
           "longitude": -122.4095929
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-07-02T22:45:59-08:00",
         "uri": "/issues/issue18-0.jpg"
       }, {
@@ -1316,7 +1317,7 @@
           "latitude": 37.7875641,
           "longitude": -122.4095929
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-07-02T22:45:59-08:00",
         "uri": "/issues/issue18-1.jpg"
       }, {
@@ -1327,7 +1328,7 @@
           "latitude": 37.7875641,
           "longitude": -122.4095929
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-07-02T22:45:59-08:00",
         "uri": "/issues/issue18-2.jpg"
       }
@@ -1341,7 +1342,7 @@
           "latitude": 37.7875641,
           "longitude": -122.4095929
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "gclooney",
         "notes": ""
       }
@@ -1378,7 +1379,7 @@
           "latitude": 37.7875701,
           "longitude": -122.4095988
         },
-        "statusId": 4,
+        "statusId": "status0",
         "timestamp": "2014-07-03T12:29:32-08:00",
         "uri": "/issues/issue19-0.jpg"
       }, {
@@ -1389,7 +1390,7 @@
           "latitude": 37.7875701,
           "longitude": -122.4095988
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-07-03T12:29:55-08:00",
         "uri": "/issues/issue19-1.jpg"
       }, {
@@ -1400,7 +1401,7 @@
           "latitude": 37.7875701,
           "longitude": -122.4095988
         },
-        "statusId": 1,
+        "statusId": "status0",
         "timestamp": "2014-07-03T12:29:55-08:00",
         "uri": "/issues/issue19-2.jpg"
       }
@@ -1414,7 +1415,7 @@
           "latitude": 37.7875701,
           "longitude": -122.4095988
         },
-        "statusId": "status2",
+        "statusId": "status0",
         "authorId": "gclooney",
         "notes": ""
       }
