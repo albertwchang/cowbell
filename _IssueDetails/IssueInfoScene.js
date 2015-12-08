@@ -103,7 +103,14 @@ var IssueInfoScene = React.createClass({
 				fontFamily: "System",
 				fontSize: 32,
 				fontWeight: "200"
-			}
+			},
+		site: {
+			borderColor: "#A4A4A4",
+			borderWidth: 0.5,
+			flex: 1,
+			flexDirection: "row",
+			padding: 4
+		}
 	}),
 	_timer: null,
 	_workflowMessages: {
@@ -227,6 +234,7 @@ var IssueInfoScene = React.createClass({
 		let props = this.props, state = this.state
 			, dims = props.dims
 			, mapParams = state.mapParams
+			, imgHost = props.lookups.hosts.img.provider
 			, issue = state.issue
 			, themeColor = props.themeColor
 	  	, imgUris = _.pluck(issue.images, "uri")
@@ -276,7 +284,7 @@ var IssueInfoScene = React.createClass({
 					<View style={this._styles.primaryInfo}>
 						<IssueImages
 			   			aspectRatio={16/10}
-			   			imgHost={props.lookups.hosts.img.provider}
+			   			imgHost={imgHost}
 							uris={imgUris} />
 						<LineSeparator vertMargin={4} height={0} />
 						<TouchableHighlight
@@ -286,6 +294,14 @@ var IssueInfoScene = React.createClass({
 					  		{MapSection}
 							</View>
 						</TouchableHighlight>
+						<LineSeparator vertMargin={4} height={0} />
+						<Site
+							info={props.site}
+							imgHost={imgHost}
+							showImg={true}
+							showPhoneBtn={true}
+							style={this._styles.site}
+							themeColor={themeColor} />
 					</View>
 				</ScrollView>
 				<LineSeparator color="#FFFFFF" height={0.5} horzMargin={0} vertMargin={0} />

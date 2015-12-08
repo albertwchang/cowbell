@@ -2,9 +2,6 @@ var React = require("react-native");
 var Comm = require('react-native-communications');
 var Icon = require('react-native-vector-icons/Ionicons');
 
-// Utilities
-// var _ = require("lodash");
-
 var {
 	Image,
 	PixelRatio,
@@ -61,7 +58,7 @@ var Site = React.createClass({
 		showPhoneBtn: PropTypes.bool,
 		showAddy: PropTypes.object,
 		style: PropTypes.number,
-		themeColors: PropTypes.array
+		themeColor: PropTypes.string
 	},
 
 	getDefaultProps: function() {
@@ -82,8 +79,7 @@ var Site = React.createClass({
 			, info = props.info
 			, address = info.address
 			, imgUri = props.imgHost.url +info.img.icon +"?w=49"
-			, showAddy = props.showAddy
-			, themeColors = props.themeColors;
+			, showAddy = props.showAddy;
 
 		let Img = props.showImg ?
 			<Image
@@ -94,7 +90,7 @@ var Site = React.createClass({
 		let PhoneBtn = this.props.showPhoneBtn ?
 			<TouchableHighlight
 				onPress={() => Comm.phonecall(info.phoneNum.toString(), true)}
-				style={ [styles.callBtn, {backgroundColor: themeColors[info.orgTypeId], borderRadius: 6}] }>
+				style={ [styles.callBtn, {backgroundColor: props.themeColor, borderRadius: 6}] }>
 				<View style={styles.callBtn}>
 					<Icon
 						name={"ios-telephone"}

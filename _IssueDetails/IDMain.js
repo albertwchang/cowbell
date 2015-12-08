@@ -7,7 +7,6 @@ var Display = require("react-native-device-display");
 var Icon = require('react-native-vector-icons/Ionicons');
 var NavBar = require("react-native-navbar");
 var React = require("react-native");
-// var Signature = require('react-native-signature-capture');
 
 // COMPONENTS
 var Invoicing = require("../Comps/Invoicing");
@@ -273,7 +272,7 @@ var RDMain = React.createClass({
 						nav={nav}
 						openMap={this._openMap}
 						issue={state.issue}
-						sites={site}
+						site={site}
 						themeColor={themeColor}
 						users={users} />
 			break;
@@ -325,7 +324,7 @@ var RDMain = React.createClass({
 				selectedIndex={this.state.sceneIndex}
 				style={styles.navBarTitle}
 				tintColor={this.Colors.night.section}
-				values={["Home", "History"]} />
+				values={["Details", "History"]} />
 
 		let navBar =
 			<NavBar
