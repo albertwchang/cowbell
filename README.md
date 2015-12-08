@@ -23,8 +23,14 @@ This is application is currently WIP (Work In Progress), and is based on an earl
 1. Go into your finder.  In case you don't know, it is a Mac OS application that you can typically find System dock (it's the 2-faced-looking icon).
 2. Navigate to the same directory you have been working in.  Once there, go into the "ios" directory
 3. Double-click the "CowBell.xcodeproj" file.  Running this file will get the app closer to starting.
-4. This next part is a little tricky.  You have to ensure certain settings are set correctly.  Ensure your Xcode environment reflects what you see circled in red from the image:
+4. Ensure the following picture is what your environment looks like:
 
 ![Image of Xcode environment](https://cloud.githubusercontent.com/assets/3760499/11639259/a233a958-9ce0-11e5-87fa-a199931995e0.png)
+
+5. Choose your device and IOS version from the drop-dowmn menu.
+![Image of choosing device + IOS version](https://cloud.githubusercontent.com/assets/3760499/11663655/4c3966a2-9d92-11e5-8d7b-1634d9ffc390.png)
+
+6. Ignore the warnings if there are no errors...for now.
+![Ignore warnings](https://cloud.githubusercontent.com/assets/3760499/11663654/4c330a00-9d92-11e5-8200-2fe6df58c869.png)
 
 * This should at least get the Xcode simulator to run the app.  Please submit an issue if you are have any questions/suggestions/difficulties.
