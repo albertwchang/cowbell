@@ -28,7 +28,7 @@ var SMain = React.createClass({
 		currentSiteRight: PropTypes.object,
 		currentUser: PropTypes.object,
 		lookups: PropTypes.object,
-		themeColors: PropTypes.array
+		themeColor: PropTypes.string
 	},
 	_styles: StyleSheet.create({
 		main: {
@@ -81,20 +81,13 @@ var SMain = React.createClass({
 		_.each(this.state.sources, (source) => {
 			FileSystem.readDir('/', FileSystem[source]).then((result) => {
 		    console.log(source, result);
-
-		    this.state.files[source] = _.remove(result, (file) => {
+		    let state = _.cloneDeep(this.state);
+				
+				state.files[source] = _.remove(result, (file) => {
 	    		return _.endsWith(file.path, ".jpg");
 	    	});
 		    
-		    this.setState(this.state);
-		    // access meta data of each object to get filepath
-		   //  _.each(result, (obj, key) => {
-		   //  	FileSystem.unlink(obj.path).spread((success, path) => {
-					// 	console.log('FILE DELETED', success, path);
-					// }).catch((err) => {
-				 //    console.log(err.message);
-				 //  });
-		   //  });
+		    this.setState(state);
 		  })
 		  .catch((err) => {
 		    console.log(err.message, err.code);
@@ -103,22 +96,24 @@ var SMain = React.createClass({
 	},
 
 	render: function() {
+		let themeColor = this.props.themeColor;
+
 		return (
 			<View style={this._styles.main}>
 				<TouchableHighlight
 					onPress={this._showFiles}>
-					<View style={ [this._styles.showBtn, {backgroundColor: this.props.themeColors[this.props.currentSiteRight.orgTypeId]}] }>
+					<View style={ [this._styles.showBtn, {backgroundColor: themeColor}] }>
 						<Text style={{fontSize: 22, textAlign: "center"}}>Show Files</Text>
 					</View>
 				</TouchableHighlight>
 				<ScrollView contentInset={{top: -25}} scrollEventThrottle={200}>{
 	        _.map(this._sources, (sourceName) => (
 	        	<View style={this._styles.fileBox}>
-							<Text style={{color: this.props.themeColors[this.props.currentSiteRight.orgTypeId], fontSize: 28}}>
+							<Text style={{color: themeColor, fontSize: 28}}>
 								{sourceName}
 							</Text>{
 							_.map(this.state.files[sourceName], (file) => (
-								<Text style={ [this._styles.fileText, {color: this.props.themeColors[this.props.currentSiteRight.orgTypeId]}] }>
+								<Text style={ [this._styles.fileText, {color: themeColors}] }>
 									{file.path}
 								</Text>
 	        		))
