@@ -175,7 +175,6 @@ var StatusEntry = React.createClass({
 			, user = props.user
 
 		let middleInitial = _.isEmpty(user.name.middle) ? " " : user.name.middle.charAt(0).toUpperCase() +". ";
-
 		let author = {
 			name: user.name.first +middleInitial +user.name.last,
 			uri: user.uri.selfie

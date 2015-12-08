@@ -205,10 +205,10 @@ var IssueStore = Reflux.createStore({
 	},
 
 	onAddStatus: function(nextStatus, issue, notes, site) {
-		console.log("issueId: ", issue.iid);
+		console.log("Adding status to issue: ", issue.iid);
 
 		let siteRight = this._currentSiteRight
-		  , newUser = this._currentUser;
+      , newUser = this._currentUser;
     
     LocationActions.getPosition.triggerPromise().then((position) => {
 	    let prevUserId = _.last(issue.statusEntries).authorId;

@@ -197,27 +197,6 @@ var RDMain = React.createClass({
 		}
 	},
 
-	// _openAssistedInput: function(imgTypeId, params, inputValue) {
-	// 	let props = this.props, state = this.state;
-	// 	let route = {
-	// 	  component: InputHelperScene,
-	// 	  passProps: {
-	// 	  	db: props.db,
-	// 	  	imgTypeId: imgTypeId,
-	// 	  	inputValue: inputValue,
-	// 	  	lookups: props.lookups,
-	// 	  	params: params,
-	// 	  	prevImg: _.findWhere(state.issue.images, {"imgTypeId": imgTypeId}),
-	// 	  	issue: state.issue,
-	// 	  	sceneDims: state.dims,
-	// 	  	themeColor: props.themeColor
-	// 	  },
-	// 	  transitionType: "FloatFromBottom"
-	// 	};
-
-	// 	this.props.navigator.push(route);
-	// },
-
 	_setDims: function(e) {
 		if ( _.isEmpty(this.state.dims) ) {
 			let layout = e.nativeEvent.layout; 
@@ -306,20 +285,6 @@ var RDMain = React.createClass({
 		   	<View style={styles.main} onLayout={this._setDims}>
 		   		{Scene}
 		   	</View>
-		   	{/*<Popover
-          isVisible={state.showPopover}
-          fromRect={state.btnRect}
-          onClose={this._processPopover}>
-          <Invoicing
-          	clientSite={this._sites[this._orgTypeIds.CLIENT]}
-          	close={() => this._togglePopover(false)}
-          	currentSiteRight={props.currentSiteRight}
-          	lookups={props.lookups}
-          	issue={state.issue}
-          	site={site}
-          	showDocumentOptions={this._showDocumentOptions}
-          	themeColor={themeColor} />
-        </Popover>*/}
 			</View>
 		);
 	},
