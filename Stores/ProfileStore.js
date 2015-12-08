@@ -181,7 +181,7 @@ var ProfileStore = Reflux.createStore({
 	onLogoutUser: function() {
 		this._db.unauth();
 
-		Storage.table("towmo").then((table) => {
+		Storage.table("cowbell").then((table) => {
       let key = "auth";
       let authRow = table.where({
         "key": key
