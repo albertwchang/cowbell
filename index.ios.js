@@ -72,6 +72,7 @@ var styles = StyleSheet.create({
 
 var CowBell = React.createClass({
   _chosenTab: "issues",
+  _gotLookups: false,
   mixins: [Reflux.connect(HostStore), Reflux.connect(LocationStore), Reflux.connect(LookupStore)
         , Reflux.connect(ProfileStore), Reflux.connect(SiteStore), Reflux.connect(UserStore)
         , Reflux.ListenerMixin, IssueMixin, SiteMixin, ViewMixin],
@@ -135,14 +136,10 @@ var CowBell = React.createClass({
     });
 
     // 3. retrieve references to "lookup"
-    let qLookups = LookupActions.validateLookups.triggerPromise().then((lookups) => {
-      
-      // 3a. Get policy for being allowed to upload images
-      let imgPolicy = lookups.hosts["img"].policy;
-      return HostActions.pullS3Policy(imgPolicy);
-    });
+    let qLookups = this._getLookups();
 
     new Promise.all([qProfile, qLookups]).then((results) => {
+      this._gotLookups = true;
       this.setState({ inProgress: false });
     });
   },
@@ -153,6 +150,7 @@ var CowBell = React.createClass({
     if ( !_.isEmpty(oldState.currentUser) && _.isEmpty(newState.currentUser) ) {
       // user either logged in, or resumed usage of app while previously logged-in
       this._chosenTab = "issues";
+      this._gotLookups = false;
       this.setState({
         inProgress: false,
         initDone: false,
@@ -175,6 +173,16 @@ var CowBell = React.createClass({
     );
   },
 
+  _getLookups: function() {
+    // 3. retrieve references to "lookup"
+    return LookupActions.validateLookups.triggerPromise().then((lookups) => {
+      
+      // 3a. Get policy for being allowed to upload images
+      let imgPolicy = lookups.hosts["img"].policy;
+      return HostActions.pullS3Policy.triggerPromise(imgPolicy);
+    });
+  },
+
   _initSession: function() {
     // 1a. Setup GeoWatcher
     LocationActions.setPositionStream();
@@ -183,7 +191,7 @@ var CowBell = React.createClass({
       , siteRight = state.currentSiteRight;
     
     // 2 Establish current/target site
-    return SiteActions.pullEmployerSite.triggerPromise(siteRight.siteId).then((site) => {
+    let qSite = SiteActions.pullEmployerSite.triggerPromise(siteRight.siteId).then((site) => {
         // get users for retrieved employer site
         let users = site.users
           , userIds = _.chain(users).where({isActive: true}).pluck("id").value();
@@ -194,7 +202,11 @@ var CowBell = React.createClass({
         return;
       }).finally(() => {
         this.setState({ initDone: true });
+        return;
       });
+
+    let qLookups = this._gotLookups ? new Promise.resolve() : this._getLookups();
+    return new Promise.all([qSite, qLookups]);
   },
 
   _routeContext: function(tab) {
@@ -212,10 +224,8 @@ var CowBell = React.createClass({
     );
   },
 
-  _setInProgress: function(state) {
-    this.setState({
-      inProgress: state,
-    })
+  _setProgress: function(state) {
+    this.setState({ inProgress: state })
   },
 
   _setTab: function(tab) {
@@ -253,7 +263,7 @@ var CowBell = React.createClass({
           db={state.db}
           lookups={state.lookups}
           initSession={this._initSession}
-          setInProgress={this._setInProgress}
+          setProgress={this._setProgress}
           style={styles.main} />
       );
 

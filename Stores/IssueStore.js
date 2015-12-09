@@ -123,7 +123,7 @@ var IssueStore = Reflux.createStore({
 
   _updateIssueList: function(issues, perspective) {
   	// 1. Update model
-  	if (!issues)
+  	if ( _.isEmpty(issues) )
   		issues = this._issues[perspective];
   	else
   		this._issues[perspective] = issues;
@@ -364,8 +364,9 @@ var IssueStore = Reflux.createStore({
   // 2. Setup listener for any updates made to existing tow issues
 	onPullIssues: function(issueIds, perspective) {
 		let qIssues = Defer()
-		  , siteRight = this._currentSiteRight
-		  , issuesRef = this._db.orderByChild("siteId").equalTo(siteRight.siteId);
+		  , siteRight = this._currentSiteRight;
+		
+    let issuesRef = this._db.orderByChild("siteId").equalTo(siteRight.siteId);
 		
     this._dbRefs.push(issuesRef);
 		

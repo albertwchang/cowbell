@@ -102,7 +102,7 @@ var LoginScene = React.createClass({
 		db: PropTypes.object,
 		lookups: PropTypes.object,
 		initSession: PropTypes.func,
-		setInProgress: PropTypes.func
+		setProgress: PropTypes.func
 	},
 	_ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
 	_sites: null,
@@ -199,11 +199,13 @@ var LoginScene = React.createClass({
 			password: "test"
 		};
 		
-		props.setInProgress(true);
+		props.setProgress(true);
 		props.db.authWithPassword(creds, (err, authData) => {
 			if (authData) {
 				ProfileActions.setCurrentUser.triggerPromise(authData).then(() => {
-					props.initSession();
+					return props.initSession();
+	      }).then(() => {
+	      	props.setProgress(false);
 	      }).catch((err) => {
 	        // err doesn't necessarily mean user wasn't logged in.  Look at using AsyncStorage for user
 	      	console.log("Something went wrong: ", err);  

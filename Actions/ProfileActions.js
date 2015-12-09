@@ -20,7 +20,7 @@ var ProfileActions = Reflux.createActions({
 			return true;
 		}
 	},
-	"setPreferredSiteRight":  {
+	"setChosenSiteRight":  {
 		asyncResult: true,
 		shouldEmit: function() {
 			return true;

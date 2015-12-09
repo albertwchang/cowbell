@@ -9,7 +9,6 @@
       "latitude": 36.963558,
       "longitude": -122.0005906
     },
-    "hazard": 
     "siteId": "site1",
     "images": [
       {
@@ -26,17 +25,6 @@
       }, {
         "uri": "/issues/issue0-1.jpg",
         "timestamp": "14-05-25T18:46:29-08:00",
-        "geoPoint": {
-          "lat": 37.7824580,
-          "long": -122.4077620,
-          "latitude": 37.7824580,
-          "longitude": -122.4077620
-        },
-        "statusId": "status0",
-        "authorId": "afoley"
-      }, {
-        "uri": "/issues/issue0-2.jpg",
-        "timestamp": "14-05-25T18:47:15-08:00",
         "geoPoint": {
           "lat": 37.7824580,
           "long": -122.4077620,
@@ -106,17 +94,6 @@
         },
         "statusId": "status0",
         "authorId": "afoley"
-      }, {
-        "uri": "/issues/issue1-2.jpg",
-        "timestamp": "2014-05-28T10:22:02-08:00",
-        "geoPoint": {
-          "lat": 37.7824552,
-          "long": -122.4077629,
-          "latitude": 37.7824552,
-          "longitude": -122.4077629
-        },
-        "statusId": "status0",
-        "authorId": "afoley"
       }
     ],
     "statusEntries": [
@@ -140,17 +117,6 @@
           "longitude": -122.4077629
         },
         "statusId": "status1",
-        "authorId": "afoley",
-        "notes": ""
-      }, {
-        "timestamp": "2014-05-28T11:13:22-08:00",
-        "geoPoint": {
-          "lat": 37.7824552,
-          "long": -122.4077629,
-          "latitude": 37.7824552,
-          "longitude": -122.4077629
-        },
-        "statusId": "status3",
         "authorId": "afoley",
         "notes": ""
       }
@@ -192,17 +158,6 @@
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue2-1.jpg",
-        "timestamp": "2014-05-28T13:05:38-08:00",
-        "geoPoint": {
-          "lat": 37.7824511,
-          "long": -122.4077639,
-          "latitude": 37.7824511,
-          "longitude": -122.4077639
-        },
-        "statusId": "status0",
-        "authorId": "afoley"
-      }, {
-        "uri": "/issues/issue2-2.jpg",
         "timestamp": "2014-05-28T13:05:38-08:00",
         "geoPoint": {
           "lat": 37.7824511,
@@ -273,17 +228,6 @@
         },
         "statusId": "status0",
         "authorId": "afoley"
-      }, {
-        "uri": "/issues/issue3-2.jpg",
-        "timestamp": "2014-05-29T08:55:11-08:00",
-        "geoPoint": {
-          "lat": 37.7824611,
-          "long": -122.4077688,
-          "latitude": 37.7824611,
-          "longitude": -122.4077688
-        },
-        "statusId": "status0",
-        "authorId": "afoley"
       }
     ],
     "statusEntries": [
@@ -329,17 +273,6 @@
         "authorId": "afoley"
       }, {
         "uri": "/issues/issue4-1.jpg",
-        "timestamp": "2014-05-29T11:51:45-08:00",
-        "geoPoint": {
-          "lat": 37.7824781,
-          "long": -122.4077222,
-          "latitude": 37.7824781,
-          "longitude": -122.4077222
-        },
-        "statusId": "status0",
-        "authorId": "afoley"
-      }, {
-        "uri": "/issues/issue4-2.jpg",
         "timestamp": "2014-05-29T11:51:45-08:00",
         "geoPoint": {
           "lat": 37.7824781,
@@ -400,17 +333,6 @@
         "statusId": "status0",
         "timestamp": "2014-05-29T17:33:37-08:00",
         "uri": "/issues/issue5-1.jpg"
-      }, {
-        "authorId": "bgonzalez",
-        "geoPoint": {
-          "lat": 37.7824454,
-          "long": -122.4204782,
-          "latitude": 37.7824454,
-          "longitude": -122.4204782
-        },
-        "statusId": "status0",
-        "timestamp": "2014-05-29T17:33:37-08:00",
-        "uri": "/issues/issue5-2.jpg"
       }
     ],
     "siteId": "site0",
@@ -473,17 +395,6 @@
         "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
         "uri": "/issues/issue6-1.jpg"
-      }, {
-        "authorId": "tgonzalez",
-        "geoPoint": {
-          "lat": 36.9759000,
-          "long": -121.9840295,
-          "latitude": 36.9759000,
-          "longitude": -121.9840295
-        },
-        "statusId": "status0",
-        "timestamp": "2014-05-31T14:32:19-08:00",
-        "uri": "/issues/issue6-2.jpg"
       }
     ],
     "statusEntries": [
@@ -537,17 +448,6 @@
         "statusId": "status0",
         "timestamp": "2014-06-05T11:57:55-08:00",
         "uri": "/issues/issue7-1.jpg"
-      }, {
-        "authorId": "jgonzalez",
-        "geoPoint": {
-          "lat": 36.9758951,
-          "long": -121.9840090,
-          "latitude": 36.978951,
-          "longitude": -121.9840090
-        },
-        "statusId": "status0",
-        "timestamp": "2014-06-05T11:57:55-08:00",
-        "uri": "/issues/issue7-2.jpg"
       }
     ],
     "statusEntries": [
@@ -611,17 +511,6 @@
         "statusId": "status0",
         "timestamp": "2014-06-12T20:01:15-08:00",
         "uri": "/issues/issue8-1.jpg"
-      }, {
-        "authorId": "ggonzalez",
-        "geoPoint": {
-          "lat": 36.9759229,
-          "long": -121.9840220,
-          "latitude": 36.9759229,
-          "longitude": -121.9840220
-        },
-        "statusId": "status0",
-        "timestamp": "2014-06-12T20:01:15-08:00",
-        "uri": "/issues/issue8-2.jpg"
       }
     ],
     "statusEntries": [
@@ -683,17 +572,6 @@
         "statusId": "status0",
         "timestamp": "2014-06-15T22:16:33-08:00",
         "uri": "/issues/issue9-1.jpg"
-      }, {
-        "authorId": "ygonzalez",
-        "geoPoint": {
-          "lat": 36.9753199,
-          "long": -121.9833012,
-          "latitude": 36.9753199,
-          "longitude": -121.9833012
-        },
-        "statusId": "status0",
-        "timestamp": "2014-06-15T22:16:33-08:00",
-        "uri": "/issues/issue9-2.jpg"
       }
     ],
     "statusEntries": [
@@ -718,11 +596,11 @@
     "approvals": {
       "status5" : {
         "approver" : {
-          "id" : "gbettencourt",
+          "id" : "wsmith",
           "orgTypeId" : "client",
           "siteId" : "client0"
         },
-        "signatureUri" : "/users/signatures/gbettencourt.jpg",
+        "signatureUri" : "/users/signatures/wsmith.jpg",
         "statusId" : "status5"
       }
     },
@@ -736,7 +614,7 @@
     },
     "images": [
       {
-        "authorId": "gbettencourt",
+        "authorId": "wsmith",
         "geoPoint": {
           "lat": 37.7882350,
           "long": -122.4145820,
@@ -747,7 +625,7 @@
         "timestamp": "2014-06-19T07:26:22-08:00",
         "uri": "/issues/issue10-0.jpg"
       }, {
-        "authorId": "gbettencourt",
+        "authorId": "wsmith",
         "geoPoint": {
           "lat": 37.7882350,
           "long": -122.4145820,
@@ -757,17 +635,6 @@
         "statusId": "status0",
         "timestamp": "2014-06-19T07:26:22-08:00",
         "uri": "/issues/issue10-1.jpg"
-      }, {
-        "authorId": "gbettencourt",
-        "geoPoint": {
-          "lat": 37.7882350,
-          "long": -122.4145820,
-          "latitude": 37.7882350,
-          "longitude": -122.4145820
-        },
-        "statusId": "status0",
-        "timestamp": "2014-06-19T07:26:22-08:00",
-        "uri": "/issues/issue10-2.jpg"
       }
     ],
     "statusEntries": [
@@ -780,7 +647,7 @@
           "longitude": -122.4145820
         },
         "statusId": "status0",
-        "authorId": "gbettencourt",
+        "authorId": "wsmith",
         "notes": ""
       }
     ]
@@ -791,11 +658,11 @@
     "approvals": {
       "status5" : {
         "approver" : {
-          "id" : "gbettencourt",
+          "id" : "wsmith",
           "orgTypeId" : "client",
           "siteId" : "client0"
         },
-        "signatureUri" : "/users/signatures/gbettencourt.jpg",
+        "signatureUri" : "/users/signatures/wsmith.jpg",
         "statusId" : "status5"
       }
     },
@@ -809,7 +676,7 @@
     },
     "images": [
       {
-        "authorId": "gbettencourt",
+        "authorId": "wsmith",
         "geoPoint": {
           "lat": 37.7882335,
           "long": -122.4145945,
@@ -820,7 +687,7 @@
         "timestamp": "2014-05-31T14:32:19-08:00",
         "uri": "/issues/issue11-0.jpg"
       }, {
-        "authorId": "gbettencourt",
+        "authorId": "wsmith",
         "geoPoint": {
           "lat": 37.7882335,
           "long": -122.4145945,
@@ -830,17 +697,6 @@
         "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
         "uri": "/issues/issue11-1.jpg"
-      }, {
-        "authorId": "gbettencourt",
-        "geoPoint": {
-          "lat": 37.7882335,
-          "long": -122.4145945,
-          "latitude": 37.7882335,
-          "longitude": -122.4145945
-        },
-        "statusId": "status0",
-        "timestamp": "2014-05-31T14:32:19-08:00",
-        "uri": "/issues/issue11-2.jpg"
       }
     ],
     "statusEntries": [
@@ -853,7 +709,7 @@
           "longitude": -122.4145945
         },
         "statusId": "status0",
-        "authorId": "gbettencourt",
+        "authorId": "wsmith",
         "notes": ""
       }
     ]
@@ -903,17 +759,6 @@
         "statusId": "status0",
         "timestamp": "2014-06-20T14:21:42-08:00",
         "uri": "/issues/issue12-1.jpg"
-      }, {
-        "authorId": "mramirez",
-        "geoPoint": {
-          "lat": 36.9753199,
-          "long": -121.9833045,
-          "latitude": 36.9753199,
-          "longitude": -121.9833045
-        },
-        "statusId": "status0",
-        "timestamp": "2014-06-20T15:21:42-08:00",
-        "uri": "/issues/issue12-2.jpg"
       }
     ],
     "statusEntries": [
@@ -1049,17 +894,6 @@
         "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
         "uri": "/issues/issue14-1.jpg"
-      }, {
-        "authorId": "mramirez",
-        "geoPoint": {
-          "lat": 36.9753185,
-          "long": -121.9833049,
-          "latitude": 36.9753185,
-          "longitude": -121.9833049
-        },
-        "statusId": "status0",
-        "timestamp": "2014-06-21T18:41:45-08:00",
-        "uri": "/issues/issue14-2.jpg"
       }
     ],
     "statusEntries": [
@@ -1183,17 +1017,6 @@
         "statusId": "status0",
         "timestamp": "2014-06-27T08:42:41-08:00",
         "uri": "/issues/issue16-1.jpg"
-      }, {
-        "authorId": "jtravolta",
-        "geoPoint": {
-          "lat": 37.7875672,
-          "long": -122.4095959,
-          "latitude": 37.7875672,
-          "longitude": -122.4095959
-        },
-        "statusId": "status0",
-        "timestamp": "2014-06-27T08:42:41-08:00",
-        "uri": "/issues/issue16-2.jpg"
       }
     ],
     "statusEntries": [
@@ -1247,17 +1070,6 @@
         "statusId": "status0",
         "timestamp": "2014-07-01T19:51:05-08:00",
         "uri": "/issues/issue17-1.jpg"
-      }, {
-        "authorId": "jtravolta",
-        "geoPoint": {
-          "lat": 37.7875682,
-          "long": -122.4095979,
-          "latitude": 37.7875682,
-          "longitude": -122.4095979
-        },
-        "statusId": "status0",
-        "timestamp": "2014-07-01T19:51:05-08:00",
-        "uri": "/issues/issue17-2.jpg"
       }
     ],
     "statusEntries": [
@@ -1320,17 +1132,6 @@
         "statusId": "status0",
         "timestamp": "2014-07-02T22:45:59-08:00",
         "uri": "/issues/issue18-1.jpg"
-      }, {
-        "authorId": "gclooney",
-        "geoPoint": {
-          "lat": 37.7875641,
-          "long": -122.4095929,
-          "latitude": 37.7875641,
-          "longitude": -122.4095929
-        },
-        "statusId": "status0",
-        "timestamp": "2014-07-02T22:45:59-08:00",
-        "uri": "/issues/issue18-2.jpg"
       }
     ],
     "statusEntries": [
@@ -1393,17 +1194,6 @@
         "statusId": "status0",
         "timestamp": "2014-07-03T12:29:55-08:00",
         "uri": "/issues/issue19-1.jpg"
-      }, {
-        "authorId": "gclooney",
-        "geoPoint": {
-          "lat": 37.7875701,
-          "long": -122.4095988,
-          "latitude": 37.7875701,
-          "longitude": -122.4095988
-        },
-        "statusId": "status0",
-        "timestamp": "2014-07-03T12:29:55-08:00",
-        "uri": "/issues/issue19-2.jpg"
       }
     ],
     "statusEntries": [

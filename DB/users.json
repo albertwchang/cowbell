@@ -229,15 +229,15 @@
       "signature": "/users/signatures/afoley.jpg"
     }
   },
-  "gbettencourt": {
-    "iid": "gbettencourt",
+  "wsmith": {
+    "iid": "wsmith",
     "name": {
-      "first": "Gino",
+      "first": "Will",
       "middle": "",
-      "last": "Bettencourt"
+      "last": "Smith"
     },
     "phoneNum": 8314772235,
-    "email": "gbettencourt@lycsf.com",
+    "email": "wsmith@lycsf.com",
     "settings": {
       "chosen": {
         "siteId": ""
@@ -261,10 +261,10 @@
     "state": {
       "issueId": ""
     },
-    "uid": "994c4c9f-069e-477e-ab5b-a10447224d8b",
+    "uid": "6478c514-87c7-4398-880a-fde9162843fe",
     "uri": {
-      "selfie": "/users/gbettencourt.jpg",
-      "signature": "/users/signatures/gbettencourt.jpg"
+      "selfie": "/users/wsmith.jpg",
+      "signature": "/users/signatures/wsmith.jpg"
     }
   },
   "mramirez": {

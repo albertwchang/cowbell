@@ -120,12 +120,13 @@
     "name": "Liholiho Yacht Club",
     "phoneNum": 4155572221,
     "issues": ["issue10", "issue11", "issue12", "issue13", "issue14"],
-    "url": "http://lycsf.com",
+    "url": "http://www.lycsf.com",
     "users": {
-      "gbettencourt": {
-        "id": "gbettencourt",
+      "wsmith": {
+        "id": "wsmith",
         "isActive": true
-      }, "mramirez": {
+      },
+      "mramirez": {
         "id": "mramirez",
         "isActive": true
       }
@@ -167,10 +168,12 @@
       "sconnery": {
         "id": "sconnery",
         "isActive": true
-      }, "jtravolta": {
+      },
+      "jtravolta": {
         "id": "jtravolta",
         "isActive": true
-      }, "gclooney": {
+      },
+      "gclooney": {
         "id": "gclooney",
         "isActive": true
       }

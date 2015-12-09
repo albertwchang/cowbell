@@ -19,7 +19,7 @@ var AuthMain = React.createClass({
     db: PropTypes.object,
     lookups: PropTypes.object,
     initSession: PropTypes.func,
-    setInProgress: PropTypes.func,
+    setProgress: PropTypes.func,
     style: PropTypes.number
   },
   getDefaultProps: function() {

@@ -153,7 +153,6 @@ var RLMain = React.createClass({
 
 	componentWillMount: function() {
 		this._reloadIssues().then((results) => {
-			console.log("Got all Indirect ally sites");
 			this.setState({ gettingData: false });
 		});
 	},
@@ -204,7 +203,7 @@ var RLMain = React.createClass({
 			, employerSite = props.sites[siteRight.siteId];
 		
 		return new Promise((resolve, reject) => {
-			IssueActions.pullIssues.triggerPromise(employerSite.issues)
+			IssueActions.pullIssues.triggerPromise(employerSite.issues, "site")
 				.then((issues) => {
 	        resolve(issues);
 				}).catch((err) => {
@@ -355,7 +354,7 @@ var RLMain = React.createClass({
 	render: function() {		
 		let state = this.state;
 
-		if (this.state.gettingData)
+		if (state.gettingData)
 			return (
 				<ActivityIndicatorIOS
 					animating={state.gettingData}

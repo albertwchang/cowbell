@@ -166,15 +166,15 @@ var ProfileStore = Reflux.createStore({
 		});
 	},
 
-	onSetPreferredSiteRight: function(siteRight) {
+	onSetChosenSiteRight: function(siteRight) {
 		let userId = this._currentUser.iid;
 		let userRef = this._db.child(userId);
 
-		userRef.child("settings").child("preferredSite").update({"id": siteRight.siteId}, (err) => {
+		userRef.child("settings").child("chosen").update({"siteId": siteRight.siteId}, (err) => {
 			if (err)
-				ProfileActions.setPreferredSiteRight.failed(err);
+				ProfileActions.setChosenSiteRight.failed(err);
 			else
-				ProfileActions.setPreferredSiteRight.completed();
+				ProfileActions.setChosenSiteRight.completed();
 		});
 	},
 
@@ -219,24 +219,24 @@ var ProfileStore = Reflux.createStore({
 		return parseInt( iid.substr(iid.lastIndexOf(':') + 1) );
 	},
 
-	_getSiteRight: function(preferredSiteRef) {
+	_getSiteRight: function(chosenSiteRef) {
 		let allSiteRights = this._currentUser.siteRights;
 		
 		// find suitable sight right or a default site right
-		let preferredSiteRight = _.isEmpty(preferredSiteRef) ? _.first(allSiteRights)
-			: _.findWhere(allSiteRights, {"siteId": preferredSiteRef.id});
+		let chosenSiteRight = _.isEmpty(chosenSiteRef) ? _.first(allSiteRights)
+			: _.findWhere(allSiteRights, {"siteId": chosenSiteRef.id});
 
-    if ( !_.isEmpty(preferredSiteRight) )
-      ProfileActions.setPreferredSiteRight(preferredSiteRight);
+    if ( !_.isEmpty(chosenSiteRight) )
+      ProfileActions.setChosenSiteRight(chosenSiteRight);
 
-    return preferredSiteRight;
+    return chosenSiteRight;
 	},
 
 	_setProfile: function(user) {
 		// 1a. Check user's settings for preferred orgTypeId/SiteId combination
-		let preferredSiteRef = _.has(user["settings"], "preferredSite") ? user.settings.preferredSite : undefined;
+		let chosenSiteRef = _.property(["settings", "chosen", "siteId"], user);
 		this._currentUser = user;
-		this._currentSiteRight = this._getSiteRight(preferredSiteRef);
+		this._currentSiteRight = this._getSiteRight(chosenSiteRef);
 		this.trigger({
 			currentUser: this._currentUser,
 			currentSiteRight: this._currentSiteRight
