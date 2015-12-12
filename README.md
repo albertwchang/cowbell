@@ -14,17 +14,16 @@ This is application is currently WIP (Work In Progress), and is based on an earl
 5. Have a git service setup on your local machine, e.g. GitHub or Bitbucket
 
 ## Instructions for setting up this sample project
-1. Find a suitable directory withn your computer where you can clone this project
-2. Once in the diretory of choice, clone this project by going to your Command Line Interpreter, and typing:  "git clone https://github.com/achang28/cowbell.git".  (You can also simply download my entire application package without any of this "git stuff" -- Github has a "download zip" button somewhere in my project)/
-3. The folder "CowBell" will be created within your working directory.  As you are in the command line, go into this folder
-4. In the command line, type "NPM install", and wait -- as a ton of dependency files will be installed (> 100 megabytes); so be patient. You'll know when you are done when you see something like this, with your command line cursor ready again
+1. Navigate to directory of choice
+2. In the terminal command line, run "git clone https://github.com/achang28/cowbell.git".
+3. Go into the newly created folder, "cowbell"
+4. run "npm install" and wait for all dependencies to be downloaded
 ![Image of choosing device + IOS version](https://cloud.githubusercontent.com/assets/3760499/11664357/32279c26-9d96-11e5-94a0-33369e7bb65d.png)
 
 
 ## Instructions for getting Xcode to run app
-1. Go into your finder.  In case you don't know, it is a Mac OS application that you can typically find in your System dock (it's the 2-faced-looking icon).
-2. Navigate to the same directory you have been working in.  Once there, go into the "ios" directory
-3. Double-click the "CowBell.xcodeproj" file.  Running this file will get the app closer to starting.
+1. From the Navigator application, go into the "ios" sub-directory of the "cowbell" directory
+2. Double-click "CowBell.xcodeproj".  Wait for Xcode to initialize and become ready.
 4. Choose your device and IOS version from the drop-dowmn menu.
 ![Image of choosing device + IOS version](https://cloud.githubusercontent.com/assets/3760499/11663655/4c3966a2-9d92-11e5-8d7b-1634d9ffc390.png)
 

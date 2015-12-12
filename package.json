@@ -1,11 +1,12 @@
 {
   "name": "CowBell",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
+    "apphub": "^0.3.0",
     "async": "^1.4.0",
     "firebase": "^2.2.9",
     "getboundingbox": "^1.0.0",
@@ -15,7 +16,7 @@
     "promise-defer": "^1.0.0",
     "react-native": "0.11.4",
     "react-native-button": "^1.2.0",
-    "react-native-camera": "^0.3.7",
+    "react-native-camera": "0.3.6",
     "react-native-carousel": "^0.3.3",
     "react-native-collapsible": "^0.3.0",
     "react-native-communications": "0.0.6",
