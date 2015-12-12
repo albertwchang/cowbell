@@ -31,6 +31,7 @@
 		F50A9C761C1263C5006C997C /* libRNPrint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F50A9C691C126391006C997C /* libRNPrint.a */; };
 		F50A9C771C1263C5006C997C /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F50A9C711C1263A5006C997C /* libRNVectorIcons.a */; };
 		F50A9C851C1263D7006C997C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F50A9C7D1C1263D7006C997C /* Ionicons.ttf */; };
+		F582BD041C1BAF6700715B93 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		F5D1EA2F1C14F05400436A6B /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D1EA2E1C14F03E00436A6B /* libRNSearchBar.a */; };
 /* End PBXBuildFile section */
 
@@ -778,9 +779,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				F50A9C851C1263D7006C997C /* Ionicons.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				F50A9C851C1263D7006C997C /* Ionicons.ttf in Resources */,
+				F582BD041C1BAF6700715B93 /* main.jsbundle in Resources */,
+				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1004,7 +1006,7 @@
 				00E356F71AD99517003FC87E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CowBell" */ = {
 			isa = XCConfigurationList;
@@ -1013,7 +1015,7 @@
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "CowBell" */ = {
 			isa = XCConfigurationList;
@@ -1022,7 +1024,7 @@
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
