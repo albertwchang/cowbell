@@ -20,11 +20,11 @@
   // AHBuild *build = [[AppHub buildManager] currentBuild];
 
   /**************************** OPTION 1*/
-  // jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
+  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
 
 
   /**************************** OPTION 2 */
-  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  // jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
 
   /**************************** OPTION 3 - AppHub */
