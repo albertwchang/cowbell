@@ -124,7 +124,7 @@ var CowBell = React.createClass({
     Orientation.lockToPortrait();
 
     // 1. Get Current User Data (which also validates whether user is authenticated)
-    let qProfile = ProfileActions.getAuth.triggerPromise().then((authData) => {      
+    let qProfile = ProfileActions.getLocalAuth.triggerPromise().then((authData) => {      
       return ProfileActions.setCurrentUser.triggerPromise(authData).then(() => {
         
         // Initialize a variety of things for validated user
@@ -132,6 +132,7 @@ var CowBell = React.createClass({
       });
     }).catch(() => {
       console.log("$@@$$@$@$@$@ No Auth Data...");
+      this.setState({ inProgress: false });
       return;
     });
 

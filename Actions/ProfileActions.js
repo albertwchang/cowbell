@@ -2,7 +2,7 @@
 
 var Reflux = require("reflux");
 var ProfileActions = Reflux.createActions({
-	"getAuth": {
+	"getLocalAuth": {
 		asyncResult: true,
 		shouldEmit: function() {
 			return true;

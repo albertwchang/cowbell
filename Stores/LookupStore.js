@@ -14,6 +14,10 @@ var LookupStore = Reflux.createStore({
 	listenables: [LookupActions],
 	_db: null,
 	_lookups: null,
+  _params: {
+    data: "data",
+    timestamp: "lastUpdated"
+  },
 
 	init: function() {
 		this.listenTo(HostStore, this._updateDb, this._updateDb);
@@ -29,50 +33,47 @@ var LookupStore = Reflux.createStore({
 
 	},
 
-	_retrieveLookups: function(table, lookupsRow) {
-		var dbRef = this._db;
-
+	_retrieveLookups: function(model, lookupsRow, successCb, errCb) {
+    let dbRef = this._db, params = this._params;
     dbRef.once("value", (results) => {
-    	var lookupsObj = {
-        "data": JSON.stringify(results.val().data),
-        "key": results.key(),
-        "lastUpdated": results.val().lastUpdated,
+    	let lookupsObj = {
+        "data": JSON.stringify(results.val()[params.data]),
+        "key": results.key()
       };
 
-      if (lookupsRow.length === 0)
-    		table.add(lookupsObj);
-    	else
-    		table.update(lookupsObj);
+      lookupsObj[params.timestamp] = results.val()[params.timestamp],
+    	model[_.isEmpty(lookupsRow) ? "add" : "update"](lookupsObj);
 
-			this._lookups = results.val().data;
+			this._lookups = results.val()[params.data];
     	this.trigger({lookups: this._lookups});
-      LookupActions.validateLookups.completed();
+      successCb(this._lookups);
     });
 	},
 
 	onValidateLookups: function() {
-		Storage.table("towmo").then((table) => {
-      var lookupsRow = table.where({
-        "key": "lookups"
-      }).find();
-
-      if (!lookupsRow || lookupsRow.length == 0) {	
-				// No Local Lookups
-    		this._retrieveLookups(table, lookupsRow);
-      } else {
-     		// Ensure no updates have been made to Lookups collection
-        var dbRef = this._db.child("lastUpdated");
+    let params = this._params;
 		
-				dbRef.once("value", (results) => {
-					if (results.val() == lookupsRow[0].lastUpdated) {
-						this.trigger({lookups: this._lookups = JSON.parse(lookupsRow[0].data)});
-						LookupActions.validateLookups.completed(this._lookups);
-					} else {
-						// Outdated Local Lookups
-		        this._retrieveLookups(table, lookupsRow);
-					}
-				});
-      }
+    Storage.model(this._db.app).then((model) => {
+      let filter = { where: { "key": "lookups"} };
+      let callbacks = LookupActions.validateLookups;
+      
+      model.find(filter).then((lookupsRow) => {
+        if ( _.isEmpty(lookupsRow) )
+  				// No Local Lookups
+      		this._retrieveLookups(model, lookupsRow, callbacks.completed, callbacks.failed);
+        else {
+       		// Ensure no updates have been made to Lookups collection
+          let dbRef = this._db.child(params.timestamp);
+  				dbRef.once("value", (results) => {
+  					if (results.val() == lookupsRow[0][params.timestamp]) {
+  						this.trigger({lookups: this._lookups = JSON.parse(lookupsRow[0][params.data])});
+  						LookupActions.validateLookups.completed(this._lookups);
+  					} else
+  						// Outdated Local Lookups
+  		        this._retrieveLookups(model, lookupsRow, callbacks.completed, callbacks.failed);
+  				});
+        }
+      });
 		});
 	},
 
