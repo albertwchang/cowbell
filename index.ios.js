@@ -132,17 +132,18 @@ var CowBell = React.createClass({
       });
     }).catch(() => {
       console.log("$@@$$@$@$@$@ No Auth Data...");
-      this.setState({ inProgress: false });
       return;
     });
 
     // 3. retrieve references to "lookup"
     let qLookups = this._getLookups();
 
-    new Promise.all([qProfile, qLookups]).then((results) => {
-      this._gotLookups = true;
-      this.setState({ inProgress: false });
-    });
+    new Promise.all([qProfile, qLookups])
+      .then((results) => {
+        this._gotLookups = true;
+      }).finally(() => {
+        this.setState({ inProgress: false });
+      });
   },
 
   componentWillUpdate: function(newProps, newState) {

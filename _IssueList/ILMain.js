@@ -290,7 +290,7 @@ var RLMain = React.createClass({
 			this._nav = nav;
 
 		if (route.navigationBar) {
-		 	navBar = React.addons.cloneWithProps(route.navigationBar, {
+		 	navBar = React.cloneElement(route.navigationBar, {
 		  	navigator: nav,
 		  	route: route
 		 	});

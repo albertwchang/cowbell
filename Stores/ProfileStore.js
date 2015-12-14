@@ -94,26 +94,27 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onSetCurrentUser: function(authData) {
-		let uid = authData.uid
+				let uid = authData.uid
 			, userRef = this._db.orderByChild("uid").equalTo(uid);
 		
 		this._dbRefs.push(userRef);
 
-		Storage.model("cowbell").then((model) => {
-      let authObj = {
-	      "data": JSON.stringify(authData),
-	      "key": this._storageKey,
-	    }
+		Storage.model(this._db.app).then((model) => {
+			let filter = { where : { key : this._storageKey } };
+			
+			model.find(filter).then((authRow) => {
+				let authObj = {
+		      "data": JSON.stringify(authData),
+		      "key": this._storageKey,
+		    }
 
-      if ( _.isEmpty(authRow) )
-		  	table.add(authObj);
-			else if ( _.isEmpty(authRow[0]) )
-      	table.update(authObj);
+			  model[_.isEmpty(authRow) ? "add" : "update"](authObj);
+			});
 		});
 
 		userRef.once("value", (result) => {
-			let users = _.toArray(result.val());
-			let user = (users.length > 0) ? _.first(users) : null;
+			let users = _.toArray(result.val())
+				 , user = (users.length > 0) ? _.first(users) : null;
 			this._setProfile(user);
 
 			ProfileActions.setCurrentUser.completed();

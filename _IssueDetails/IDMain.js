@@ -9,7 +9,7 @@ var NavBar = require("react-native-navbar");
 var React = require("react-native");
 
 // COMPONENTS
-var Invoicing = require("../Comps/Invoicing");
+// var Invoicing = require("../Comps/Invoicing");
 var HistoryScene = require("./HistoryScene");
 var InputHelperScene = require("./InputHelperScene");
 var LineSeparator = require("../Comps/LineSeparator");
@@ -240,7 +240,7 @@ var RDMain = React.createClass({
 		let site = props.sites[state.issue.siteId];
 
 		if (route.navigationBar) {
-		 	navBar = React.addons.cloneWithProps(route.navigationBar, {
+		 	navBar = React.cloneElement(route.navigationBar, {
 		  	navigator: nav,
 		  	route: route
 		 	});
