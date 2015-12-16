@@ -6,7 +6,7 @@ var Display = require('react-native-device-display');
 var Icon = require("react-native-vector-icons/Ionicons");
 var Reflux = require("reflux");
 var Refresh = require("react-native-refreshable-listview");
-var SearchBar = require("react-native-search-bar");
+// var SearchBar = require("react-native-search-bar");
 
 // CUSTOM COMPONENTS
 var Site = require("../Comps/Site");
@@ -165,9 +165,13 @@ var IssueListScene = React.createClass({
 		);
 	},
 
+	_renderHeader: function() {
+		return (<LineSeparator height={0} horzMargin={0} vertMargin={2} />);
+	},
+
 	_renderSeparator: function(sectionId, issueId) {
 		let hMargin = 0.45
-			, props = this.props;
+				, props = this.props;
 
 		return (
 			<LineSeparator
@@ -184,12 +188,13 @@ var IssueListScene = React.createClass({
 			, siteRight = props.currentSiteRight
 			, listHeight = Display.height - this.getInnerView();
 		
-		let Header = props.showSearchBar ?
-			<SearchBar
-		    placeholder='Search'
-		    onChangeText={(value) => console.log(value)}
-		    onSearchButtonPress={() => console.log("run search")}
-		    onCancelButtonPress={() => console.log("Close search bar")} /> :
+		// let Header = props.showSearchBar ?
+		let Header = 
+			// <SearchBar
+		 //    placeholder='Search'
+		 //    onChangeText={(value) => console.log(value)}
+		 //    onSearchButtonPress={() => console.log("run search")}
+		 //    onCancelButtonPress={() => console.log("Close search bar")} /> :
 			<User
 				employerSite={props.sites[siteRight.siteId]}
 				imgHost={props.lookups.hosts["img"].provider}
@@ -200,12 +205,12 @@ var IssueListScene = React.createClass({
 			<View style={{height: listHeight}}>
 				{Header}
 				<Refresh
-					contentInset={{top: -this.Dimensions.STATUS_BAR_HEIGHT / 2}}
 	        dataSource={props.ds.cloneWithRows(props.issues)}
 	        loadData={props.reloadIssues}
 	        minDisplayTime={500}
 	        minPulldownDistance={30}
 	        removeClippedSubviews={true}
+	        renderHeaderWrapper={this._renderHeader}
 	        renderRow={this._renderIssue}
 					renderSeparator={this._renderSeparator} />
 			</View>

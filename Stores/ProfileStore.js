@@ -20,6 +20,7 @@ var ProfileStore = Reflux.createStore({
 	_currentUser: null,
 	_db: null,
 	_dbRefs: [],
+	_storageKey: "auth",
 	listenables: [ProfileActions],
 
 	init: function() {
@@ -56,33 +57,32 @@ var ProfileStore = Reflux.createStore({
 		});
 	},
 
-	onGetAuth: function() {
-		var appName = "cowbell";
+	onGetLocalAuth: function() {
+		Storage.model(this._db.app).then((model) => {
+			let filter = { where: { "key": this._storageKey} };
+      
+      model.find(filter).then((authRow) => {
+				if ( !_.isEmpty(authRow) ) {
+	      	let results = authRow[0].data;
+	      	
+	      	if (!results)
+	      		ProfileActions.getLocalAuth.failed();	
+			  	else {
+			  		let authData = JSON.parse(results);
+			  		ProfileActions.getLocalAuth.completed(authData);
+			  	}
+			  }
 
-		Storage.table(appName).then((table) => {
-      let key = "auth"
-      	, authRow = table.where({ "key": key }).find();
-
-			if ( _.isEmpty(authRow) || authRow.length === 0 )
-		  	ProfileActions.getAuth.failed();
-      else {
-      	let results = authRow[0].data;
-      	
-      	if (!results)
-      		ProfileActions.getAuth.failed();	
-		  	else {
-		  		let authData = JSON.parse(results);
-		  		ProfileActions.getAuth.completed(authData);
-		  	}
-		  }
+			  ProfileActions.getLocalAuth.failed();
+			});
 		}).catch((err) => {
-			console.log("A table for your app does not exist: ", appName);
-			ProfileActions.getAuth.failed();
+			console.log("A table for your app does not exist: ", this._db.app);
+			ProfileActions.getLocalAuth.failed();
 		});
 	},
 
 	onRemoveIssueId: function(userId) {
-		var userStateRef = this._db.child(userId).child("state").child("issueId");
+		let userStateRef = this._db.child(userId).child("state").child("issueId");
 
 		userStateRef.set("", (err) => {
 			if (err)
@@ -94,31 +94,27 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onSetCurrentUser: function(authData) {
-		let uid = authData.uid
+				let uid = authData.uid
 			, userRef = this._db.orderByChild("uid").equalTo(uid);
 		
 		this._dbRefs.push(userRef);
 
-		Storage.table("cowbell").then((table) => {
-      let key = "auth";
-      let authRow = table.where({
-        "key": key
-      }).find();
+		Storage.model(this._db.app).then((model) => {
+			let filter = { where : { key : this._storageKey } };
+			
+			model.find(filter).then((authRow) => {
+				let authObj = {
+		      "data": JSON.stringify(authData),
+		      "key": this._storageKey,
+		    }
 
-      let authObj = {
-	      "data": JSON.stringify(authData),
-	      "key": key,
-	    }
-
-      if ( _.isEmpty(authRow) || authRow.length === 0 )
-		  	table.add(authObj);
-			else if (authRow[0].data == null)
-      	table.update(authObj);
+			  model[_.isEmpty(authRow) ? "add" : "update"](authObj);
+			});
 		});
 
 		userRef.once("value", (result) => {
-			let users = _.toArray(result.val());
-			let user = (users.length > 0) ? _.first(users) : null;
+			let users = _.toArray(result.val())
+				 , user = (users.length > 0) ? _.first(users) : null;
 			this._setProfile(user);
 
 			ProfileActions.setCurrentUser.completed();
@@ -181,23 +177,17 @@ var ProfileStore = Reflux.createStore({
 	onLogoutUser: function() {
 		this._db.unauth();
 
-		Storage.table("cowbell").then((table) => {
-      let key = "auth";
-      let authRow = table.where({
-        "key": key
-      }).find();
+		Storage.model(this._db.app).then((model) => {
+      let filter = { where : { key: this._storageKey} }
+	    model.find(filter).then((authRow) => {
+	    	if ( !_.isEmpty(authRow) )
+			 		model.update({"data": null, "key": this._storageKey});
 
-      if (authRow && authRow.length > 0) {
-		  	table.update({
-		      "data": null,
-		      "key": key,
-		    });
-      }
+			 	ProfileActions.logoutUser.completed();
+				this.trigger({currentUser: this._currentUser = null});
+				this._endAllListeners();
+			});
 		});
-
-		ProfileActions.logoutUser.completed();
-		this.trigger({currentUser: this._currentUser = null});
-		this._endAllListeners();
 	},
 
 	_endAllListeners: function() {

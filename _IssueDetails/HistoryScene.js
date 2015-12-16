@@ -138,7 +138,6 @@ var HistoryScene = React.createClass({
 
 		return (
 			<ListView
-				contentInset={{top: -(this.Dimensions.STATUS_BAR_HEIGHT * 3 / 4)}}
 				dataSource={props.ds.cloneWithRows(statusEntries.reverse())}
 				initialListSize={statusEntries.length}
 				removeClippedSubviews={true}

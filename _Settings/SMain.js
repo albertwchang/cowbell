@@ -107,17 +107,15 @@ var SMain = React.createClass({
 					</View>
 				</TouchableHighlight>
 				<ScrollView contentInset={{top: -25}} scrollEventThrottle={200}>{
-	        _.map(this._sources, (sourceName) => (
-	        	<View style={this._styles.fileBox}>
-							<Text style={{color: themeColor, fontSize: 28}}>
-								{sourceName}
-							</Text>{
-							_.map(this.state.files[sourceName], (file) => (
-								<Text style={ [this._styles.fileText, {color: themeColors}] }>
-									{file.path}
+	        this._sources.map((sourceName) => (
+	        	<View key={sourceName} style={this._styles.fileBox}>
+							<Text style={{color: themeColor, fontSize: 28}}>{sourceName}</Text>
+							{this.state.files[sourceName].map((file) => (
+								<Text
+									key={file.path}
+									style={ [this._styles.fileText, {color: themeColors}] }>{file.path}
 								</Text>
-	        		))
-	        	}
+	        		))}
 						</View>	
 	        ))
 	      }

@@ -124,7 +124,7 @@ var CowBell = React.createClass({
     Orientation.lockToPortrait();
 
     // 1. Get Current User Data (which also validates whether user is authenticated)
-    let qProfile = ProfileActions.getAuth.triggerPromise().then((authData) => {      
+    let qProfile = ProfileActions.getLocalAuth.triggerPromise().then((authData) => {      
       return ProfileActions.setCurrentUser.triggerPromise(authData).then(() => {
         
         // Initialize a variety of things for validated user
@@ -138,10 +138,12 @@ var CowBell = React.createClass({
     // 3. retrieve references to "lookup"
     let qLookups = this._getLookups();
 
-    new Promise.all([qProfile, qLookups]).then((results) => {
-      this._gotLookups = true;
-      this.setState({ inProgress: false });
-    });
+    new Promise.all([qProfile, qLookups])
+      .then((results) => {
+        this._gotLookups = true;
+      }).finally(() => {
+        this.setState({ inProgress: false });
+      });
   },
 
   componentWillUpdate: function(newProps, newState) {

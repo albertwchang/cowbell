@@ -119,7 +119,7 @@ var MapScene = React.createClass({
 			, state = this.state;
 
 		if (route.navigationBar) {
-		 	navBar = React.addons.cloneWithProps(route.navigationBar, {
+		 	navBar = React.cloneElement(route.navigationBar, {
 		  	navigator: nav,
 		  	route: route
 		 	});

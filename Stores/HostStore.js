@@ -12,6 +12,7 @@ var _ = require("lodash");
 var HostStore = Reflux.createStore({
 	listenables: [HostActions],
 	_hosts: {
+		app: "cowbell",
 		db: new Firebase("https://cowbell.firebaseIO.com")
 	},
 	_s3Policy: null,
