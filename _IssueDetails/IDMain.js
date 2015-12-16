@@ -15,7 +15,7 @@ var InputHelperScene = require("./InputHelperScene");
 var LineSeparator = require("../Comps/LineSeparator");
 var MapScene = require("./MapScene");
 var NavBarTitle = require("../Comps/NavBarTitle");
-var Popover = require('react-native-popover');
+// var Popover = require('react-native-popover');
 var IssueInfoScene = require("./IssueInfoScene");
 
 // MIXINS
@@ -326,13 +326,16 @@ var RDMain = React.createClass({
 				tintColor={this.Colors.night.section}
 				values={["Details", "History"]} />
 
+		let navBarStyle = {
+			alignItems: "flex-end",
+			backgroundColor: this.props.themeColor
+		};
+
 		let navBar =
 			<NavBar
-				backgroundColor={themeColor}
+				style={navBarStyle}
 				customNext={invoiceBtn}
 				customPrev={backBtn}
-				nextTitle="Print"
-				prevTitle="Back"
 				customTitle={navBarTitle} />
 
 		return (
