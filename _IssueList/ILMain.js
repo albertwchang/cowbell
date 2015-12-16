@@ -15,7 +15,7 @@ var IssueDetails = require("../_IssueDetails/IDMain");
 var LineSeparator = require("../Comps/LineSeparator");
 var MenuSelect = require("../Comps/MenuSelect");
 var NavItem = require("../Comps/NavItem");
-var Popover = require('react-native-popover');
+// var Popover = require('react-native-popover');
 
 // MIXINS
 var SiteMixin = require("../Mixins/Site");
@@ -338,7 +338,7 @@ var RLMain = React.createClass({
 	   				themeColor={props.themeColor}
 	   				users={state.users[props.currentSiteRight.siteId]} />
 			  </View>
-			  <Popover
+			  {/*<Popover
           fromRect={state.btnRect}
           isVisible={state.showFilter}>
           <MenuSelect
@@ -346,7 +346,7 @@ var RLMain = React.createClass({
 	        	options={options}
 	        	renderRow={this._renderFilter}
 	        	style={styles.sceneBox} />
-        </Popover>
+        </Popover>*/}
 			</View>
 		);
 	},
@@ -362,27 +362,32 @@ var RLMain = React.createClass({
 					size="large" />
 			);
 		else {
-			var issueCount = _.toArray(state.issues).length;
-			var mapBtn =
+			let issueCount = _.toArray(state.issues).length;
+			let mapBtn =
 				<NavBtn onPress={() => this._changeScene("map")}>
 					<Icon name={"map"} style={styles.navBtn} />
 				</NavBtn>;
 
-			var filterBtn =
+			let filterBtn =
 				<NavBtn onPress={() => this._togglePopover(true)}>
 					<Icon ref="filter" name={"ios-toggle"} style={styles.navBtn} />
 				</NavBtn>;
 
-			var title =
+			let title =
 				<NavBtn
 					onPress={this._toggleSearchBar}
 					style={{borderColor: "red", borderWidth: 0.75, borderRadius: 2, backgroundColor: "#FFFFFF"}}>
 					<Text>Search</Text>
 				</NavBtn>;
+
+			let navBarStyle = {
+				alignItems: "flex-end",
+				backgroundColor: this.props.themeColor
+			};
 		
 			var navBar =
 				<NavBar
-					backgroundColor={this.props.themeColor}
+					style={navBarStyle}
 					buttonsColor="#FFFFFF"
 					customPrev={mapBtn}
 					customNext={filterBtn}
