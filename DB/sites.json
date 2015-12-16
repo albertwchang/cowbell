@@ -29,22 +29,26 @@
     "isActive": true,
     "name": "Philz Coffee",
     "phoneNum": 4152927660,
-    "issues": ["issue5", "issue6", "issue7", "issue8", "issue9"],
+    "issues": ["issue0", "issue1", "issue2"],
     "url": "http://www.philzcoffee-sf.com",
     "users": {
       "bgonzalez": {
         "id": "bgonzalez",
         "isActive": true
-      }, "tgonzalez": {
+      },
+      "tgonzalez": {
         "id": "tgonzalez",
         "isActive": true
-      }, "jgonzalez": {
+      },
+      "jgonzalez": {
         "id": "jgonzalez",
         "isActive": true
-      }, "ggonzalez": {
+      },
+      "ggonzalez": {
         "id": "ggonzalez",
         "isActive": true
-      }, "ygonzalez": {
+      },
+      "ygonzalez": {
         "id": "ygonzalez",
         "isActive": true
       }
@@ -80,11 +84,11 @@
     "isActive": true,
     "name": "Blue Bottle Coffee",
     "phoneNum": 5106533394,
-    "issues": ["issue0", "issue1", "issue2", "issue3", "issue4"],
+    "issues": ["issue3", "issue4", "issue5"],
     "url": "http://www.bluebottle-sf.com", 
     "users": {
-      "afoley": {
-        "id": "afoley",
+      "kbryant": {
+        "id": "kbryant",
         "isActive": true
       }
     }
@@ -119,15 +123,15 @@
     "isActive": true,
     "name": "Liholiho Yacht Club",
     "phoneNum": 4155572221,
-    "issues": ["issue10", "issue11", "issue12", "issue13", "issue14"],
+    "issues": ["issue6", "issue7", "issue8"],
     "url": "http://www.lycsf.com",
     "users": {
-      "wsmith": {
-        "id": "wsmith",
+      "ljames": {
+        "id": "ljames",
         "isActive": true
       },
-      "mramirez": {
-        "id": "mramirez",
+      "pmanning": {
+        "id": "pmanning",
         "isActive": true
       }
     }
@@ -162,21 +166,189 @@
     "isActive": true,
     "name": "Ruby Skye",
     "phoneNum": 6503218984,
-    "issues": ["issue15", "issue16", "issue17", "issue18", "issue19"],
+    "issues": ["issue9", "issue10", "issue11"],
     "url": "http://www.ruby-skye.com", 
     "users": {
-      "sconnery": {
-        "id": "sconnery",
+      "soneal": {
+        "id": "soneal",
         "isActive": true
       },
-      "jtravolta": {
-        "id": "jtravolta",
+      "mramirez": {
+        "id": "mramirez",
         "isActive": true
       },
-      "gclooney": {
-        "id": "gclooney",
+      "tbrady": {
+        "id": "tbrady",
         "isActive": true
       }
+    }
+  },
+  "site4": {
+    "iid": "site4",
+    "name": "Live Oak Supermarket",
+    "address": {
+      "street": {
+        "number":1668,
+        "name":"Capitola",
+        "type":"St.",
+        "unit":""
+      },
+      "city": "Santa Cruz",
+      "state": "CA",
+      "zip": {
+        "primary": 95062,
+        "ext": 0
+      }
+    },
+    "phoneNum": 8314755114,
+    "email": "info@liveoaksuper.com",
+    "img": {
+      "icon": "/sites/icons/site4.jpg",
+      "banner": "/sites/banners/site4.jpg"
+    },
+    "url": "http://www.liveoaksuper.com", 
+    "users": {
+      "aagassi": {
+        "id": "aagassi",
+        "isActive": true
+      },
+      "apeterson": {
+        "id": "apeterson",
+        "isActive": true
+      },
+      "cweber": {
+        "id": "cweber",
+        "isActive": true
+      }
+    },
+    "isActive": false,
+    "requests": ["issue12", "issue13", "issue14"],
+    "geoPoint": {
+      "lat": 36.975684,
+      "long": -121.98342,
+      "latitude": 36.975684,
+      "longitude": -121.98342
+    }
+  },
+  "site5": {
+    "iid": "site5",
+    "name": "The Crows Nest",
+    "address": {
+      "street": {
+        "number": 2218,
+        "name": "E. Cliff",
+        "type": "Dr.",
+        "unit": ""
+      },
+      "city": "Santa Cruz",
+      "state": "CA",
+      "zip": {
+        "primary": 95062,
+        "ext": 0
+      }
+    },
+    "phoneNum": 8314764560,
+    "email": "info@crowsnest-santacruz.com",
+    "img": {
+      "icon": "/sites/icons/site4.jpg",
+      "banner": "/sites/banners/site4.jpg"
+    },
+    "url": "http://www.thecrowsnest-santacruz.com",
+    "users": {
+      "krafferty": {
+        "id": "krafferty",
+        "isActive": true
+      }
+    },
+    "isActive": false,
+    "requests": ["issue15", "issue16", "issue17"],
+    "geoPoint": {
+      "lat": 36.9630307,
+      "long": -122.001414,
+      "latitude": 36.9630307,
+      "longitude": -122.001414
+    }
+  },
+  "site6": {
+    "iid": "site6",
+    "name": "Capitola Laundry Mat",
+    "address": {
+      "street": {
+        "number": 1600,
+        "name": "Capitola",
+        "type": "Rd.",
+        "unit": ""
+      },
+      "city": "Santa Cruz",
+      "state": "CA",
+      "zip": {
+        "primary": 95062,
+        "ext": 0
+      }
+    },
+    "phoneNum": 8314779361,
+    "email": "info@capitolalaundry.com",
+    "img": {
+      "icon": "/sites/icons/site5.jpg",
+      "banner": "/sites/banners/site5.jpg"
+    },
+    "url": "http://www.capitolalaundry.com", 
+    "users": {
+      "jmontana": {
+        "id": "jmontana",
+        "isActive": true
+      },
+      "jrice": {
+        "id": "jrice",
+        "isActive": true
+      }
+    },
+    "isActive": true,
+    "requests": ["issue18", "issue19"],
+    "geoPoint": {
+      "lat": 36.9759778,
+      "long": -121.9842423,
+      "latitude": 36.9759778,
+      "longitude": -121.9842423
+    }
+  },
+  "site7": {
+    "iid": "site7",
+    "name": "Starbucks",
+    "address": {
+      "street": {
+        "number": 325,
+        "name": "Sharon Park",
+        "type": "Dr.",
+        "unit": ""
+      },
+      "city": "Menlo Park",
+      "state": "CA",
+      "zip": {
+        "primary": 94025,
+        "ext": 0
+      }
+    },
+    "phoneNum": 6503257528,
+    "email": "info@starbucks.com",
+    "img": {
+      "icon": "/sites/icons/site7.jpg",
+      "banner": "/sites/banners/site7.jpg"
+    },
+    "url": "http://www.starbucks-coffee.com", 
+    "users": {
+      "achang28": {
+        "id": "achang28",
+        "isActive": true
+      }
+    },
+    "isActive": true,
+    "requests": ["issue20"],
+    "geoPoint": {
+      "lat": 37.4234794,
+      "long": -122.1978384,
+      "latitude": 37.4234794,
+      "longitude": -122.1978384
     }
   }
 }

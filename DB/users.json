@@ -14,7 +14,7 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue5"],
+    "issues": ["issue0"],
     "settings": {
       "chosen": {
         "siteId": ""
@@ -28,13 +28,12 @@
         }
       }
     },
-    "signatureUri": "/users/signatures/bgonzalez.jpg",
     "state": {
       "issueId": ""
     },
     "uid": "7438d2f0-d46a-4aa9-8c30-6fc6efff5428",
     "uri": {
-      "selfie": "/users/bgonzalez.jpg",
+      "selfie": "/users/selfies/bgonzalez.jpg",
       "signature": "/users/signatures/bgonzalez.jpg"
     }
   },
@@ -53,7 +52,7 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue6"],
+    "issues": ["issue1"],
     "settings": {
       "chosen": {
         "siteId": ""
@@ -72,7 +71,7 @@
     },
     "uid": "5c6144c0-441e-48f6-90e0-13e16246ebd1",
     "uri": {
-      "selfie": "/users/tgonzalez.jpg",
+      "selfie": "/users/selfies/tgonzalez.jpg",
       "signature": "/users/signatures/tgonzalez.jpg"
     }
   },
@@ -104,13 +103,13 @@
         "tasks": ["task0", "task1"]
         }
     ],
-    "jobs": ["issue7"],
+    "issues": ["issue2"],
     "state": {
       "issueId": ""
     },
     "uid": "b8f9fae7-3151-4f70-b769-8d411c94b910",
     "uri": {
-      "selfie": "/users/jgonzalez.jpg",
+      "selfie": "/users/selfies/jgonzalez.jpg",
       "signature": "/users/signatures/jgonzalez.jpg"
     }
   },
@@ -142,13 +141,13 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue8"],
+    "issues": "",
     "state": {
       "issueId": ""
     },
     "uid": "c8c098d1-8eb5-4acb-bdc3-aa292f192628",
     "uri": {
-      "selfie": "/users/ggonzalez.jpg",
+      "selfie": "/users/selfies/ggonzalez.jpg",
       "signature": "/users/signatures/ggonzalez.jpg"
     }
   },
@@ -181,13 +180,13 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue9"],
+    "issues": "",
     "state": {
       "issueId": ""
     },
     "uid": "1cfdaa4a-93aa-4aa8-9235-2bad9b444db9",
     "uri": {
-      "selfie": "/users/ygonzalez.jpg",
+      "selfie": "/users/selfies/ygonzalez.jpg",
       "signature": "/users/signatures/ygonzalez.jpg"
     }
   },
@@ -198,7 +197,7 @@
       "middle": "",
       "last": "Foley"
     },
-    "phoneNum": 8317283030,
+    "phoneNum": 4159192212,
     "email": "afoley@bluebottle-sf.com",
     "settings": {
       "chosen": {
@@ -213,19 +212,13 @@
         }
       }
     },
-    "siteRights": [
-      {
-        "siteId": "site1",
-        "tasks": ["task0", "task1"]
-      }
-    ],
-    "jobs": ["issue0", "issue1", "issue2", "issue3", "issue4"],
+    "issues": ["issue0", "issue1"],
     "state": {
       "issueId": ""
     },
     "uid": "95c4fcc3-27ee-463c-a30c-0b8b737ff0cc",
     "uri": {
-      "selfie": "/users/afoley.jpg",
+      "selfie": "/users/selfies/afoley.jpg",
       "signature": "/users/signatures/afoley.jpg"
     }
   },
@@ -236,7 +229,7 @@
       "middle": "",
       "last": "Smith"
     },
-    "phoneNum": 8314772235,
+    "phoneNum": 4154322212,
     "email": "wsmith@lycsf.com",
     "settings": {
       "chosen": {
@@ -257,52 +250,14 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue10", "issue11"],
+    "issues": ["issue2", "issue3"],
     "state": {
       "issueId": ""
     },
     "uid": "6478c514-87c7-4398-880a-fde9162843fe",
     "uri": {
-      "selfie": "/users/wsmith.jpg",
+      "selfie": "/users/selfies/wsmith.jpg",
       "signature": "/users/signatures/wsmith.jpg"
-    }
-  },
-  "mramirez": {
-    "iid": "mramirez",
-    "name": {
-      "first": "Manny",
-      "middle": "",
-      "last": "Ramirez"
-    },
-    "phoneNum": 8314772230,
-    "email": "mramirez@lycsf.com",
-    "settings": {
-      "chosen": {
-        "siteId": ""
-      },
-      "filters": {
-        "statuses": {
-          "states": {
-            "done": false,
-            "open": true
-          }
-        }
-      }
-    },
-    "siteRights": [
-      {
-        "siteId": "site2",
-        "tasks": ["task0", "task1"]
-      }
-    ],
-    "jobs": ["issue12", "issue13", "issue14"],
-    "state": {
-      "issueId": ""
-    },
-    "uid": "01a55878-d1a0-4527-8de2-6338ccb0a7dd",
-    "uri": {
-      "selfie": "/users/mramirez.jpg",
-      "signature": "/users/signatures/mramirez.jpg"
     }
   },
   "sconnery": {
@@ -312,16 +267,9 @@
       "middle": "",
       "last": "Connery"
     },
-    "phoneNum": 6507715506,
+    "phoneNum": 4156230021,
     "email": "sconnery@ruby-skye.com",
-    "signatureUri": "/users/signatures/sconnery.jpg",
-    "siteRights": [
-      {
-        "siteId": "site3",
-        "tasks": ["task0", "task1"]
-      }
-    ],
-    "jobs": ["issue15"],
+    "issues": ["issue4", "issue5"],
     "settings": {
       "chosen": {
         "siteId": ""
@@ -340,8 +288,8 @@
     },
     "uid": "bad5ddfe-f491-400b-a495-60c099f28787",
     "uri": {
-      "selfie": "/users/sconnery.jpg",
-      "signature": "/users/sconnery.jpg"
+      "selfie": "/users/selfies/sconnery.jpg",
+      "signature": "/users/signatures/sconnery.jpg"
     }
   },
   "jtravolta": {
@@ -351,7 +299,7 @@
       "middle": "",
       "last": "Travolta"
     },
-    "phoneNum": 6507715502,
+    "phoneNum": 4155529921,
     "email": "jtravolta@ruby-skye.com",
     "settings": {
       "chosen": {
@@ -366,21 +314,14 @@
         }
       }
     },
-    "signatureUri": "/users/signatures/jtravolta.jpg",
-    "siteRights": [
-      {
-        "siteId": "site3",
-        "tasks": ["task0", "task1"]
-      }
-    ],
-    "jobs": ["issue16", "issue17"],
+    "issues": ["issue6", "issue7"],
     "state": {
       "issueId": ""
     },
     "uid": "ea797310-0dfe-4166-9ac8-d766f94126b5",
     "uri": {
-      "selfie": "/users/jtravolta.jpg",
-      "signature": "/users/jtravolta.jpg"
+      "selfie": "/users/selfies/jtravolta.jpg",
+      "signature": "/users/signatures/jtravolta.jpg"
     }
   },
   "gclooney": {
@@ -405,21 +346,529 @@
         }
       }
     },
-    "signatureUri": "/users/signatures/gclooney.jpg",
+    "issues": ["issue8", "issue9"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "7d9d87f9-ae20-4319-b5a0-d6802c981832",
+    "uri": {
+      "selfie": "/users/selfies/gclooney.jpg",
+      "signature": "/users/signatures/gclooney.jpg"
+    }
+  },
+
+
+  "kbryant": {
+    "iid": "kbryant",
+    "name": {
+      "first": "Kobe",
+      "middle": "",
+      "last": "Bryant"
+    },
+    "phoneNum": 4152712210,
+    "email": "kbryant@bluebottle-sf.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site1",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue3", "issue4", "issue5"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "a2e5c765-d2dd-41ec-ab9c-91ce44eff8bd",
+    "uri": {
+      "selfie": "/users/selfies/kbryant.jpg",
+      "signature": "/users/signatures/kbryant.jpg"
+    }
+  },
+
+  "ljames": {
+    "iid": "ljames",
+    "name": {
+      "first": "Lebron",
+      "middle": "",
+      "last": "James"
+    },
+    "phoneNum": 4159921221,
+    "email": "ljames@lycsf.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site2",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue6", "issue7"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "e95a5f37-e482-4762-8c22-f799824f2af3",
+    "uri": {
+      "selfie": "/users/selfies/ljames.jpg",
+      "signature": "/users/signatures/ljames.jpg"
+    }
+  },
+
+
+  "pmanning": {
+    "iid": "pmanning",
+    "name": {
+      "first": "Peyton",
+      "middle": "",
+      "last": "Manning"
+    },
+    "phoneNum": 4152912232,
+    "email": "pmanning@lycsf.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site2",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue8"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "ca89fbf4-762e-4599-a0bc-d33e5543ca7d",
+    "uri": {
+      "selfie": "/users/selfies/pmanning.jpg",
+      "signature": "/users/signatures/pmanning.jpg"
+    }
+  },
+
+  "soneal": {
+    "iid": "soneal",
+    "name": {
+      "first": "Shaq",
+      "middle": "",
+      "last": "O'neal"
+    },
+    "phoneNum": 4152210232,
+    "email": "soneal@ruby-skye.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
     "siteRights": [
       {
         "siteId": "site3",
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue18", "issue19"],
+    "issues": ["issue9"],
     "state": {
       "issueId": ""
     },
-    "uid": "7d9d87f9-ae20-4319-b5a0-d6802c981832",
+    "uid": "e00134a0-c92f-4d50-80aa-b8087409136c",
     "uri": {
-      "selfie": "/users/gclooney.jpg",
-      "signature": "/users/gclooney.jpg"
+      "selfie": "/users/selfies/soneal.jpg",
+      "signature": "/users/signatures/soneal.jpg"
+    }
+  },
+
+
+  "mramirez": {
+    "iid": "mramirez",
+    "name": {
+      "first": "Manny",
+      "middle": "",
+      "last": "Ramirez"
+    },
+    "phoneNum": 6507715515,
+    "email": "mramirez@ruby-skye.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site3",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue10"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "f44429e8-72a2-4469-a7e7-cf4d214fdf01",
+    "uri": {
+      "selfie": "/users/selfies/mramirez.jpg",
+      "signature": "/users/signatures/mramirez.jpg"
+    }
+  },
+
+  "tbrady": {
+    "iid": "tbrady",
+    "name": {
+      "first": "Tom",
+      "middle": "",
+      "last": "Brady"
+    },
+    "phoneNum": 4155021281,
+    "email": "tbrady@ruby-skye.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site3",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue11"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "1975ed6f-ba5d-475e-9853-5c61f7e33782",
+    "uri": {
+      "selfie": "/users/selfies/tbrady.jpg",
+      "signature": "/users/signatures/tbrady.jpg"
+    }
+  },
+
+  "aagassi": {
+    "iid": "aagassi",
+    "name": {
+      "first": "Andre",
+      "middle": "",
+      "last": "Agassi"
+    },
+    "phoneNum": 8314622102,
+    "email": "aagassi@liveoaksuper.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site4",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue12"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "cec42918-5bf9-41a1-97e5-ddd7588dd642",
+    "uri": {
+      "selfie": "/users/selfies/aagassi.jpg",
+      "signature": "/users/signatures/aagassi.jpg"
+    }
+  },
+
+  "apeterson": {
+    "iid": "apeterson",
+    "name": {
+      "first": "Adrian",
+      "middle": "",
+      "last": "Peterson"
+    },
+    "phoneNum": 83147612012,
+    "email": "apeterson@liveoaksuper.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site4",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue13"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "e2fd613a-61cf-4707-802e-4e6ffc529ed0",
+    "uri": {
+      "selfie": "/users/selfies/apeterson.jpg",
+      "signature": "/users/signatures/apeterson.jpg"
+    }
+  },
+  
+
+  "cweber": {
+    "iid": "cweber",
+    "name": {
+      "first": "Chris",
+      "middle": "",
+      "last": "Weber"
+    },
+    "phoneNum": 8314755521,
+    "email": "cweber@liveoaksuper.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site4",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue14"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "b00d2a13-f0c8-4ef4-a872-85d5c1c3af0e",
+    "uri": {
+      "selfie": "/users/selfies/cweber.jpg",
+      "signature": "/users/signatures/cweber.jpg"
+    }
+  },
+
+  "jmontana": {
+    "iid": "jmontana",
+    "name": {
+      "first": "Joe",
+      "middle": "",
+      "last": "Montana"
+    },
+    "phoneNum": 8314762212,
+    "email": "jmontana@capitolalaundry.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site6",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue18"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "3676fbb3-c81a-45e8-b7be-63cd2a384a88",
+    "uri": {
+      "selfie": "/users/selfies/jmontana.jpg",
+      "signature": "/users/signatures/jmontana.jpg"
+    }
+  },
+
+
+  "jrice": {
+    "iid": "jrice",
+    "name": {
+      "first": "Jerry",
+      "middle": "",
+      "last": "Rice"
+    },
+    "phoneNum": 8314420012,
+    "email": "jrice@capitolalaundry.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site6",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue19"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "955be104-be69-4084-9772-5c05952baab0",
+    "uri": {
+      "selfie": "/users/selfies/jrice.jpg",
+      "signature": "/users/signatures/jrice.jpg"
+    }
+  },
+
+
+  "achang28": {
+    "iid": "achagn28",
+    "name": {
+      "first": "Albert",
+      "middle": "",
+      "last": "Chang"
+    },
+    "phoneNum": 6507715515,
+    "email": "achang28@starbucks.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site7",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue20"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "58c7777e-50ac-4f30-831d-d2f6af1136d1",
+    "uri": {
+      "selfie": "/users/selfies/achang28.jpg",
+      "signature": "/users/signatures/achang28.jpg"
+    }
+  },
+
+
+
+  "krafferty": {
+    "iid": "krafferty",
+    "name": {
+      "first": "Kevin",
+      "middle": "",
+      "last": "Rafferty"
+    },
+    "phoneNum": 8312210242,
+    "email": "krafferty@thecrowsnest-santacruz.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site7",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue20"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "a50d19a3-0ce7-42e0-9e8b-bb4c23a6742e",
+    "uri": {
+      "selfie": "/users/selfies/krafferty.jpg",
+      "signature": "/users/signatures/krafferty.jpg"
     }
   }
 }

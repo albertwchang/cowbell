@@ -15,7 +15,7 @@ var InputHelperScene = require("./InputHelperScene");
 var LineSeparator = require("../Comps/LineSeparator");
 var MapScene = require("./MapScene");
 var NavBarTitle = require("../Comps/NavBarTitle");
-var Popover = require('react-native-popover');
+// var Popover = require('react-native-popover');
 var IssueInfoScene = require("./IssueInfoScene");
 
 // MIXINS

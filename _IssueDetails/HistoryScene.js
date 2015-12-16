@@ -34,7 +34,8 @@ var _styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "column",
 		height: Display.height - ViewMixin.getInnerView(),
-		paddingHorizontal: 4
+		paddingHorizontal: 4,
+		paddingVertical: 4
 	},
 	separatorIcon: {
 		alignSelf: "center",
