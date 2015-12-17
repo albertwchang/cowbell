@@ -3,6 +3,9 @@
 var Reflux = require("reflux");
 var Firebase = require("firebase");
 
+// MIXINS
+var HostMixin = require("../Mixins/Host");
+
 // ACTIONS && STORES
 var HostActions = require("../Actions/HostActions");
 
@@ -11,25 +14,23 @@ var _ = require("lodash");
 
 var HostStore = Reflux.createStore({
 	listenables: [HostActions],
-	_hosts: {
-		app: "cowbell",
-		db: new Firebase("https://cowbell.firebaseIO.com")
-	},
+	mixins: [HostMixin],
+	_host: _.assign({ app: "cowbell"}, HostMixin.getHost()),
 	_s3Policy: null,
 
 	getInitialState: function() {
-		return {
-			db: this._hosts.db,
-			images: this._hosts.images,
-			s3Policy: {
-				data: undefined,
-				isDone: false,
-			},
-		}
+		// let state = _.assign(this.getHost(), {
+		// 	images: this._hosts.images,
+		// 	s3Policy: {
+		// 		data: undefined,
+		// 		isDone: false
+		// 	}
+		// });
+		return { host: this._host };
 	},
 
 	onGetDb: function() {
-		HostActions.getDb.completed(this._hosts.db);
+		HostActions.getDb.completed(this._host.db);
 	},
 
 	onGetS3Policy: function() {
@@ -48,11 +49,12 @@ var HostStore = Reflux.createStore({
 					isDone: true,
 				};
 
-				self.trigger({
-					db: self._hosts.db,
-					images: self._hosts.images,
+				let info = _.assign(this._host, {
+					// images: self._hosts.images,
 					s3Policy: self._s3Policy
 				});
+
+				self.trigger(info);
 
 				HostActions.pullS3Policy.completed(self._s3Policy);
 			}).catch((err) => {

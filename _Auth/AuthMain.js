@@ -16,7 +16,9 @@ var {
 
 var AuthMain = React.createClass({
   propTypes: {
-    db: PropTypes.object,
+    // db: PropTypes.object,
+    // env: PropTypes.string,
+    host: PropTypes.object,
     lookups: PropTypes.object,
     initSession: PropTypes.func,
     setProgress: PropTypes.func,

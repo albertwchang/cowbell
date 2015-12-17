@@ -31,6 +31,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "fa45a56d-aeb5-4b72-978b-fd39abb1bb43",
+      "prod": "7438d2f0-d46a-4aa9-8c30-6fc6efff5428"
+    },
     "uid": "7438d2f0-d46a-4aa9-8c30-6fc6efff5428",
     "uri": {
       "selfie": "/users/selfies/bgonzalez.jpg",
@@ -68,6 +72,10 @@
     },
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "3c957129-e821-4c12-97bc-2aaccf42f6e6",
+      "prod": "5c6144c0-441e-48f6-90e0-13e16246ebd1"
     },
     "uid": "5c6144c0-441e-48f6-90e0-13e16246ebd1",
     "uri": {
@@ -107,6 +115,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "f8c0e732-47ea-48a1-b973-c970492537a8",
+      "prod": "b8f9fae7-3151-4f70-b769-8d411c94b910"
+    },
     "uid": "b8f9fae7-3151-4f70-b769-8d411c94b910",
     "uri": {
       "selfie": "/users/selfies/jgonzalez.jpg",
@@ -144,6 +156,10 @@
     "issues": "",
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "475addfc-4451-4f23-91c7-a0f290b28558",
+      "prod": "c8c098d1-8eb5-4acb-bdc3-aa292f192628"
     },
     "uid": "c8c098d1-8eb5-4acb-bdc3-aa292f192628",
     "uri": {
@@ -183,6 +199,10 @@
     "issues": "",
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "cf114d54-b70d-458c-9b9a-f6aecf6c68ac",
+      "prod": "1cfdaa4a-93aa-4aa8-9235-2bad9b444db9"
     },
     "uid": "1cfdaa4a-93aa-4aa8-9235-2bad9b444db9",
     "uri": {
@@ -224,6 +244,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "304e186f-833a-46ec-96db-6f99c7abeb2d",
+      "prod": "a2e5c765-d2dd-41ec-ab9c-91ce44eff8bd"
+    },
     "uid": "a2e5c765-d2dd-41ec-ab9c-91ce44eff8bd",
     "uri": {
       "selfie": "/users/selfies/kbryant.jpg",
@@ -262,6 +286,10 @@
     "issues": ["issue6", "issue7"],
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "6ec59eb3-0902-4a02-9055-ffa9b6e43923",
+      "prod": "e95a5f37-e482-4762-8c22-f799824f2af3"
     },
     "uid": "e95a5f37-e482-4762-8c22-f799824f2af3",
     "uri": {
@@ -303,6 +331,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "7910ec3e-8148-406e-b456-abab3ac47f97",
+      "prod": "ca89fbf4-762e-4599-a0bc-d33e5543ca7d"
+    },
     "uid": "ca89fbf4-762e-4599-a0bc-d33e5543ca7d",
     "uri": {
       "selfie": "/users/selfies/pmanning.jpg",
@@ -341,6 +373,10 @@
     "issues": ["issue9"],
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "1479aa14-800b-4c3b-8dfb-4fb9919d6530",
+      "prod": "e00134a0-c92f-4d50-80aa-b8087409136c"
     },
     "uid": "e00134a0-c92f-4d50-80aa-b8087409136c",
     "uri": {
@@ -382,6 +418,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "43e9b6ef-26e6-4a6b-ab49-b00d77b48d1d",
+      "prod": "688a3412-8fb8-4887-ba70-5b3f66443364"
+    },
     "uid": "688a3412-8fb8-4887-ba70-5b3f66443364",
     "uri": {
       "selfie": "/users/selfies/mramirez.jpg",
@@ -420,6 +460,10 @@
     "issues": ["issue11"],
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "e83456bf-3865-4a99-9021-43e46917173d",
+      "prod": "1975ed6f-ba5d-475e-9853-5c61f7e33782"
     },
     "uid": "1975ed6f-ba5d-475e-9853-5c61f7e33782",
     "uri": {
@@ -460,6 +504,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "76fe3620-84d7-4a55-ae34-751af1f43c91",
+      "prod": "cec42918-5bf9-41a1-97e5-ddd7588dd642"
+    },
     "uid": "cec42918-5bf9-41a1-97e5-ddd7588dd642",
     "uri": {
       "selfie": "/users/selfies/aagassi.jpg",
@@ -498,6 +546,10 @@
     "issues": ["issue13"],
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "f8914ac8-fab1-4f8a-a1f1-b712ae29e3fe",
+      "prod": "e2fd613a-61cf-4707-802e-4e6ffc529ed0"
     },
     "uid": "e2fd613a-61cf-4707-802e-4e6ffc529ed0",
     "uri": {
@@ -539,6 +591,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "9f28aa58-5a89-4cdb-940c-94ba6fd03dfb",
+      "prod": "b00d2a13-f0c8-4ef4-a872-85d5c1c3af0e"
+    },
     "uid": "b00d2a13-f0c8-4ef4-a872-85d5c1c3af0e",
     "uri": {
       "selfie": "/users/selfies/cweber.jpg",
@@ -577,6 +633,10 @@
     "issues": ["issue18"],
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "9ddb8193-a5b1-49d2-8f28-3950dd765a6f",
+      "prod": "3676fbb3-c81a-45e8-b7be-63cd2a384a88"
     },
     "uid": "3676fbb3-c81a-45e8-b7be-63cd2a384a88",
     "uri": {
@@ -618,6 +678,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "18e64eda-8fee-458e-b2ca-b35a54afaf2a",
+      "prod": "955be104-be69-4084-9772-5c05952baab0"
+    },
     "uid": "955be104-be69-4084-9772-5c05952baab0",
     "uri": {
       "selfie": "/users/selfies/jrice.jpg",
@@ -657,6 +721,10 @@
     "issues": ["issue20"],
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "dc243619-3b66-49be-be32-7087d9036c96",
+      "prod": "58c7777e-50ac-4f30-831d-d2f6af1136d1"
     },
     "uid": "58c7777e-50ac-4f30-831d-d2f6af1136d1",
     "uri": {
@@ -699,6 +767,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "31612c6f-228f-407d-850b-dff08bf49740",
+      "prod": "a50d19a3-0ce7-42e0-9e8b-bb4c23a6742e"
+    },
     "uid": "a50d19a3-0ce7-42e0-9e8b-bb4c23a6742e",
     "uri": {
       "selfie": "/users/selfies/krafferty.jpg",
@@ -733,6 +805,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "3b69bb1e-416e-4b91-8504-3cbb3fb450be",
+      "prod": "95c4fcc3-27ee-463c-a30c-0b8b737ff0cc"
+    },
     "uid": "95c4fcc3-27ee-463c-a30c-0b8b737ff0cc",
     "uri": {
       "selfie": "/users/selfies/afoley.jpg",
@@ -765,6 +841,10 @@
     "issues": ["issue2", "issue3", "issue12", "issue13"],
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "45ab2bba-4736-4e8a-bc93-e677ba76d55e",
+      "prod": "6478c514-87c7-4398-880a-fde9162843fe"
     },
     "uid": "6478c514-87c7-4398-880a-fde9162843fe",
     "uri": {
@@ -799,6 +879,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "44559244-467f-4c92-8fc3-ba33b2073758",
+      "prod": "ea797310-0dfe-4166-9ac8-d766f94126b5"
+    },
     "uid": "ea797310-0dfe-4166-9ac8-d766f94126b5",
     "uri": {
       "selfie": "/users/selfies/jtravolta.jpg",
@@ -832,6 +916,10 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "70cf79e9-3447-4d26-98e9-36a9425d1f22",
+      "prod": "7d9d87f9-ae20-4319-b5a0-d6802c981832"
+    },
     "uid": "7d9d87f9-ae20-4319-b5a0-d6802c981832",
     "uri": {
       "selfie": "/users/selfies/gclooney.jpg",
@@ -864,6 +952,10 @@
     "siteRights": "",
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "eb58bd2f-a4ef-47b4-acbc-360d7a8fba2d",
+      "prod": "bad5ddfe-f491-400b-a495-60c099f28787"
     },
     "uid": "bad5ddfe-f491-400b-a495-60c099f28787",
     "uri": {

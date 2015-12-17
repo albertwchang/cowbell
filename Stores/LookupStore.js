@@ -12,7 +12,7 @@ var _ = require("lodash");
 
 var LookupStore = Reflux.createStore({
 	listenables: [LookupActions],
-	_db: null,
+	_host: null,
 	_lookups: null,
   _params: {
     data: "data",
@@ -34,7 +34,7 @@ var LookupStore = Reflux.createStore({
 	},
 
 	_retrieveLookups: function(model, lookupsRow, successCb, errCb) {
-    let dbRef = this._db, params = this._params;
+    let dbRef = this._host.db, params = this._params;
     dbRef.once("value", (results) => {
     	let lookupsObj = {
         "data": JSON.stringify(results.val()[params.data]),
@@ -53,7 +53,7 @@ var LookupStore = Reflux.createStore({
 	onValidateLookups: function() {
     let params = this._params;
 		
-    Storage.model(this._db.app).then((model) => {
+    Storage.model(this._host.app).then((model) => {
       let filter = { where: { "key": "lookups"} };
       let callbacks = LookupActions.validateLookups;
       
@@ -63,7 +63,7 @@ var LookupStore = Reflux.createStore({
       		this._retrieveLookups(model, lookupsRow, callbacks.completed, callbacks.failed);
         else {
        		// Ensure no updates have been made to Lookups collection
-          let dbRef = this._db.child(params.timestamp);
+          let dbRef = this._host.db.child(params.timestamp);
   				dbRef.once("value", (results) => {
   					if (results.val() == lookupsRow[0][params.timestamp]) {
   						this.trigger({lookups: this._lookups = JSON.parse(lookupsRow[0][params.data])});
@@ -78,7 +78,8 @@ var LookupStore = Reflux.createStore({
 	},
 
 	_updateDb: function(data) {
-		this._db = data.db.child("lookups");
+		this._host = data.host;
+    this._host.db = this._host.db.child("lookups");
 	},
 });
 

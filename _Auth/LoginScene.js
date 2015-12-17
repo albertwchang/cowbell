@@ -39,15 +39,12 @@ var styles = StyleSheet.create({
 		position: "absolute",
 		top: ViewMixin.Dimensions.STATUS_BAR_HEIGHT,
 		width: Display.width
-	}, orgTypeBox: {
-			flex: 1,
-			flexDirection: "row",
-		}, orgTypeBtn: {
-			alignItems: "center",
-			borderRadius: 3,
-			borderWidth: 1,
-			flex: 1,
-			margin: 6
+	}, envText: {
+			color: "#FFFFFF",
+			fontFamily: "System",
+			fontSize: 24,
+			letterSpacing: 2,
+			textAlign: "center"
 		},
 		sitesBox: {
 			flex: 4,
@@ -99,7 +96,9 @@ var styles = StyleSheet.create({
 var LoginScene = React.createClass({
 	mixins: [SiteMixin, ViewMixin],
 	propTypes: {
-		db: PropTypes.object,
+		// db: PropTypes.object,
+		// env: PropTypes.string,
+		host: PropTypes.object,
 		lookups: PropTypes.object,
 		initSession: PropTypes.func,
 		setProgress: PropTypes.func
@@ -200,7 +199,7 @@ var LoginScene = React.createClass({
 		};
 		
 		props.setProgress(true);
-		props.db.authWithPassword(creds, (err, authData) => {
+		props.host.db.authWithPassword(creds, (err, authData) => {
 			if (authData) {
 				ProfileActions.setCurrentUser.triggerPromise(authData).then(() => {
 					return props.initSession();
@@ -217,7 +216,7 @@ var LoginScene = React.createClass({
 	},
 
 	_reloadTable: function(table) {
-		let tableRef = this.props.db.child(table);
+		let tableRef = this.props.host.db.child(table);
 		
 		return new Promise((resolve, reject) => {
 			tableRef.once("value", (tableData) => {
@@ -274,7 +273,6 @@ var LoginScene = React.createClass({
 	render: function() {
 		let Content = this.state.dataLoaded
 			? <Refresh
-					contentInset={{top: -this.Dimensions.STATUS_BAR_HEIGHT}}
 	        dataSource={this._ds.cloneWithRows([this._sites])}
 	        removeClippedSubviews={true}
 	        renderRow={this._renderSites}
@@ -284,7 +282,15 @@ var LoginScene = React.createClass({
 					<Text>Getting Data...</Text>
 				</View>
 
-		return ( <View style={styles.main}>{Content}</View> );
+		return (
+			<View style={styles.main}>
+				<View>
+					<Text style={styles.envText}>{this.props.env.toUpperCase()}</Text>
+				</View>
+				<LineSeparator height={0.5} horzMargin={0} vertMargin={4} />
+				{Content}
+			</View>
+		);
 	}
 })
 

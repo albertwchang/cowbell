@@ -18,8 +18,8 @@ var _ = require("lodash");
 var ProfileStore = Reflux.createStore({
 	_currentSiteRight: null,
 	_currentUser: null,
-	_db: null,
 	_dbRefs: [],
+	_host: null,
 	_storageKey: "auth",
 	listenables: [ProfileActions],
 
@@ -35,7 +35,7 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onChangePwd: function(email, oldPwd, newPwd) {
-		this._db.changePassword({
+		this._host.db.changePassword({
 		  email: email,
 		  oldPassword: oldPwd,
 		  newPassword: newPwd
@@ -58,8 +58,12 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onGetLocalAuth: function() {
-		Storage.model(this._db.app).then((model) => {
-			let filter = { where: { "key": this._storageKey} };
+		Storage.model(this._host.app +"-" +this._host.env).then((model) => {
+			let filter = {
+				where: {
+					"key": this._storageKey
+				}
+			};
       
       model.find(filter).then((authRow) => {
 				if ( !_.isEmpty(authRow) ) {
@@ -76,13 +80,13 @@ var ProfileStore = Reflux.createStore({
 			  ProfileActions.getLocalAuth.failed();
 			});
 		}).catch((err) => {
-			console.log("A table for your app does not exist: ", this._db.app);
+			console.log("A table for your app does not exist: ", this._host.app);
 			ProfileActions.getLocalAuth.failed();
 		});
 	},
 
 	onRemoveIssueId: function(userId) {
-		let userStateRef = this._db.child(userId).child("state").child("issueId");
+		let userStateRef = this._host.db.child(userId).child("state").child("issueId");
 
 		userStateRef.set("", (err) => {
 			if (err)
@@ -94,13 +98,17 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onSetCurrentUser: function(authData) {
-				let uid = authData.uid
-			, userRef = this._db.orderByChild("uid").equalTo(uid);
+		let uid = authData.uid
+			, userRef = this._host.db.orderByChild("uid").equalTo(uid);
 		
 		this._dbRefs.push(userRef);
 
-		Storage.model(this._db.app).then((model) => {
-			let filter = { where : { key : this._storageKey } };
+		Storage.model(this._host.app +"-" +this._host.env).then((model) => {
+			let filter = {
+				where: {
+					key: this._storageKey
+				}
+			};
 			
 			model.find(filter).then((authRow) => {
 				let authObj = {
@@ -141,7 +149,7 @@ var ProfileStore = Reflux.createStore({
 			currentSiteRight: this._currentSiteRight
 		});
 
-		let dbRef = this._db.child(this._currentUser.iid).child(params);
+		let dbRef = this._host.db.child(this._currentUser.iid).child(params);
 		
 		dbRef.update(states, (err) => {
 			if (err)
@@ -152,7 +160,7 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onSetIssueId: function(issueId, userId) {
-		let userStateRef = this._db.child(userId).child("state").child("issueId");
+		let userStateRef = this._host.db.child(userId).child("state").child("issueId");
 
 		userStateRef.set(issueId, (err) => {
 			if (err)
@@ -164,7 +172,7 @@ var ProfileStore = Reflux.createStore({
 
 	onSetChosenSiteRight: function(siteRight) {
 		let userId = this._currentUser.iid;
-		let userRef = this._db.child(userId);
+		let userRef = this._host.db.child(userId);
 
 		userRef.child("settings").child("chosen").update({"siteId": siteRight.siteId}, (err) => {
 			if (err)
@@ -175,9 +183,9 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onLogoutUser: function() {
-		this._db.unauth();
+		this._host.db.unauth();
 
-		Storage.model(this._db.app).then((model) => {
+		Storage.model(this._host.app).then((model) => {
       let filter = { where : { key: this._storageKey} }
 	    model.find(filter).then((authRow) => {
 	    	if ( !_.isEmpty(authRow) )
@@ -234,9 +242,9 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	_updateDb: function(data) {
-		this._db = data.db.child("users");
+		this._host = data.host;
+		this._host.db = this._host.db.child("users");
 	}
 })
-
 
 module.exports = ProfileStore;

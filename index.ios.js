@@ -219,7 +219,7 @@ var CowBell = React.createClass({
       <Context
         currentSiteRight={state.currentSiteRight}
         currentUser={state.currentUser}
-        db={state.db}
+        host={state.host}
         lookups={state.lookups}
         sites={state.sites}
         themeColor="#DF7401" />
@@ -262,7 +262,7 @@ var CowBell = React.createClass({
     else if ( _.isEmpty(state.currentUser) )
       return (
         <Auth
-          db={state.db}
+          host={state.host}
           lookups={state.lookups}
           initSession={this._initSession}
           setProgress={this._setProgress}

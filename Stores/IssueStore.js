@@ -27,8 +27,8 @@ var IssueStore = Reflux.createStore({
 	mixins: [IssueMixin, SiteMixin],
 	_currentUser: null,
 	_currentSiteRight: null,
-	_db: null,
 	_dbRefs: [],
+  _host: null,
 	_images: null,
 	_imgTemplates: null,
 	_lookups: null,
@@ -193,7 +193,7 @@ var IssueStore = Reflux.createStore({
 	},
 
 	onAddIssue: function(newIssue) {
-		let issuesRef = this._db;
+		let issuesRef = this._host.db;
 		let issueRef = issuesRef.push(newIssue);
 
 		issueRef.update({"iid": issueRef.key()}, (err) => {
@@ -286,7 +286,7 @@ var IssueStore = Reflux.createStore({
 		this._issues["user"] = null;
 		this._currentUser = null;
 		this._currentSiteRight = null;
-		this._db = null;
+		this._host = null;
 		this._images = null;
 		this._imgTemplates = null;
 		this._lookups = null;
@@ -366,7 +366,7 @@ var IssueStore = Reflux.createStore({
 		let qIssues = Defer()
 		  , siteRight = this._currentSiteRight;
 		
-    let issuesRef = this._db.orderByChild("siteId").equalTo(siteRight.siteId);
+    let issuesRef = this._host.db.orderByChild("siteId").equalTo(siteRight.siteId);
 		
     this._dbRefs.push(issuesRef);
 		
@@ -396,7 +396,7 @@ var IssueStore = Reflux.createStore({
   },
 
 	onRemoveFromImages: function(issue, imgTypeId) {
-		let imagesRef = this._db.child(issue.iid).child("images");
+		let imagesRef = this._host.db.child(issue.iid).child("images");
 
 		imagesRef.transaction((prevList) => {
 		  if (!prevList)
@@ -417,7 +417,7 @@ var IssueStore = Reflux.createStore({
 	},
 
 	onSetParam: function(issue, params, value) {
-		let ref = this._db.child(issue.iid)
+		let ref = this._host.db.child(issue.iid)
 		  , lastIndex = _.last(params)
 		  , action, arg;
 		
@@ -467,9 +467,10 @@ var IssueStore = Reflux.createStore({
 	},
 
 	_updateHost: function(data) {
-		this._db = data.db.child("issues");
+    this._host = data.host;
+		this._host.db = this._host.db.child("issues");
 		this._images = data.images;
-		this._s3Policy = data.s3Policy;
+		this._s3Policy = this._host.s3Policy;
 	},
 });
 
