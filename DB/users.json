@@ -8,7 +8,7 @@
     },
     "phoneNum": 4152927110,
     "email": "bgonzalez@philzcoffee-sf.com",
-    "issues": ["issue0"],
+    "issues": ["issue0", "issue18"],
     "settings": {
       "chosen": {
         "siteId": ""
@@ -52,7 +52,7 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "issues": ["issue1"],
+    "issues": ["issue1", "issue19"],
     "settings": {
       "chosen": {
         "siteId": ""
@@ -190,172 +190,6 @@
       "signature": "/users/signatures/ygonzalez.jpg"
     }
   },
-  "afoley": {
-    "iid": "afoley",
-    "name": {
-      "first": "Axel",
-      "middle": "",
-      "last": "Foley"
-    },
-    "phoneNum": 4159192212,
-    "email": "afoley@bluebottle-sf.com",
-    "settings": {
-      "chosen": {
-        "siteId": ""
-      },
-      "filters": {
-        "statuses": {
-          "states": {
-            "done": false,
-            "open": true
-          }
-        }
-      }
-    },
-    "issues": ["issue0", "issue1"],
-    "state": {
-      "issueId": ""
-    },
-    "uid": "95c4fcc3-27ee-463c-a30c-0b8b737ff0cc",
-    "uri": {
-      "selfie": "/users/selfies/afoley.jpg",
-      "signature": "/users/signatures/afoley.jpg"
-    }
-  },
-  "wsmith": {
-    "iid": "wsmith",
-    "name": {
-      "first": "Will",
-      "middle": "",
-      "last": "Smith"
-    },
-    "phoneNum": 4154322212,
-    "email": "wsmith@lycsf.com",
-    "settings": {
-      "chosen": {
-        "siteId": ""
-      },
-      "filters": {
-        "statuses": {
-          "states": {
-            "done": false,
-            "open": true
-          }
-        }
-      }
-    },
-    "siteRights": [
-      {
-        "siteId": "site2",
-        "tasks": ["task0", "task1"]
-      }
-    ],
-    "issues": ["issue2", "issue3"],
-    "state": {
-      "issueId": ""
-    },
-    "uid": "6478c514-87c7-4398-880a-fde9162843fe",
-    "uri": {
-      "selfie": "/users/selfies/wsmith.jpg",
-      "signature": "/users/signatures/wsmith.jpg"
-    }
-  },
-  "sconnery": {
-    "iid": "sconnery",
-    "name": {
-      "first": "Sean",
-      "middle": "",
-      "last": "Connery"
-    },
-    "phoneNum": 4156230021,
-    "email": "sconnery@ruby-skye.com",
-    "issues": ["issue4", "issue5"],
-    "settings": {
-      "chosen": {
-        "siteId": ""
-      },
-      "filters": {
-        "statuses": {
-          "states": {
-            "done": false,
-            "open": true
-          }
-        }
-      }
-    },
-    "state": {
-      "issueId": ""
-    },
-    "uid": "bad5ddfe-f491-400b-a495-60c099f28787",
-    "uri": {
-      "selfie": "/users/selfies/sconnery.jpg",
-      "signature": "/users/signatures/sconnery.jpg"
-    }
-  },
-  "jtravolta": {
-    "iid": "jtravolta",
-    "name": {
-      "first": "John",
-      "middle": "",
-      "last": "Travolta"
-    },
-    "phoneNum": 4155529921,
-    "email": "jtravolta@ruby-skye.com",
-    "settings": {
-      "chosen": {
-        "siteId": ""
-      },
-      "filters": {
-        "statuses": {
-          "states": {
-            "done": false,
-            "open": true
-          }
-        }
-      }
-    },
-    "issues": ["issue6", "issue7"],
-    "state": {
-      "issueId": ""
-    },
-    "uid": "ea797310-0dfe-4166-9ac8-d766f94126b5",
-    "uri": {
-      "selfie": "/users/selfies/jtravolta.jpg",
-      "signature": "/users/signatures/jtravolta.jpg"
-    }
-  },
-  "gclooney": {
-    "iid": "gclooney",
-    "name": {
-      "first": "George",
-      "middle": "",
-      "last": "Clooney"
-    },
-    "phoneNum": 6507715515,
-    "email": "gclooney@ruby-skye.com",
-    "settings": {
-      "chosen": {
-        "siteId": ""
-      },
-      "filters": {
-        "statuses": {
-          "states": {
-            "done": false,
-            "open": true
-          }
-        }
-      }
-    },
-    "issues": ["issue8", "issue9"],
-    "state": {
-      "issueId": ""
-    },
-    "uid": "7d9d87f9-ae20-4319-b5a0-d6802c981832",
-    "uri": {
-      "selfie": "/users/selfies/gclooney.jpg",
-      "signature": "/users/signatures/gclooney.jpg"
-    }
-  },
 
 
   "kbryant": {
@@ -386,7 +220,7 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "issues": ["issue3", "issue4", "issue5"],
+    "issues": ["issue3", "issue4", "issue5", "issue20"],
     "state": {
       "issueId": ""
     },
@@ -548,7 +382,7 @@
     "state": {
       "issueId": ""
     },
-    "uid": "f44429e8-72a2-4469-a7e7-cf4d214fdf01",
+    "uid": "688a3412-8fb8-4887-ba70-5b3f66443364",
     "uri": {
       "selfie": "/users/selfies/mramirez.jpg",
       "signature": "/users/signatures/mramirez.jpg"
@@ -869,6 +703,172 @@
     "uri": {
       "selfie": "/users/selfies/krafferty.jpg",
       "signature": "/users/signatures/krafferty.jpg"
+    }
+  },
+
+  "afoley": {
+    "iid": "afoley",
+    "name": {
+      "first": "Axel",
+      "middle": "",
+      "last": "Foley"
+    },
+    "phoneNum": 4159192212,
+    "email": "afoley@bluebottle-sf.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "issues": ["issue0", "issue1", "issue10", "issue11"],
+    "siteRights": "",
+    "state": {
+      "issueId": ""
+    },
+    "uid": "95c4fcc3-27ee-463c-a30c-0b8b737ff0cc",
+    "uri": {
+      "selfie": "/users/selfies/afoley.jpg",
+      "signature": "/users/signatures/afoley.jpg"
+    }
+  },
+  "wsmith": {
+    "iid": "wsmith",
+    "name": {
+      "first": "Will",
+      "middle": "",
+      "last": "Smith"
+    },
+    "phoneNum": 4154322212,
+    "email": "wsmith@lycsf.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": "",
+    "issues": ["issue2", "issue3", "issue12", "issue13"],
+    "state": {
+      "issueId": ""
+    },
+    "uid": "6478c514-87c7-4398-880a-fde9162843fe",
+    "uri": {
+      "selfie": "/users/selfies/wsmith.jpg",
+      "signature": "/users/signatures/wsmith.jpg"
+    }
+  },
+  "jtravolta": {
+    "iid": "jtravolta",
+    "name": {
+      "first": "John",
+      "middle": "",
+      "last": "Travolta"
+    },
+    "phoneNum": 4155529921,
+    "email": "jtravolta@ruby-skye.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "issues": ["issue4", "issue5", "issue14", "issue15"],
+    "siteRights": "",
+    "state": {
+      "issueId": ""
+    },
+    "uid": "ea797310-0dfe-4166-9ac8-d766f94126b5",
+    "uri": {
+      "selfie": "/users/selfies/jtravolta.jpg",
+      "signature": "/users/signatures/jtravolta.jpg"
+    }
+  },
+  "gclooney": {
+    "iid": "gclooney",
+    "name": {
+      "first": "George",
+      "middle": "",
+      "last": "Clooney"
+    },
+    "phoneNum": 6507715515,
+    "email": "gclooney@ruby-skye.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "issues": ["issue6", "issue7", "issue16", "issue17"],
+    "siteRights": "",
+    "state": {
+      "issueId": ""
+    },
+    "uid": "7d9d87f9-ae20-4319-b5a0-d6802c981832",
+    "uri": {
+      "selfie": "/users/selfies/gclooney.jpg",
+      "signature": "/users/signatures/gclooney.jpg"
+    }
+  },
+  "sconnery": {
+    "iid": "sconnery",
+    "name": {
+      "first": "Sean",
+      "middle": "",
+      "last": "Connery"
+    },
+    "phoneNum": 4156230021,
+    "email": "sconnery@ruby-skye.com",
+    "issues": ["issue8", "issue9"],
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": "",
+    "state": {
+      "issueId": ""
+    },
+    "uid": "bad5ddfe-f491-400b-a495-60c099f28787",
+    "uri": {
+      "selfie": "/users/selfies/sconnery.jpg",
+      "signature": "/users/signatures/sconnery.jpg"
     }
   }
 }

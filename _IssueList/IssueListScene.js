@@ -137,7 +137,7 @@ var IssueListScene = React.createClass({
 				<View key={rowId} style={_styles.issue}>
 					<StatusEntry
 						currentUser={props.currentUser}
-	        	currentSiteRight={props.siteRight}
+	        	currentSiteRight={siteRight}
 						lookups={props.lookups}
 						issue={issue}
 						show={{timeAgo: true, status: true}}
