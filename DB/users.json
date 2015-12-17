@@ -8,12 +8,6 @@
     },
     "phoneNum": 4152927110,
     "email": "bgonzalez@philzcoffee-sf.com",
-    "siteRights": [
-      {
-        "siteId": "site0",
-        "tasks": ["task0", "task1"]
-      }
-    ],
     "issues": ["issue0"],
     "settings": {
       "chosen": {
@@ -28,6 +22,12 @@
         }
       }
     },
+    "siteRights": [
+      {
+        "siteId": "site0",
+        "tasks": ["task0", "task1"]
+      }
+    ],
     "state": {
       "issueId": ""
     },
