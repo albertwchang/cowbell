@@ -119,7 +119,7 @@ var LoginScene = React.createClass({
 		let qSites = this._reloadTable("sites")
 			, qUsers = this._reloadTable("users");
 
-		new Promise.all([qUsers, qSites]).then((results) => {
+		Promise.all([qUsers, qSites]).then((results) => {
 			_.each(results, (table) => {
 				let tableData = table.data
 					, tableName = table.key;
@@ -140,16 +140,11 @@ var LoginScene = React.createClass({
 				}
 			});
 
-			this.setState({
-				dataLoaded: true
-			});
-		});
-	},
-
-	componentWillUpdate: function() {
-		console.log("updating state");
-		this.setState({
-			dataLoaded: true
+			return;
+		}).then(() => {
+			this.setState({ dataLoaded: true });
+		}).catch((err) => {
+			console.log(err);
 		});
 	},
 
@@ -158,6 +153,7 @@ var LoginScene = React.createClass({
 	},
 
 	_buildSiteSection: function(site, imgHostUrl) {
+		let siteSection = {};
 		let userIds = _.chain(site.users).where({"isActive": true}).pluck("id").value();
 		let siteUsers = _.map(userIds, (userId) => {
 			return this._users[userId]
@@ -168,13 +164,7 @@ var LoginScene = React.createClass({
 			width: (Display.width - 3 * 12) / 3
 		};
 
-		let abc = {
-			"header": null,
-			"content": null,	
-			"siteId": null
-		};
-
-		abc["header"] = (
+		siteSection["header"] =
 			<View key={site.iid} style={styles.siteBox}>
 				<View style={styles.siteImgBox}>
 					<Image
@@ -185,9 +175,8 @@ var LoginScene = React.createClass({
 					<Text numberOfLines={1} style={styles.siteText}>{site.name}</Text>
 				</View>
 			</View>
-		);
 
-		abc["content"] = (
+		siteSection["content"] =
 			<View style={styles.usersBox}>{
 				siteUsers.map((user) => (
 					<TouchableHighlight
@@ -205,10 +194,9 @@ var LoginScene = React.createClass({
 				))
 			}
 			</View>
-		);
 
-		abc["siteId"] = site.iid;
-		return abc;
+		siteSection["siteId"] = site.iid;
+		return siteSection;
 	},
 
 	_handleLogin: function(email) {
@@ -291,7 +279,6 @@ var LoginScene = React.createClass({
 	},
 
 	render: function() {
-		let x = 5;
 		let Content = this.state.dataLoaded
 			? <Refresh
 	        dataSource={this._ds.cloneWithRows([this._sites])}
@@ -306,7 +293,7 @@ var LoginScene = React.createClass({
 		return (
 			<View style={styles.main}>
 				<View>
-					<Text style={styles.envText}>{this.props.env.toUpperCase()}</Text>
+					<Text style={styles.envText}>{this.props.host.env.toUpperCase()}</Text>
 				</View>
 				<LineSeparator height={0.5} horzMargin={0} vertMargin={4} />
 				{Content}

@@ -1,3 +1,4 @@
+var Storage = require('react-native-store');
 var HostDev = {
   getHost: function() {
     let env = "dev";
@@ -10,9 +11,14 @@ var HostDev = {
     return host;
   },
 
-  // getStoredModel: function(app, env, model) {
-  //   Storage.model(this._host.app +"-" +this._host.env).then((model) => {
-  // }
+  getStoredModel: function(app, env, model) {
+    return Storage.model(app +"-" +env).then((db) => {
+      let filter = { where: { "key": model} };
+
+      // return a promise containing the model
+      return db.find(filter);
+    });  
+  },
 };
 
 module.exports = HostDev;

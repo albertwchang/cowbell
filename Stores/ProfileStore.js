@@ -1,7 +1,9 @@
 'use strict'
 
 var Reflux = require("reflux");
-var Storage = require('react-native-store');
+
+// MIXINS
+var HostMixin = require("../Mixins/Host");
 
 // STORES && ACTIONS
 var HostActions = require("../Actions/HostActions");
@@ -16,12 +18,13 @@ var UserActions = require("../Actions/UserActions");
 var _ = require("lodash");
 
 var ProfileStore = Reflux.createStore({
+	listenables: [ProfileActions],
+	mixins: [HostMixin],
 	_currentSiteRight: null,
 	_currentUser: null,
 	_dbRefs: [],
 	_host: null,
-	_storageKey: "auth",
-	listenables: [ProfileActions],
+	_storeName: "auth",
 
 	init: function() {
 		this.listenTo(HostStore, this._setHost, this._setHost);
@@ -58,30 +61,23 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onGetLocalAuth: function() {
-		Storage.model(this._host.app +"-" +this._host.env).then((model) => {
-			let filter = {
-				where: {
-					"key": this._storageKey
-				}
-			};
-      
-      model.find(filter).then((authRow) => {
-				if ( !_.isEmpty(authRow) ) {
-	      	let results = authRow[0].data;
-	      	
-	      	if (!results)
-	      		ProfileActions.getLocalAuth.failed();	
-			  	else {
-			  		let authData = JSON.parse(results);
-			  		ProfileActions.getLocalAuth.completed(authData);
-			  	}
-			  }
-
-			  ProfileActions.getLocalAuth.failed();
-			});
+		let callbacks = ProfileActions.getLocalAuth
+			, host = this._host;
+		
+		this.getStoredModel(host.app, host.env, this._storeName).then((authRow) => {
+			if ( _.isEmpty(authRow) )
+				callbacks.failed();	
+			else {
+      	let results = authRow[0].data;
+      	
+      	if (!results)
+      		callbacks.failed();	
+		  	else
+		  		callbacks.completed(JSON.parse(results));
+		  }
 		}).catch((err) => {
-			console.log("A table for your app does not exist: ", this._host.app);
-			ProfileActions.getLocalAuth.failed();
+			console.log("A table for your app does not exist: ", host.app);
+			callbacks.failed();
 		});
 	},
 
@@ -99,25 +95,19 @@ var ProfileStore = Reflux.createStore({
 
 	onSetCurrentUser: function(authData) {
 		let uid = authData.uid
+			, host = this._host
 			, userRef = this._host.db.orderByChild("uid").equalTo(uid);
 		
 		this._dbRefs.push(userRef);
+		this.getStoredModel(host.app, host.env, this._storeName).then((authRow) => {
+			let authObj = {
+	      "data": JSON.stringify(authData),
+	      "key": this._storageKey,
+	    }
 
-		Storage.model(this._host.app +"-" +this._host.env).then((model) => {
-			let filter = {
-				where: {
-					key: this._storageKey
-				}
-			};
-			
-			model.find(filter).then((authRow) => {
-				let authObj = {
-		      "data": JSON.stringify(authData),
-		      "key": this._storageKey,
-		    }
+	    debugger;
 
-			  model[_.isEmpty(authRow) ? "add" : "update"](authObj);
-			});
+		  model[_.isEmpty(authRow) ? "add" : "update"](authObj);
 		});
 
 		userRef.once("value", (result) => {
