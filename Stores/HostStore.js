@@ -15,22 +15,27 @@ var _ = require("lodash");
 var HostStore = Reflux.createStore({
 	listenables: [HostActions],
 	mixins: [HostMixin],
-	_host: _.assign({ app: "cowbell"}, HostMixin.getHost()),
+	_app: "cowbell",
+  _db: null,
+  _env: "dev",
 	_s3Policy: null,
 
 	getInitialState: function() {
-		// let state = _.assign(this.getHost(), {
-		// 	images: this._hosts.images,
-		// 	s3Policy: {
-		// 		data: undefined,
-		// 		isDone: false
-		// 	}
-		// });
-		return { host: this._host };
+		let url = "https://" +this._app +(this._env === "dev" ? "-" +this._env : "") +".firebaseIO.com";
+		this._db = new Firebase(url);
+		
+		return {
+			host: {
+				app: this._app,
+				db: this._db,
+				env: this._env,
+				s3Policy: this._s3Policy
+			}
+		};
 	},
 
 	onGetDb: function() {
-		HostActions.getDb.completed(this._host.db);
+		HostActions.getDb.completed(this._db);
 	},
 
 	onGetS3Policy: function() {
@@ -40,32 +45,34 @@ var HostStore = Reflux.createStore({
 	onPullS3Policy: function(creds) {
 		let source = creds.source
 			, query = this._urlForQuery(source.url, source.params)
-			, self = this;
+			// , self = this;
 
-  	fetch(query, creds.params)
-			.then((res) => {
-				self._s3Policy = {
-					data: JSON.parse(res._bodyText),
-					isDone: true,
-				};
+  	fetch(query, creds.params).then((res) => {
+			// self._host.s3Policy = {
+			this._s3Policy = {
+				data: JSON.parse(res._bodyText),
+				isDone: true
+			};
 
-				let info = _.assign(this._host, {
-					// images: self._hosts.images,
-					s3Policy: self._s3Policy
-				});
-
-				self.trigger(info);
-
-				HostActions.pullS3Policy.completed(self._s3Policy);
-			}).catch((err) => {
-				HostActions.pullS3Policy.failed(err);
+			this.trigger({
+				host: {
+					app: this._app,
+					db: this._db,
+					env: this._env,
+					s3Policy: this._s3Policy
+				}
 			});
+
+			HostActions.pullS3Policy.completed(this._s3Policy);
+		}).catch((err) => {
+			HostActions.pullS3Policy.failed(err);
+		});
 	},
 
 	_urlForQuery: function(url, params) {
 		var queryString = Object.keys(params).map(key => key + "=" +encodeURIComponent(params[key])).join("&");		
 		return url +queryString;
 	},
-})
+});
 
 module.exports = HostStore;

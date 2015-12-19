@@ -15,7 +15,7 @@ var LocationStore = Reflux.createStore({
 	_sites: {},
 
 	init: function() {
-		this.listenTo(HostStore, this._updateDb, this._updateDb);
+		this.listenTo(HostStore, this._setHost, this._setHost);
 	},
 
 	getInitialState: function() {
@@ -89,10 +89,10 @@ var LocationStore = Reflux.createStore({
 		});
 	},
 
-	_updateDb: function(data) {
+	_setHost: function(data) {
 		this._host = data.host;
-		this._host.db = this._host.db.child("sites");
-	},
+		this._host.db = _.cloneDeep(this._host.db.child("sites"));
+	}
 });
 
 

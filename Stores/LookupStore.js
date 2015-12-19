@@ -18,9 +18,10 @@ var LookupStore = Reflux.createStore({
     data: "data",
     timestamp: "lastUpdated"
   },
+  _storeName: "lookups",
 
 	init: function() {
-		this.listenTo(HostStore, this._updateDb, this._updateDb);
+		this.listenTo(HostStore, this._setHost, this._setHost);
 	},
 
 	getInitialState: function() {
@@ -53,8 +54,8 @@ var LookupStore = Reflux.createStore({
 	onValidateLookups: function() {
     let params = this._params;
 		
-    Storage.model(this._host.app).then((model) => {
-      let filter = { where: { "key": "lookups"} };
+    Storage.model(this._host.app +"-" +this._host.env).then((model) => {
+      let filter = { where: { "key": this._storeName} };
       let callbacks = LookupActions.validateLookups;
       
       model.find(filter).then((lookupsRow) => {
@@ -77,9 +78,9 @@ var LookupStore = Reflux.createStore({
 		});
 	},
 
-	_updateDb: function(data) {
+	_setHost: function(data) {
 		this._host = data.host;
-    this._host.db = this._host.db.child("lookups");
+    this._host.db = this._host.db.child(this._storeName);
 	},
 });
 

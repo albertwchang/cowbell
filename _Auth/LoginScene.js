@@ -119,7 +119,7 @@ var LoginScene = React.createClass({
 		let qSites = this._reloadTable("sites")
 			, qUsers = this._reloadTable("users");
 
-		Promise.all([qUsers, qSites]).then((results) => {
+		new Promise.all([qUsers, qSites]).then((results) => {
 			_.each(results, (table) => {
 				let tableData = table.data
 					, tableName = table.key;
@@ -131,64 +131,84 @@ var LoginScene = React.createClass({
 						, imgHostUrl = lookups.hosts.img.provider.url
 						, activeSites = _.where(tableData, {"isActive": true});
 
-					let userDims = {
-						height: (Display.width - 3 * 12) / 3,
-						width: (Display.width - 3 * 12) / 3
-					};
-
 					this._sites = {
 						accordion: this._resetAccordion( _.keys(activeSites) ),
 						data: _.map(activeSites, (site, siteId) => {
-							let userIds = _.chain(site.users).where({"isActive": true}).pluck("id").value();
-							let siteUsers = _.map(userIds, (userId) => {
-								return this._users[userId]
-							});
-
-							return {
-								"header": (
-									<View key={siteId} style={styles.siteBox}>
-										<View style={styles.siteImgBox}>
-											<Image
-												source={{ uri: imgHostUrl +site.img.icon +"?fit=crop&w=49&h=49"}}
-												style={{height: 49, width: 49}} />
-										</View>
-										<View style={styles.siteTextBox}>
-											<Text numberOfLines={1} style={styles.siteText}>{site.name}</Text>
-										</View>
-									</View>
-								),
-								"content": (
-									<View style={styles.usersBox}>{
-										siteUsers.map((user) => (
-											<TouchableHighlight
-												key={user.iid}
-												onPress={() => this._handleLogin(user.email)}>
-												<View style={ [styles.userBox, {borderColor: "#A4A4A4"}] }>
-													<Image
-														source={{uri: imgHostUrl +user.uri.selfie +"?fit=crop&w=" +userDims.width +"&h=" +userDims.height}}
-														style={styles.userImg} />
-													<View style={ [styles.userTextBox, {backgroundColor: "#A4A4A4"}] }>
-														<Text style={styles.userText}>{user.name.first}</Text>
-													</View>
-												</View>
-											</TouchableHighlight>
-										))
-									}
-									</View>
-								),
-								"siteId": siteId
-							}
+							return this._buildSiteSection(site, imgHostUrl)
 						})
 					};
 				}
 			});
 
-			this.setState({dataLoaded: true});
+			this.setState({
+				dataLoaded: true
+			});
+		});
+	},
+
+	componentWillUpdate: function() {
+		console.log("updating state");
+		this.setState({
+			dataLoaded: true
 		});
 	},
 
 	componentWillUnmount: function() {
 		console.log("Login Scene unmounted");
+	},
+
+	_buildSiteSection: function(site, imgHostUrl) {
+		let userIds = _.chain(site.users).where({"isActive": true}).pluck("id").value();
+		let siteUsers = _.map(userIds, (userId) => {
+			return this._users[userId]
+		});
+
+		let userDims = {
+			height: (Display.width - 3 * 12) / 3,
+			width: (Display.width - 3 * 12) / 3
+		};
+
+		let abc = {
+			"header": null,
+			"content": null,	
+			"siteId": null
+		};
+
+		abc["header"] = (
+			<View key={site.iid} style={styles.siteBox}>
+				<View style={styles.siteImgBox}>
+					<Image
+						source={{ uri: imgHostUrl +site.img.icon +"?fit=crop&w=49&h=49"}}
+						style={{height: 49, width: 49}} />
+				</View>
+				<View style={styles.siteTextBox}>
+					<Text numberOfLines={1} style={styles.siteText}>{site.name}</Text>
+				</View>
+			</View>
+		);
+
+		abc["content"] = (
+			<View style={styles.usersBox}>{
+				siteUsers.map((user) => (
+					<TouchableHighlight
+						key={user.iid}
+						onPress={() => this._handleLogin(user.email)}>
+						<View style={ [styles.userBox, {borderColor: "#A4A4A4"}] }>
+							<Image
+								source={{uri: imgHostUrl +user.uri.selfie +"?fit=crop&w=" +userDims.width +"&h=" +userDims.height}}
+								style={styles.userImg} />
+							<View style={ [styles.userTextBox, {backgroundColor: "#A4A4A4"}] }>
+								<Text style={styles.userText}>{user.name.first}</Text>
+							</View>
+						</View>
+					</TouchableHighlight>
+				))
+			}
+			</View>
+		);
+
+		abc["siteId"] = site.iid;
+		return abc;
 	},
 
 	_handleLogin: function(email) {
@@ -271,6 +291,7 @@ var LoginScene = React.createClass({
 	},
 
 	render: function() {
+		let x = 5;
 		let Content = this.state.dataLoaded
 			? <Refresh
 	        dataSource={this._ds.cloneWithRows([this._sites])}
