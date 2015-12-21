@@ -380,23 +380,17 @@ var RLMain = React.createClass({
 			let title =
 				<NavBtn
 					onPress={this._toggleSearchBar}
-					style={{borderColor: "red", borderWidth: 0.75, borderRadius: 2, backgroundColor: "#FFFFFF"}}>
-					<Text>Search</Text>
+					style={{borderWidth: 0.75, borderRadius: 2}}>
+					<Text style={{color: this.Colors.night.text, fontSize: 22}}>Search</Text>
 				</NavBtn>;
-
-			let navBarStyle = {
-				alignItems: "flex-end",
-				backgroundColor: this.props.themeColor
-			};
 		
-			var navBar =
+			let navBar =
 				<NavBar
-					style={navBarStyle}
-					buttonsColor="#FFFFFF"
+					style={this.getNavBarStyle(this.props.themeColor)}
+					buttonsColor={this.Colors.night.text}
 					customPrev={mapBtn}
 					customNext={filterBtn}
-					customTitle={title}
-					titleColor="#FFFFFF" />
+					customTitle={title} />
 
 			return (
 				<Navigator

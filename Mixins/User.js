@@ -16,14 +16,17 @@ var User = {
     }
   },
  	buildName: function(nameObj, format) {
+    let name = "";
     format = _.isEmpty(format) ? this._defaultFormat : format;
-    
-    return _.transform(nameObj, function(result, value, key) {
+
+    _.each(nameObj, function(value, key) {
       if ( _.isEmpty(value) )
         return;
       else
-        result +(format[key].initial ? value.charAt(0) +". " : value +" ");
+        name += (format[key].initial ? value.charAt(0) +". " : value +" ");
     });
+
+    return name.trim();
   },
   getFormat: function() {
     return this._defaultFormat;

@@ -176,17 +176,17 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onLogoutUser: function() {
-		this._host.db.unauth();
+		let host = this._host;
+		host.db.unauth();
 
-		Storage.model(this._host.app).then((model) => {
-      let filter = { where : { key: this._storageKey} }
-	    model.find(filter).then((authRow) => {
-	    	if ( !_.isEmpty(authRow) )
-			 		model.update({"data": null, "key": this._storageKey});
-
-			 	ProfileActions.logoutUser.completed();
+		this.getLocalDb(host.app, host.env).then((db) => {
+			this.getStoredModel(db, this._storeName).then((profileRow) => {
+				let profileObj = {"data": null, "key": this._storeName};
+				
+	      this.setStoredModel(db, profileRow, profileObj);
 				this.trigger({currentUser: this._currentUser = null});
 				this._endAllListeners();
+				ProfileActions.logoutUser.completed();
 			});
 		});
 	},

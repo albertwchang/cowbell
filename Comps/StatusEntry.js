@@ -94,7 +94,7 @@ var StatusEntry = React.createClass({
 		let props = this.props;
 
 		if ( props.show.author )
-			this._buildAuthor(props.user, this._buildStatusEntryPart);
+			this._buildAuthor(props.user.name, this._buildStatusEntryPart);
 		
 		if ( props.show.img )
 			this._buildImg(props.user.uri.selfie);
@@ -113,7 +113,7 @@ var StatusEntry = React.createClass({
 		let oldProps = this.props, newShow = newProps.show, oldShow = oldProps.show;
 		
 		if ( newShow.author && !_.eq(newProps.user.name, oldProps.user.name) )
-			this._buildAuthor(newProps.user, this._buildStatusEntryPart);
+			this._buildAuthor(newProps.user.name, this._buildStatusEntryPart);
 		
 		if ( newShow.img && !_.eq(newProps.user.uri, oldProps.user.uri) )
 			this._buildImg(newProps.user.uri.selfie);
@@ -149,7 +149,7 @@ var StatusEntry = React.createClass({
 	},
 
 	_buildImg: function(uri) {
-		let imgHostUrl = lookups.hosts.img.provider.url
+		let imgHostUrl = this.props.lookups.hosts.img.provider.url
 		
 		this._Img =
 			<Image
@@ -185,7 +185,7 @@ var StatusEntry = React.createClass({
 
 	_buildTimestamp: function(timestamp, buildCb) {
 		this._Timestamp = _.isEmpty(timestamp) ? null :
-			buildCb(this.props.styles.timeAgo || styles.timeAgo, Moment(timestamp).format('MMM Do YYYY @h:mm a'));
+			buildCb(this.props.styles.date || styles.timeAgo, Moment(timestamp).format('MMM Do YYYY @h:mm a'));
 	},
 
 	_setBtnDims: function(e) {

@@ -21,7 +21,7 @@ var HostStore = Reflux.createStore({
 	_s3Policy: null,
 
 	getInitialState: function() {
-		let url = "https://" +this._app +(this._env === "dev" ? "-" +this._env : "") +".firebaseIO.com";
+		let url = "https://" +this._app +"-" +this._env +".firebaseIO.com";
 		this._db = new Firebase(url);
 		
 		return {

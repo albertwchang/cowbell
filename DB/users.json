@@ -33,7 +33,7 @@
     },
     "uids": {
       "dev": "fa45a56d-aeb5-4b72-978b-fd39abb1bb43",
-      "prod": "7438d2f0-d46a-4aa9-8c30-6fc6efff5428"
+      "prod": "c6e61bf1-3076-47f0-9efb-c09bb970eb86"
     },
     "uid": "7438d2f0-d46a-4aa9-8c30-6fc6efff5428",
     "uri": {
@@ -41,6 +41,7 @@
       "signature": "/users/signatures/bgonzalez.jpg"
     }
   },
+
   "tgonzalez": {
     "iid": "tgonzalez",
     "name": {
@@ -75,7 +76,7 @@
     },
     "uids": {
       "dev": "3c957129-e821-4c12-97bc-2aaccf42f6e6",
-      "prod": "5c6144c0-441e-48f6-90e0-13e16246ebd1"
+      "prod": "bb5c3eb4-a1c8-4696-980e-b71645d33986"
     },
     "uid": "5c6144c0-441e-48f6-90e0-13e16246ebd1",
     "uri": {
@@ -117,7 +118,7 @@
     },
     "uids": {
       "dev": "f8c0e732-47ea-48a1-b973-c970492537a8",
-      "prod": "b8f9fae7-3151-4f70-b769-8d411c94b910"
+      "prod": "d321f970-760c-41df-bb8f-d0d07a10400d"
     },
     "uid": "b8f9fae7-3151-4f70-b769-8d411c94b910",
     "uri": {
@@ -159,7 +160,7 @@
     },
     "uids": {
       "dev": "475addfc-4451-4f23-91c7-a0f290b28558",
-      "prod": "c8c098d1-8eb5-4acb-bdc3-aa292f192628"
+      "prod": "4803baee-c7ee-4d32-b8e1-8d4ae9806668"
     },
     "uid": "c8c098d1-8eb5-4acb-bdc3-aa292f192628",
     "uri": {
@@ -202,7 +203,7 @@
     },
     "uids": {
       "dev": "cf114d54-b70d-458c-9b9a-f6aecf6c68ac",
-      "prod": "1cfdaa4a-93aa-4aa8-9235-2bad9b444db9"
+      "prod": "64c2920e-1700-480d-9767-488e7c38f7e4"
     },
     "uid": "1cfdaa4a-93aa-4aa8-9235-2bad9b444db9",
     "uri": {
@@ -246,7 +247,7 @@
     },
     "uids": {
       "dev": "304e186f-833a-46ec-96db-6f99c7abeb2d",
-      "prod": "a2e5c765-d2dd-41ec-ab9c-91ce44eff8bd"
+      "prod": "0b6e9720-0cca-4766-bfdc-0df19086750d"
     },
     "uid": "a2e5c765-d2dd-41ec-ab9c-91ce44eff8bd",
     "uri": {
@@ -279,13 +280,18 @@
       }
     },
     "issues": ["issue5"],
-    "siteRights": "",
+    "siteRights": [
+      {
+        "siteId": "site1",
+        "tasks": ["task0", "task1"]
+      }
+    ],
     "state": {
       "issueId": ""
     },
     "uids": {
       "dev": "3b69bb1e-416e-4b91-8504-3cbb3fb450be",
-      "prod": "95c4fcc3-27ee-463c-a30c-0b8b737ff0cc"
+      "prod": "85cbb06a-b671-447b-b476-a39ab9152aef"
     },
     "uid": "95c4fcc3-27ee-463c-a30c-0b8b737ff0cc",
     "uri": {
@@ -329,7 +335,7 @@
     },
     "uids": {
       "dev": "6ec59eb3-0902-4a02-9055-ffa9b6e43923",
-      "prod": "e95a5f37-e482-4762-8c22-f799824f2af3"
+      "prod": "e36b2cc1-372d-4c83-abb8-c8f564ed6cbd"
     },
     "uid": "e95a5f37-e482-4762-8c22-f799824f2af3",
     "uri": {
@@ -373,7 +379,7 @@
     },
     "uids": {
       "dev": "7910ec3e-8148-406e-b456-abab3ac47f97",
-      "prod": "ca89fbf4-762e-4599-a0bc-d33e5543ca7d"
+      "prod": "3ee87103-6694-40bf-98c0-e54a4eec4919"
     },
     "uid": "ca89fbf4-762e-4599-a0bc-d33e5543ca7d",
     "uri": {
@@ -404,14 +410,19 @@
         }
       }
     },
-    "siteRights": "",
+    "siteRights": [
+      {
+        "siteId": "site2",
+        "tasks": ["task0", "task1"]
+      }
+    ],
     "issues": ["issue8"],
     "state": {
       "issueId": ""
     },
     "uids": {
       "dev": "45ab2bba-4736-4e8a-bc93-e677ba76d55e",
-      "prod": "6478c514-87c7-4398-880a-fde9162843fe"
+      "prod": "d68bc88d-31e9-4e35-ba83-56d41545845d"
     },
     "uid": "6478c514-87c7-4398-880a-fde9162843fe",
     "uri": {
@@ -454,8 +465,8 @@
       "issueId": ""
     },
     "uids": {
-      "dev": "1479aa14-800b-4c3b-8dfb-4fb9919d6530",
-      "prod": "e00134a0-c92f-4d50-80aa-b8087409136c"
+      "dev": "f476e9d2-3924-4cb5-bb2e-4a13e254c807",
+      "prod": "d4567ccd-77e6-4b45-89a7-665a7263299e"
     },
     "uid": "e00134a0-c92f-4d50-80aa-b8087409136c",
     "uri": {
@@ -498,8 +509,8 @@
       "issueId": ""
     },
     "uids": {
-      "dev": "43e9b6ef-26e6-4a6b-ab49-b00d77b48d1d",
-      "prod": "688a3412-8fb8-4887-ba70-5b3f66443364"
+      "dev": "4870ffc1-22f9-423d-888e-39a61168b6db",
+      "prod": "fc0488cf-7653-4b8d-b69e-a8543a7328d3"
     },
     "uid": "688a3412-8fb8-4887-ba70-5b3f66443364",
     "uri": {
@@ -542,7 +553,7 @@
     },
     "uids": {
       "dev": "76fe3620-84d7-4a55-ae34-751af1f43c91",
-      "prod": "cec42918-5bf9-41a1-97e5-ddd7588dd642"
+      "prod": "94d672f8-3145-46ff-a46a-ab7cccefeff0"
     },
     "uid": "cec42918-5bf9-41a1-97e5-ddd7588dd642",
     "uri": {
@@ -585,7 +596,7 @@
     },
     "uids": {
       "dev": "f8914ac8-fab1-4f8a-a1f1-b712ae29e3fe",
-      "prod": "e2fd613a-61cf-4707-802e-4e6ffc529ed0"
+      "prod": "578bcefc-b64b-4bf5-80bc-47c9f5606639"
     },
     "uid": "e2fd613a-61cf-4707-802e-4e6ffc529ed0",
     "uri": {
@@ -629,7 +640,7 @@
     },
     "uids": {
       "dev": "9f28aa58-5a89-4cdb-940c-94ba6fd03dfb",
-      "prod": "b00d2a13-f0c8-4ef4-a872-85d5c1c3af0e"
+      "prod": "4a7f84ca-92dd-4485-af48-3b93c4bc834b"
     },
     "uid": "b00d2a13-f0c8-4ef4-a872-85d5c1c3af0e",
     "uri": {
@@ -672,7 +683,7 @@
     },
     "uids": {
       "dev": "9ddb8193-a5b1-49d2-8f28-3950dd765a6f",
-      "prod": "3676fbb3-c81a-45e8-b7be-63cd2a384a88"
+      "prod": "b29c5454-1bd7-4182-b7c2-74c7262c5be3"
     },
     "uid": "3676fbb3-c81a-45e8-b7be-63cd2a384a88",
     "uri": {
@@ -716,7 +727,7 @@
     },
     "uids": {
       "dev": "18e64eda-8fee-458e-b2ca-b35a54afaf2a",
-      "prod": "955be104-be69-4084-9772-5c05952baab0"
+      "prod": "8785fecf-380c-4e52-8bce-4c33a7d3ad9a"
     },
     "uid": "955be104-be69-4084-9772-5c05952baab0",
     "uri": {
@@ -760,7 +771,7 @@
     },
     "uids": {
       "dev": "dc243619-3b66-49be-be32-7087d9036c96",
-      "prod": "58c7777e-50ac-4f30-831d-d2f6af1136d1"
+      "prod": "0e05a9cf-8003-47be-9a72-1d52e388215d"
     },
     "uid": "58c7777e-50ac-4f30-831d-d2f6af1136d1",
     "uri": {
@@ -805,7 +816,7 @@
     },
     "uids": {
       "dev": "31612c6f-228f-407d-850b-dff08bf49740",
-      "prod": "a50d19a3-0ce7-42e0-9e8b-bb4c23a6742e"
+      "prod": "f34bcf17-69e7-4dad-a824-a0a9b225e4d5"
     },
     "uid": "a50d19a3-0ce7-42e0-9e8b-bb4c23a6742e",
     "uri": {
@@ -848,7 +859,7 @@
     },
     "uids": {
       "dev": "e83456bf-3865-4a99-9021-43e46917173d",
-      "prod": "1975ed6f-ba5d-475e-9853-5c61f7e33782"
+      "prod": "000ebeb1-62fc-440f-97ac-8338cd13f2c2"
     },
     "uid": "1975ed6f-ba5d-475e-9853-5c61f7e33782",
     "uri": {
@@ -880,13 +891,18 @@
       }
     },
     "issues": ["issue10"],
-    "siteRights": "",
+    "siteRights": [
+      {
+        "siteId": "site3",
+        "tasks": ["task0", "task1"]
+      }
+    ],
     "state": {
       "issueId": ""
     },
     "uids": {
       "dev": "70cf79e9-3447-4d26-98e9-36a9425d1f22",
-      "prod": "7d9d87f9-ae20-4319-b5a0-d6802c981832"
+      "prod": "6913273e-cc28-4260-9f86-76c43abe9545"
     },
     "uid": "7d9d87f9-ae20-4319-b5a0-d6802c981832",
     "uri": {
@@ -918,13 +934,18 @@
       }
     },
     "issues": ["issue11"],
-    "siteRights": "",
+    "siteRights": [
+      {
+        "siteId": "site3",
+        "tasks": ["task0", "task1"]
+      }
+    ],
     "state": {
       "issueId": ""
     },
     "uids": {
       "dev": "44559244-467f-4c92-8fc3-ba33b2073758",
-      "prod": "ea797310-0dfe-4166-9ac8-d766f94126b5"
+      "prod": "fb11d743-c9bc-4e92-9588-58389b3f1aea"
     },
     "uid": "ea797310-0dfe-4166-9ac8-d766f94126b5",
     "uri": {
@@ -956,13 +977,18 @@
         }
       }
     },
-    "siteRights": "",
+    "siteRights": [
+      {
+        "siteId": "site3",
+        "tasks": ["task0", "task1"]
+      }
+    ],
     "state": {
       "issueId": ""
     },
     "uids": {
       "dev": "eb58bd2f-a4ef-47b4-acbc-360d7a8fba2d",
-      "prod": "bad5ddfe-f491-400b-a495-60c099f28787"
+      "prod": "42d08b5b-c69a-445c-b050-0a137f6f7216"
     },
     "uid": "bad5ddfe-f491-400b-a495-60c099f28787",
     "uri": {

@@ -43,6 +43,12 @@ var View = {
 
 		return dims.STATUS_BAR_HEIGHT + dims.NAV_BAR_HEIGHT + dims.TAB_BAR_HEIGHT;
 	},
+	getNavBarStyle: function(themeColor) {
+		return {
+			alignItems: "flex-end",
+			backgroundColor: themeColor
+		};
+	},
 	Styles: {
 		_textStyle: StyleSheet.create({
 			need: {

@@ -11,6 +11,7 @@ var Storage = {
 
     // return a promise containing the model
     return db.find(filter);
+    // return db.remove(filter);
   },
 
   setStoredModel: function(db, dbModel, newData) {
