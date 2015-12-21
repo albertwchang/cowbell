@@ -11,6 +11,7 @@ var UserStore = Reflux.createStore({
 	listenables: [UserActions],
 	_host: null,
 	_users: [],
+	_storeName: "users",
 
 	init: function() {
 		this.listenTo(HostStore, this._setHost, this._setHost);
@@ -47,8 +48,9 @@ var UserStore = Reflux.createStore({
 	},
 
 	_setHost: function(data) {
-		this._host = data.host;
-		this._host.db = _.cloneDeep(this._host.db.child("users"));
+		this._host = _.mapValues(data.host, (value, key) => {
+			return (key === "db") ? value.child(this._storeName) : value;
+		});
 	},
 });
 

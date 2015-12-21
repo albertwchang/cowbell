@@ -152,6 +152,10 @@ var RLMain = React.createClass({
 	},
 
 	componentWillMount: function() {
+		/* Retrieve/get the following issues:
+			1) All issues pertaining to the current employer site that is set
+			2) All hazard issues that I have created
+		*/
 		this._reloadIssues().then((results) => {
 			this.setState({ gettingData: false });
 		});

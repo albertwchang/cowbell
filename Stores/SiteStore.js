@@ -90,8 +90,9 @@ var LocationStore = Reflux.createStore({
 	},
 
 	_setHost: function(data) {
-		this._host = data.host;
-		this._host.db = _.cloneDeep(this._host.db.child("sites"));
+		this._host = _.mapValues(data.host, (value, key) => {
+			return (key === "db") ? value.child("sites") : value;
+		});
 	}
 });
 

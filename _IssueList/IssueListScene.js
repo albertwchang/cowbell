@@ -108,7 +108,7 @@ var IssueListScene = React.createClass({
 		let lastStatusEntry = _.last(issue.statusEntries)
 		let site = props.sites[issue.siteId]
 		let statusDef = props.lookups.statuses[lastStatusEntry.statusId]
-		let user = props.users[lastStatusEntry.authorId]
+		// let user = props.users[lastStatusEntry.authorId]
 		let isDoneStyle = !_.has(statusDef, "nextStatuses") ? {borderColor: props.themeColor} : this.Styles._viewStyle.off
 		let statusEntryStyles = StyleSheet.create({
 				info: {
@@ -144,8 +144,7 @@ var IssueListScene = React.createClass({
 						site={site}
 						statusEntry={lastStatusEntry}
 						styles={statusEntryStyles}
-						themeColor={props.themeColor}
-						user={user} />
+						themeColor={props.themeColor} />
 					<View
 						accessibilityOnTap={true}
 						key={rowId}

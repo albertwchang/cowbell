@@ -3,6 +3,7 @@ var Reflux = require("reflux");
 
 // MIXINS
 var HostMixin = require("../Mixins/Host");
+var StorageMixin = require("../Mixins/Storage");
 
 // ACTIONS && STORES
 var HostStore = require("./HostStore");
@@ -13,7 +14,7 @@ var _ = require("lodash");
 
 var LookupStore = Reflux.createStore({
 	listenables: [LookupActions],
-  mixins: [HostMixin],
+  mixins: [HostMixin, StorageMixin],
 	_host: null,
 	_lookups: null,
   _params: {
@@ -36,7 +37,7 @@ var LookupStore = Reflux.createStore({
 
 	},
 
-	_retrieveLookups: function(model, lookupsRow, successCb, errCb) {
+	_retrieveLookups: function(db, lookupsRow, successCb, errCb) {
     let dbRef = this._host.db, params = this._params;
     dbRef.once("value", (results) => {
     	let lookupsObj = {
@@ -45,8 +46,7 @@ var LookupStore = Reflux.createStore({
       };
 
       lookupsObj[params.timestamp] = results.val()[params.timestamp],
-    	model[_.isEmpty(lookupsRow) ? "add" : "update"](lookupsObj);
-
+    	this.setStoredModel(db, lookupsRow, lookupsObj);
 			this._lookups = results.val()[params.data];
     	this.trigger({lookups: this._lookups});
       successCb(this._lookups);
@@ -58,28 +58,31 @@ var LookupStore = Reflux.createStore({
       , callbacks = LookupActions.validateLookups
       , host = this._host;
 
-    this.getStoredModel(host.app, host.env, this._storeName).then((lookupsRow) => {
-      if ( _.isEmpty(lookupsRow) )
-  			// No Local Lookups
-    		this._retrieveLookups(model, lookupsRow, callbacks.completed, callbacks.failed);
-      else {
-     		// Ensure no updates have been made to Lookups collection
-        let dbRef = host.db.child(params.timestamp);
-  			dbRef.once("value", (results) => {
-  				if (results.val() == lookupsRow[0][params.timestamp]) {
-  					this.trigger({lookups: this._lookups = JSON.parse(lookupsRow[0][params.data])});
-  					LookupActions.validateLookups.completed(this._lookups);
-  				} else
-  					// Outdated Local Lookups
-  	        this._retrieveLookups(model, lookupsRow, callbacks.completed, callbacks.failed);
-  			});
-      }
-    });
+    this.getLocalDb(host.app, host.env).then((db) => {
+      this.getStoredModel(db, this._storeName).then((lookupsRow) => {
+        if ( _.isEmpty(lookupsRow) )
+          // No Local Lookups
+          this._retrieveLookups(db, lookupsRow, callbacks.completed, callbacks.failed);
+        else {
+          // Ensure no updates have been made to Lookups collection
+          let dbRef = host.db.child(params.timestamp);
+          dbRef.once("value", (results) => {
+            if (results.val() == lookupsRow[0][params.timestamp]) {
+              this.trigger({lookups: this._lookups = JSON.parse(lookupsRow[0][params.data])});
+              LookupActions.validateLookups.completed(this._lookups);
+            } else
+              // Outdated Local Lookups
+              this._retrieveLookups(db, lookupsRow, callbacks.completed, callbacks.failed);
+          });
+        }
+      });
+    })
 	},
 
 	_setHost: function(data) {
-		this._host = data.host;
-    this._host.db = this._host.db.child(this._storeName);
+		this._host = _.mapValues(data.host, (value, key) => {
+      return (key === "db") ? value.child("lookups") : value;
+    });
 	},
 });
 

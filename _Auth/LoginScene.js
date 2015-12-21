@@ -214,8 +214,9 @@ var LoginScene = React.createClass({
 	      }).then(() => {
 	      	props.setProgress(false);
 	      }).catch((err) => {
-	        // err doesn't necessarily mean user wasn't logged in.  Look at using AsyncStorage for user
-	      	console.log("Something went wrong: ", err);  
+	        /* err doesn't necessarily mean user wasn't logged in.  Could be due to issue interacting w/
+	        local storage */
+	      	console.log("Couldn't set current user: ", err);  
 	      });
 			}
 			else

@@ -17,7 +17,7 @@ var HostStore = Reflux.createStore({
 	mixins: [HostMixin],
 	_app: "cowbell",
   _db: null,
-  _env: "dev",
+  _env: HostMixin.getEnv(),
 	_s3Policy: null,
 
 	getInitialState: function() {

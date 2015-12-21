@@ -31,4 +31,5 @@ local.properties
 # node.js
 #
 node_modules/
+# Mixins/Host.js
 npm-debug.log

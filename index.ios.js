@@ -59,7 +59,7 @@ var styles = StyleSheet.create({
     flex: 1
   },
   navBar: {
-    backgroundColor: "#DF7401"
+    backgroundColor: "#FF2600"
   },
   loading: {
     flex: 1,
@@ -221,7 +221,7 @@ var CowBell = React.createClass({
         host={state.host}
         lookups={state.lookups}
         sites={state.sites}
-        themeColor="#DF7401" />
+        themeColor="#FF2600" />
     );
   },
 

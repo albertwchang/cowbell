@@ -42,7 +42,7 @@ var IssueStore = Reflux.createStore({
 	*************************************************************************/
 
 	init: function() {
-		this.listenTo(HostStore, this._updateHost, this._updateHost);
+		this.listenTo(HostStore, this._setHost, this._setHost);
 		this.listenTo(LookupStore, this._setLookups, this._setLookups);
 		this.listenTo(ProfileStore, this._setProfile, this._setProfile);
 		this.listenTo(SiteStore, this._setSites, this._setSites);
@@ -363,10 +363,9 @@ var IssueStore = Reflux.createStore({
   // 1. One-time pull of existing tow issue base
   // 2. Setup listener for any updates made to existing tow issues
 	onPullIssues: function(issueIds, perspective) {
-		let qIssues = Defer()
-		  , siteRight = this._currentSiteRight;
-		
-    let issuesRef = this._host.db.orderByChild("siteId").equalTo(siteRight.siteId);
+		// let qIssues = Defer()
+    let siteRight = this._currentSiteRight
+      , issuesRef = this._host.db.orderByChild("siteId").equalTo(siteRight.siteId);
 		
     this._dbRefs.push(issuesRef);
 		
@@ -381,14 +380,15 @@ var IssueStore = Reflux.createStore({
 			*/
 
 			this._updateIssueList(issues, perspective);
-			IssueActions.pullIssues.completed(this._issues[perspective] = issues);
-			qIssues.resolve();
+      IssueActions.pullIssues.completed(this._issues[perspective] = issues);
+			
+      // qIssues.resolve();
+      // handle updated tow issues
+      issuesRef.on("child_changed", (snapshot) => this._assignIssue(snapshot, perspective));
 		});
-
-		// handle updated tow issues
-		qIssues.promise.then(() => {
-			dbRef.on("child_changed", (snapshot) => this._assignIssue(snapshot, perspective));
-		});
+		
+    // qIssues.promise.then(() => {	
+		// });
 	},
 
   onRefreshIssues: function(perspective) {
@@ -466,11 +466,10 @@ var IssueStore = Reflux.createStore({
 		this._sites = data.sites;
 	},
 
-	_updateHost: function(data) {
-    this._host = data.host;
-		this._host.db = this._host.db.child("issues");
-		this._images = data.images;
-		this._s3Policy = this._host.s3Policy;
+	_setHost: function(data) {
+    this._host = _.mapValues(data.host, (value, key) => {
+      return (key === "db") ? value.child("issues") : value;
+    });
 	},
 });
 
