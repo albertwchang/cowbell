@@ -110,7 +110,7 @@ var RDMain = React.createClass({
 			, sites = this.props.sites;
 
 		// setup listener to handle real-time updates w/ issue
-		this._issueRef = this.props.db.child("issues").child(issue.iid);
+		this._issueRef = this.props.host.db.child("issues").child(issue.iid);
 		this._issueRef.on("child_changed", (snap) => {
 			this._updateIssue(snap);
 		});
@@ -323,16 +323,15 @@ var RDMain = React.createClass({
 				onChange={this._changeScene}
 				selectedIndex={this.state.sceneIndex}
 				style={styles.navBarTitle}
-				tintColor={this.Colors.night.section}
+				tintColor={this.Colors.night.text}
 				values={["Details", "History"]} />
 
 		let navBar =
 			<NavBar
-				backgroundColor={themeColor}
+				style={this.getNavBarStyle(props.themeColor)}
+				buttonsColor={this.Colors.night.text}
 				customNext={invoiceBtn}
 				customPrev={backBtn}
-				nextTitle="Print"
-				prevTitle="Back"
 				customTitle={navBarTitle} />
 
 		return (

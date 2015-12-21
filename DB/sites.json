@@ -90,6 +90,10 @@
       "kbryant": {
         "id": "kbryant",
         "isActive": true
+      },
+      "afoley": {
+        "id": "afoley",
+        "isActive": true
       }
     }
   },
@@ -133,6 +137,10 @@
       "pmanning": {
         "id": "pmanning",
         "isActive": true
+      },
+      "wsmith": {
+        "id": "wsmith",
+        "isActive": true
       }
     }
   },
@@ -169,16 +177,20 @@
     "issues": ["issue9", "issue10", "issue11"],
     "url": "http://www.ruby-skye.com", 
     "users": {
-      "soneal": {
-        "id": "soneal",
-        "isActive": true
-      },
-      "mramirez": {
-        "id": "mramirez",
-        "isActive": true
-      },
       "tbrady": {
         "id": "tbrady",
+        "isActive": true
+      },
+      "gclooney": {
+        "id": "gclooney",
+        "isActive": true
+      },
+      "jtravolta": {
+        "id": "jtravolta",
+        "isActive": true
+      },
+      "sconnery": {
+        "id": "sconnery",
         "isActive": true
       }
     }
@@ -222,7 +234,7 @@
       }
     },
     "isActive": false,
-    "requests": ["issue12", "issue13", "issue14"],
+    "issues": ["issue12", "issue13", "issue14"],
     "geoPoint": {
       "lat": 36.975684,
       "long": -121.98342,
@@ -261,7 +273,7 @@
       }
     },
     "isActive": false,
-    "requests": ["issue15", "issue16", "issue17"],
+    "issues": ["issue15", "issue16", "issue17"],
     "geoPoint": {
       "lat": 36.9630307,
       "long": -122.001414,
@@ -304,7 +316,7 @@
       }
     },
     "isActive": true,
-    "requests": ["issue18", "issue19"],
+    "issues": ["issue18", "issue19"],
     "geoPoint": {
       "lat": 36.9759778,
       "long": -121.9842423,
@@ -340,10 +352,18 @@
       "achang28": {
         "id": "achang28",
         "isActive": true
+      },
+      "soneal": {
+        "id": "soneal",
+        "isActive": true
+      },
+      "mramirez": {
+        "id": "mramirez",
+        "isActive": true
       }
     },
     "isActive": true,
-    "requests": ["issue20"],
+    "issues": ["issue20"],
     "geoPoint": {
       "lat": 37.4234794,
       "long": -122.1978384,

@@ -131,64 +131,72 @@ var LoginScene = React.createClass({
 						, imgHostUrl = lookups.hosts.img.provider.url
 						, activeSites = _.where(tableData, {"isActive": true});
 
-					let userDims = {
-						height: (Display.width - 3 * 12) / 3,
-						width: (Display.width - 3 * 12) / 3
-					};
-
 					this._sites = {
 						accordion: this._resetAccordion( _.keys(activeSites) ),
 						data: _.map(activeSites, (site, siteId) => {
-							let userIds = _.chain(site.users).where({"isActive": true}).pluck("id").value();
-							let siteUsers = _.map(userIds, (userId) => {
-								return this._users[userId]
-							});
-
-							return {
-								"header": (
-									<View key={siteId} style={styles.siteBox}>
-										<View style={styles.siteImgBox}>
-											<Image
-												source={{ uri: imgHostUrl +site.img.icon +"?fit=crop&w=49&h=49"}}
-												style={{height: 49, width: 49}} />
-										</View>
-										<View style={styles.siteTextBox}>
-											<Text numberOfLines={1} style={styles.siteText}>{site.name}</Text>
-										</View>
-									</View>
-								),
-								"content": (
-									<View style={styles.usersBox}>{
-										siteUsers.map((user) => (
-											<TouchableHighlight
-												key={user.iid}
-												onPress={() => this._handleLogin(user.email)}>
-												<View style={ [styles.userBox, {borderColor: "#A4A4A4"}] }>
-													<Image
-														source={{uri: imgHostUrl +user.uri.selfie +"?fit=crop&w=" +userDims.width +"&h=" +userDims.height}}
-														style={styles.userImg} />
-													<View style={ [styles.userTextBox, {backgroundColor: "#A4A4A4"}] }>
-														<Text style={styles.userText}>{user.name.first}</Text>
-													</View>
-												</View>
-											</TouchableHighlight>
-										))
-									}
-									</View>
-								),
-								"siteId": siteId
-							}
+							return this._buildSiteSection(site, imgHostUrl)
 						})
 					};
 				}
 			});
 
-			this.setState({dataLoaded: true});
+			return;
+		}).then(() => {
+			this.setState({ dataLoaded: true });
+		}).catch((err) => {
+			console.log(err);
 		});
 	},
 
 	componentWillUnmount: function() {
 		console.log("Login Scene unmounted");
+	},
+
+	_buildSiteSection: function(site, imgHostUrl) {
+		let siteSection = {};
+		let userIds = _.chain(site.users).where({"isActive": true}).pluck("id").value();
+		let siteUsers = _.map(userIds, (userId) => {
+			return this._users[userId]
+		});
+
+		let userDims = {
+			height: (Display.width - 3 * 12) / 3,
+			width: (Display.width - 3 * 12) / 3
+		};
+
+		siteSection["header"] =
+			<View key={site.iid} style={styles.siteBox}>
+				<View style={styles.siteImgBox}>
+					<Image
+						source={{ uri: imgHostUrl +site.img.icon +"?fit=crop&w=49&h=49"}}
+						style={{height: 49, width: 49}} />
+				</View>
+				<View style={styles.siteTextBox}>
+					<Text numberOfLines={1} style={styles.siteText}>{site.name}</Text>
+				</View>
+			</View>
+
+		siteSection["content"] =
+			<View style={styles.usersBox}>{
+				siteUsers.map((user) => (
+					<TouchableHighlight
+						key={user.iid}
+						onPress={() => this._handleLogin(user.email)}>
+						<View style={ [styles.userBox, {borderColor: "#A4A4A4"}] }>
+							<Image
+								source={{uri: imgHostUrl +user.uri.selfie +"?fit=crop&w=" +userDims.width +"&h=" +userDims.height}}
+								style={styles.userImg} />
+							<View style={ [styles.userTextBox, {backgroundColor: "#A4A4A4"}] }>
+								<Text style={styles.userText}>{user.name.first}</Text>
+							</View>
+						</View>
+					</TouchableHighlight>
+				))
+			}
+			</View>
+
+		siteSection["siteId"] = site.iid;
+		return siteSection;
 	},
 
 	_handleLogin: function(email) {
@@ -206,8 +214,9 @@ var LoginScene = React.createClass({
 	      }).then(() => {
 	      	props.setProgress(false);
 	      }).catch((err) => {
-	        // err doesn't necessarily mean user wasn't logged in.  Look at using AsyncStorage for user
-	      	console.log("Something went wrong: ", err);  
+	        /* err doesn't necessarily mean user wasn't logged in.  Could be due to issue interacting w/
+	        local storage */
+	      	console.log("Couldn't set current user: ", err);  
 	      });
 			}
 			else
@@ -285,7 +294,7 @@ var LoginScene = React.createClass({
 		return (
 			<View style={styles.main}>
 				<View>
-					<Text style={styles.envText}>{this.props.env.toUpperCase()}</Text>
+					<Text style={styles.envText}>{this.props.host.env.toUpperCase()}</Text>
 				</View>
 				<LineSeparator height={0.5} horzMargin={0} vertMargin={4} />
 				{Content}

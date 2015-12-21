@@ -11,18 +11,19 @@ var UserStore = Reflux.createStore({
 	listenables: [UserActions],
 	_host: null,
 	_users: [],
+	_storeName: "users",
 
 	init: function() {
-		this.listenTo(HostStore, this._updateDb, this._updateDb);
+		this.listenTo(HostStore, this._setHost, this._setHost);
 	},
 
 	getInitialState: function() {
 		return { users: this._users }
 	},
 
-	onEndListeners: function() {
+	// onEndListeners: function() {
 
-	},
+	// },
 
 	onPullUsers: function(siteId, userIds) {
 		let usersRef = this._host.db; // refers to "user" collection within DB
@@ -46,9 +47,10 @@ var UserStore = Reflux.createStore({
 		}
 	},
 
-	_updateDb: function(data) {
-		this._host = data.host;
-		this._host.db = this._host.db.child("users");
+	_setHost: function(data) {
+		this._host = _.mapValues(data.host, (value, key) => {
+			return (key === "db") ? value.child(this._storeName) : value;
+		});
 	},
 });
 

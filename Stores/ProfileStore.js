@@ -1,7 +1,10 @@
 'use strict'
 
 var Reflux = require("reflux");
-var Storage = require('react-native-store');
+
+// MIXINS
+var HostMixin = require("../Mixins/Host");
+var StorageMixin = require("../Mixins/Storage");
 
 // STORES && ACTIONS
 var HostActions = require("../Actions/HostActions");
@@ -16,15 +19,16 @@ var UserActions = require("../Actions/UserActions");
 var _ = require("lodash");
 
 var ProfileStore = Reflux.createStore({
+	listenables: [ProfileActions],
+	mixins: [HostMixin, StorageMixin],
 	_currentSiteRight: null,
 	_currentUser: null,
 	_dbRefs: [],
 	_host: null,
-	_storageKey: "auth",
-	listenables: [ProfileActions],
+	_storeName: "auth",
 
 	init: function() {
-		this.listenTo(HostStore, this._updateDb, this._updateDb);
+		this.listenTo(HostStore, this._setHost, this._setHost);
 	},
 
 	getInitialState: function() {
@@ -58,30 +62,25 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onGetLocalAuth: function() {
-		Storage.model(this._host.app +"-" +this._host.env).then((model) => {
-			let filter = {
-				where: {
-					"key": this._storageKey
-				}
-			};
-      
-      model.find(filter).then((authRow) => {
-				if ( !_.isEmpty(authRow) ) {
+		let callbacks = ProfileActions.getLocalAuth
+			, host = this._host;
+		
+		this.getLocalDb(host.app, host.env).then((db) => {
+			this.getStoredModel(db, this._storeName).then((authRow) => {
+				if ( _.isEmpty(authRow) )
+					callbacks.failed();	
+				else {
 	      	let results = authRow[0].data;
 	      	
 	      	if (!results)
-	      		ProfileActions.getLocalAuth.failed();	
-			  	else {
-			  		let authData = JSON.parse(results);
-			  		ProfileActions.getLocalAuth.completed(authData);
-			  	}
+	      		callbacks.failed();	
+			  	else
+			  		callbacks.completed(JSON.parse(results));
 			  }
-
-			  ProfileActions.getLocalAuth.failed();
+			}).catch((err) => {
+				console.log("A table for your app does not exist: ", host.app);
+				callbacks.failed();
 			});
-		}).catch((err) => {
-			console.log("A table for your app does not exist: ", this._host.app);
-			ProfileActions.getLocalAuth.failed();
 		});
 	},
 
@@ -99,46 +98,40 @@ var ProfileStore = Reflux.createStore({
 
 	onSetCurrentUser: function(authData) {
 		let uid = authData.uid
-			, userRef = this._host.db.orderByChild("uid").equalTo(uid);
+			, host = this._host
+			, userRef = host.db.orderByChild("uids/" +host.env).equalTo(uid);
 		
 		this._dbRefs.push(userRef);
-
-		Storage.model(this._host.app +"-" +this._host.env).then((model) => {
-			let filter = {
-				where: {
-					key: this._storageKey
-				}
-			};
-			
-			model.find(filter).then((authRow) => {
+		this.getLocalDb(host.app, host.env).then((db) => {
+			// this.getStoreModel() is from the HostMixin
+			this.getStoredModel(db, this._storeName).then((authRow) => {
 				let authObj = {
 		      "data": JSON.stringify(authData),
-		      "key": this._storageKey,
-		    }
+		      "key": this._storeName,
+		    };
 
-			  model[_.isEmpty(authRow) ? "add" : "update"](authObj);
+			  this.setStoredModel(db, authRow, authObj);
 			});
-		});
 
-		userRef.once("value", (result) => {
-			let users = _.toArray(result.val())
-				 , user = (users.length > 0) ? _.first(users) : null;
-			this._setProfile(user);
-
-			ProfileActions.setCurrentUser.completed();
-			userRef.on("child_changed", (result) => {
-				let user = result.val();
+			userRef.once("value", (result) => {
+				let users = _.toArray(result.val())
+					 , user = (users.length > 0) ? _.first(users) : null;
+				
 				this._setProfile(user);
+				ProfileActions.setCurrentUser.completed();
+				
+				userRef.on("child_changed", (result) => {
+					let user = result.val();
+					this._setProfile(user);
+				}, (err) => {
+					console.log(err);
+					return err;
+				});
 			}, (err) => {
 				console.log(err);
-				return err;
+				ProfileActions.setCurrentUser.failed();
 			});
-		}, (err) => {
-			console.log(err);
-			return err;
 		});
-		
-		// return userRef;
 	},
 
 	onSetFilter: function(states) {
@@ -183,17 +176,17 @@ var ProfileStore = Reflux.createStore({
 	},
 
 	onLogoutUser: function() {
-		this._host.db.unauth();
+		let host = this._host;
+		host.db.unauth();
 
-		Storage.model(this._host.app).then((model) => {
-      let filter = { where : { key: this._storageKey} }
-	    model.find(filter).then((authRow) => {
-	    	if ( !_.isEmpty(authRow) )
-			 		model.update({"data": null, "key": this._storageKey});
-
-			 	ProfileActions.logoutUser.completed();
+		this.getLocalDb(host.app, host.env).then((db) => {
+			this.getStoredModel(db, this._storeName).then((profileRow) => {
+				let profileObj = {"data": null, "key": this._storeName};
+				
+	      this.setStoredModel(db, profileRow, profileObj);
 				this.trigger({currentUser: this._currentUser = null});
 				this._endAllListeners();
+				ProfileActions.logoutUser.completed();
 			});
 		});
 	},
@@ -217,33 +210,39 @@ var ProfileStore = Reflux.createStore({
 		return parseInt( iid.substr(iid.lastIndexOf(':') + 1) );
 	},
 
-	_getSiteRight: function(chosenSiteRef) {
+	_getSiteRight: function(setSiteId) {
 		let allSiteRights = this._currentUser.siteRights;
-		
-		// find suitable sight right or a default site right
-		let chosenSiteRight = _.isEmpty(chosenSiteRef) ? _.first(allSiteRights)
-			: _.findWhere(allSiteRights, {"siteId": chosenSiteRef.id});
 
-    if ( !_.isEmpty(chosenSiteRight) )
-      ProfileActions.setChosenSiteRight(chosenSiteRight);
+		if ( _.isEmpty(allSiteRights) )
+			return null;
+		else {
+			// find suitable sight right or a default site right
+			let chosenSiteRight = _.isEmpty(setSiteId)
+				? _.first(allSiteRights)
+				: _.findWhere(allSiteRights, {"siteId": setSiteId});
 
-    return chosenSiteRight;
+	    if ( !_.isEmpty(chosenSiteRight) )
+	      ProfileActions.setChosenSiteRight(chosenSiteRight);
+
+	    return chosenSiteRight;
+		}
 	},
 
 	_setProfile: function(user) {
 		// 1a. Check user's settings for preferred orgTypeId/SiteId combination
-		let chosenSiteRef = _.property(["settings", "chosen", "siteId"], user);
+		let setSiteId = _.result(user, ["settings", "chosen", "siteId"]);
 		this._currentUser = user;
-		this._currentSiteRight = this._getSiteRight(chosenSiteRef);
+		this._currentSiteRight = this._getSiteRight(setSiteId);
 		this.trigger({
 			currentUser: this._currentUser,
 			currentSiteRight: this._currentSiteRight
 		});
 	},
 
-	_updateDb: function(data) {
-		this._host = data.host;
-		this._host.db = this._host.db.child("users");
+	_setHost: function(data) {
+		this._host = _.mapValues(data.host, (value, key) => {
+			return (key === "db") ? value.child("users") : value;
+		});
 	}
 })
 

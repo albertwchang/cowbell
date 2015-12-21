@@ -98,10 +98,9 @@ var HistoryScene = React.createClass({
 						fontSize: 14,
 						letterSpacing: 1
 					}, date: {
-						color: "#D8D8D8",
+						color: ViewMixin.Colors.night.text,
 						flex: 1,
-						fontSize: 14,
-						fontWeight: "bold",
+						fontSize: 15,
 						letterSpacing: 1
 					},
 				img: {

@@ -59,7 +59,7 @@ var styles = StyleSheet.create({
     flex: 1
   },
   navBar: {
-    backgroundColor: "#DF7401"
+    backgroundColor: "#FF2600"
   },
   loading: {
     flex: 1,
@@ -138,12 +138,11 @@ var CowBell = React.createClass({
     // 3. retrieve references to "lookup"
     let qLookups = this._getLookups();
 
-    new Promise.all([qProfile, qLookups])
-      .then((results) => {
-        this._gotLookups = true;
-      }).finally(() => {
-        this.setState({ inProgress: false });
-      });
+    new Promise.all([qProfile, qLookups]).then((results) => {
+      this._gotLookups = true;
+    }).finally(() => {
+      this.setState({ inProgress: false });
+    });
   },
 
   componentWillUpdate: function(newProps, newState) {
@@ -222,7 +221,7 @@ var CowBell = React.createClass({
         host={state.host}
         lookups={state.lookups}
         sites={state.sites}
-        themeColor="#DF7401" />
+        themeColor="#FF2600" />
     );
   },
 
