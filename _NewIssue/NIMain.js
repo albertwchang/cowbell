@@ -13,6 +13,7 @@ var CamMgr = require("../Comps/CamMgr");
 var Pending = require("../Comps/Pending");
 var Site = require("../Comps/Site");
 var WhenMgr = require("../Comps/WhenMgr");
+var WhereMgr = require("../Comps/WhereMgr");
 
 // COMPONENTS
 var NavBar = require("react-native-navbar");
@@ -27,7 +28,6 @@ var ViewMixin = require("../Mixins/View");
 // Utilities
 var Async = require("async");
 var Moment = require("moment");
-// var precomputeStyle = require('precomputeStyle');
 var _ = require("lodash");
 
 var {
@@ -128,13 +128,14 @@ var NIMain = React.createClass({
   propTypes: {
     currentSiteRight: PropTypes.object,
     currentUser: PropTypes.object,
-    db: PropTypes.object,
+    host: PropTypes.object,
     lookups: PropTypes.object,
     site: PropTypes.object,
     themeColor: PropTypes.string
   },
   _childRef: null,
   _currentWorkflow: "submit",
+  _defaultView: null,
   _ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
   _workflowMessages: {
     "submit": ["Waiting to Submit", "Submitting...", "Issue created!", "Error: failed to create issue"]
@@ -148,21 +149,22 @@ var NIMain = React.createClass({
   componentWillMount: function() {
     StatusBarIOS.setHidden(false);
     StatusBarIOS.setStyle("light-content");
+    this._defaultView = <Text style={Styles.contentText}>--- Please Select ---</Text>;
     // this._refreshWhere(this.props, this.state);
     this._refreshWhen(this.props, this.state);
     // this._refreshImages(this.props, this.state)
   },
 
   componentWillUpdate: function(newProps, newState) {
-    var oldState = this.state
+    let oldState = this.state
 
     if ( !_.eq(newProps, this.props) ) {
       // this._refreshWhere(newProps, newState);
       this._refreshWhen(newProps, newState);
-      this._refreshImages(newProps, newState);
+      // this._refreshImages(newProps, newState);
     } else {
-      if ( !_.eq(oldState.sections.where.value, newState.sections.where.value) )
-        this._refreshWhere(newProps, newState);
+      // if ( !_.eq(oldState.sections.where.value, newState.sections.where.value) )
+        // this._refreshWhere(newProps, newState);
       if ( !_.eq(oldState.sections.when.value, newState.sections.when.value) )
         this._refreshWhen(newProps, newState);
       // if ( !_.eq(oldState.sections.images.value, newState.sections.images.value) )
@@ -171,7 +173,7 @@ var NIMain = React.createClass({
   },
 
   _addIssue: function(statusId) {
-    var props = this.props, state = this.state
+    let props = this.props, state = this.state
       , sections = state.sections
       , imgKeys = _.keys(sections.images.value)
       , geoPoint = sections["images"].value[imgKeys[0]].dbRecord.geoPoint
@@ -242,14 +244,14 @@ var NIMain = React.createClass({
     return {
       notes: "",
       sections: {
-        where: {
-          done: false,
-          icon: "ios-location",
-          name: "where",
-          showModal: false,
-          title: "Where is vehicle parked...",
-          value: null
-        },
+        // where: {
+        //   done: false,
+        //   icon: "ios-location",
+        //   name: "where",
+        //   showModal: false,
+        //   title: "Where is hazard located...",
+        //   value: null
+        // },
         when: {
           done: false,
           icon: "ios-calendar-outline",
@@ -292,10 +294,9 @@ var NIMain = React.createClass({
   },
 
   _refreshWhen: function(props, state) {
-    var sections = state.sections;
-    var TextSection = _.isEmpty(sections.when.value)
-        ? this._defaultView
-        : <Text style={Styles.contentText}>{Moment(sections.when.value).format("ddd MMM Do, YYYY, h:mm a")}</Text>;
+    let sections = state.sections
+      , TextSection = _.isEmpty(sections.when.value) ? this._defaultView :
+        <Text style={Styles.contentText}>{Moment(sections.when.value).format("ddd MMM Do, YYYY, h:mm a")}</Text>;
       
     this._views["when"] = 
       <TouchableHighlight
@@ -319,16 +320,6 @@ var NIMain = React.createClass({
         themeColor={props.themeColor} />
   },
 
-  _renderModal: function(sectionId) {
-    var props = this.props, state = this.state
-      , currentSiteRight = props.currentSiteRight
-      , currentUser = props.currentUser
-      , lookups = props.lookups
-      , imgHost = lookups.hosts["images"]
-      , section = state.sections[sectionId]
-      , site = props.site
-  },
-
   _resetSections: function() {
     this.setState(this._refreshState());
   },
@@ -338,8 +329,8 @@ var NIMain = React.createClass({
   },
 
   _setSectionValue: function(section, newValue, path, state) {
-    let newState = _.cloneDeep(this.state);
-    let targetSection = newState.sections[section];
+    let newState = _.cloneDeep(this.state)
+      , targetSection = newState.sections[section];
 
     if ( !_.eq(_.property(path)(targetSection.value), newValue)) {
       if ( _.isEmpty(path) ) {
@@ -347,7 +338,7 @@ var NIMain = React.createClass({
         targetSection.done = _.isUndefined(state) ? !_.isEmpty(newValue) : state;
       }
       else if (path.length === 1) {
-        var todoEntries = {};
+        let todoEntries = {};
         
         _.set(targetSection.value, path, newValue);
         targetSection.done = this.isDone(_.pluck(todoEntries, "value"));
@@ -360,16 +351,9 @@ var NIMain = React.createClass({
     }
   },
 
-  _toggleModal: function(state, section) {
-    var sections = this.state.sections;
-    sections[section].showModal = state;
-    
-    this.setState({ sections: sections });
-  },
-
   _setWorkflowStage: function(workflow, level) {
     this._currentWorkflow = workflow;
-    var workflowStages = _.map(this.state.workflowStages[workflow], (stage) => {
+    let workflowStages = _.map(this.state.workflowStages[workflow], (stage) => {
       stage.isActive = false;
       return stage;
     });
@@ -383,9 +367,9 @@ var NIMain = React.createClass({
   },
 
   _submitIssue: function(status) {
-    var self = this;
+    let self = this;
 
-    var addToSite = function(issueId, orgTypeId, siteId) {
+    let addToSite = function(issueId, orgTypeId, siteId) {
      return SiteActions.setIssueId.triggerPromise(issueId, siteId);
     };
 
@@ -414,7 +398,7 @@ var NIMain = React.createClass({
       }
     ], (err, results) => {
       // 3. Add issueId to corresponding sites
-      var qSites, issueId = results[1];
+      let qSites, issueId = results[1];
 
       if (status.assignTo[this._orgTypeIds.VENDOR].site === false)
         qSites = addToSite(issueId, this._orgTypeIds.CLIENT, this.props.siteIds[this._orgTypeIds.CLIENT]);
@@ -432,12 +416,76 @@ var NIMain = React.createClass({
     });
   },
 
+  _toggleModal: function(state, section) {
+    let sections = this.state.sections;
+    sections[section].showModal = state;
+    
+    this.setState({ sections: sections });
+  },
+
   _uploadImages: function() {
     let qImages = new Promise.all(_.map(this.props.sections["images"].value, (stagedImg) => {
       return IssueActions.uploadImg.triggerPromise(stagedImg);
     }));
 
     return qImages;
+  },
+
+  _renderModal: function(sectionId) {
+    let props = this.props, state = this.state, {
+      currentSiteRight,
+      currentUser,
+      lookups,
+      site
+    } = props;
+      
+    let imgHost = lookups.hosts["images"]
+      , section = state.sections[sectionId];
+
+    switch(sectionId) {
+      case "when":
+        let buttons = new Array(
+          {
+            label: "Today",
+            getTimestamp: () => {
+              return ["day", Moment().toDate()];
+            }
+          }, {
+            label: "Yesterday",
+            getTimestamp: () => {
+              return ["day", Moment().subtract(1, 'day')._d];
+            }
+          }
+        );
+
+        return (
+          <WhenMgr
+            buttons={buttons}
+            closeDisplay={() => this._toggleModal(false, sectionId)}
+            initialVal={section.value}
+            lookups={lookups}
+            setDate={(newValue) => this._setSectionValue(sectionId, newValue, [])}
+            style={Styles.sectionContent} />
+        );
+      break;
+
+      case "where":
+        return (
+          <WhereMgr
+            clientSiteId={_.isEmpty(section.value) ? null : section.value.iid}
+            clientSites={sites[this._orgTypeIds.CLIENT]}
+            currentUser={currentUser}
+            currentSiteRight={currentSiteRight}
+            imgHost={imgHost}
+            leave={() => this._toggleModal(false, sectionId)}
+            setSite={(newValue) => this._setSectionValue(sectionId, newValue, [])} />
+        );  
+      break;
+
+      default:
+        return null;
+      break;
+    }
   },
 
   _renderSection: function(section, sectionId, rowId) {
@@ -460,38 +508,26 @@ var NIMain = React.createClass({
   },
 
   render: function() {
-    let props = this.props, state = this.state
-      , currentSiteRight = props.currentSiteRight
-      , currentUser = props.currentUser
-      , lookups = props.lookups
-      , imgHost = lookups.hosts["images"]
+    let props = this.props, state = this.state, {
+      currentSiteRight,
+      currentUser,
+      lookups,
+      site,
+      themeColor
+    } = props;
+
+    let imgHost = lookups.hosts["images"]
       , issue = state.issue
-      , site = props.site
-      , themeColor = props.themeColor
       , visibleSection = _.find(state.sections, {"showModal": true})
       , workflowMessages = this._workflowMessages[this._currentWorkflow]
       , workflowStages = state.workflowStages[this._currentWorkflow];
-
-    let buttons = new Array(
-      {
-        label: "Today",
-        getTimestamp: () => {
-          return ["day", Moment().toDate()];
-        }
-      }, {
-        label: "Yesterday",
-        getTimestamp: () => {
-          return ["day", Moment().subtract(1, 'day')._d];
-        }
-      }
-    );
 
     return (
       <View style={Styles.main}>
         <View style={Styles.body}>
           <Modal
             animation={false}
-            visible={workflowStages[0].isActive}>
+            visible={!workflowStages[0].isActive}>
             <Pending
               setDone={() => this._setWorkflowStage(this._currentWorkflow, 0)}
               style={Styles.submitting}
@@ -500,7 +536,6 @@ var NIMain = React.createClass({
           </Modal>
           <ListView
             ref="listView"
-            contentInset={{top: -this.Dimensions.STATUS_BAR_HEIGHT+1}}
             dataSource={this._ds.cloneWithRows(state.sections)}
             keyboardShouldPersistTaps={false}
             removeClippedSubviews={true}
@@ -516,13 +551,7 @@ var NIMain = React.createClass({
         <Modal
           animation={false}
           visible={_.isEmpty(visibleSection) ? false : visibleSection.showModal}>
-          <WhenMgr
-            buttons={buttons}
-            closeDisplay={() => this._toggleModal(false, sectionId)}
-            initialVal={section.value}
-            lookups={lookups}
-            setDate={(newValue) => this._setSectionValue(sectionId, newValue, [])}
-            style={Styles.sectionContent} />
+          {this._renderModal(_.isEmpty(visibleSection) ? undefined : visibleSection.name)}
         </Modal>
       </View>
     );
