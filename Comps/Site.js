@@ -2,6 +2,10 @@ var React = require("react-native");
 var Comm = require('react-native-communications');
 var Icon = require('react-native-vector-icons/Ionicons');
 
+// MIXINS
+var SiteMixin = require("../Mixins/Site");
+var _ = require("lodash");
+
 var {
 	Image,
 	PixelRatio,
@@ -51,6 +55,7 @@ var styles = StyleSheet.create({
 });
 
 var Site = React.createClass({
+	mixins: [SiteMixin],
 	propTypes: {
 		imgHost: PropTypes.object,
 		info: PropTypes.object,
@@ -81,48 +86,28 @@ var Site = React.createClass({
 			, imgUri = props.imgHost.url +info.img.icon +"?w=49"
 			, showAddy = props.showAddy;
 
-		let Img = props.showImg ?
-			<Image
-				style={styles.img}
-				source={{ uri: imgUri }} />
-			: null;
-
+		let Img = props.showImg ? <Image style={styles.img} source={{ uri: imgUri }} /> : null;
 		let PhoneBtn = this.props.showPhoneBtn ?
 			<TouchableHighlight
 				onPress={() => Comm.phonecall(info.phoneNum.toString(), true)}
 				style={ [styles.callBtn, {backgroundColor: props.themeColor, borderRadius: 6}] }>
 				<View style={styles.callBtn}>
-					<Icon
-						name={"ios-telephone"}
-						style={ [styles.callBtnIcon] } />
+					<Icon name={"ios-telephone"} style={ [styles.callBtnIcon] } />
 				</View>
 			</TouchableHighlight> : null;
 		
 		return (
-			<View style={this.props.style}>
+			<View style={props.style}>
 				{Img}
 				<View style={styles.infoSection}>
-					<Text
-						numberOfLines={1}
-						style={styles.name}>{info.name}</Text>
-					<Text
-						numberOfLines={1}
-						style={styles.addy}>
-						{ showAddy.street ?
-							address.street.number +" "
-							+address.street.name +" "
-							+address.street.type +" "
-							+address.street.unit : null}
+					<Text numberOfLines={1} style={styles.name}>{info.name}</Text>
+					<Text numberOfLines={1} style={styles.addy}>
+						{ showAddy.street ? this.buildPrimaryAddyLine(address.street) : null }
 					</Text>
-					{showAddy.city || showAddy.state || showAddy.zip
-						? <Text 
-								numberOfLines={1}
-								style={styles.addy}>
-								{ showAddy.city ? address.city +", " : null }
-								{ showAddy.state +" " ? address.state : null }
-								{ showAddy.zip ? address.zip.primary : null }
-							</Text>
-						: null}
+					{_.any(showAddy, (param) => param) ?
+					<Text  numberOfLines={1} style={styles.addy}>
+						{this.buildSecondaryAddyLine(address)}
+					</Text> : null}
 				</View>
 				{PhoneBtn}
 			</View>

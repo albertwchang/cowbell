@@ -64,7 +64,6 @@ var Styles = StyleSheet.create({
     marginBottom: 16
   },
   sectionTitle: {
-    borderBottomColor: "#FFFFFF",
     borderBottomWidth: 0.5,
     flexDirection: "row",
     padding: 6,
@@ -83,7 +82,7 @@ var Styles = StyleSheet.create({
     paddingHorizontal: 4,
     paddingVertical: 4
   }, contentText: {
-    color: "#848484",
+    color: ViewMixin.Colors.night.text,
     fontFamily: "System",
     fontSize: 22,
     fontWeight: "200",
@@ -104,7 +103,7 @@ var Styles = StyleSheet.create({
   },
 
   buttonsBox: {
-    bottom: 0,
+    bottom: ViewMixin.Dimensions.TAB_BAR_HEIGHT,
     flexDirection: "row",
     height: ViewMixin.Dimensions.NAV_BAR_HEIGHT,
     position: "absolute",
@@ -150,8 +149,8 @@ var NIMain = React.createClass({
     StatusBarIOS.setHidden(false);
     StatusBarIOS.setStyle("light-content");
     this._defaultView = <Text style={Styles.contentText}>--- Please Select ---</Text>;
-    // this._refreshWhere(this.props, this.state);
-    this._refreshWhen(this.props, this.state);
+    this._refresh(this.props, this.state, "when");
+    this._refresh(this.props, this.state, "where");
     // this._refreshImages(this.props, this.state)
   },
 
@@ -159,14 +158,14 @@ var NIMain = React.createClass({
     let oldState = this.state
 
     if ( !_.eq(newProps, this.props) ) {
-      // this._refreshWhere(newProps, newState);
-      this._refreshWhen(newProps, newState);
+      this._refresh(newProps, newState, "where");
+      this._refresh(newProps, newState, "when");
       // this._refreshImages(newProps, newState);
     } else {
-      // if ( !_.eq(oldState.sections.where.value, newState.sections.where.value) )
-        // this._refreshWhere(newProps, newState);
+      if ( !_.eq(oldState.sections.where.value, newState.sections.where.value) )
+        this._refresh(newProps, newState, "where");
       if ( !_.eq(oldState.sections.when.value, newState.sections.when.value) )
-        this._refreshWhen(newProps, newState);
+        this._refresh(newProps, newState, "when");
       // if ( !_.eq(oldState.sections.images.value, newState.sections.images.value) )
       //   this._refreshImages(newProps, newState);
     }
@@ -244,14 +243,6 @@ var NIMain = React.createClass({
     return {
       notes: "",
       sections: {
-        // where: {
-        //   done: false,
-        //   icon: "ios-location",
-        //   name: "where",
-        //   showModal: false,
-        //   title: "Where is hazard located...",
-        //   value: null
-        // },
         when: {
           done: false,
           icon: "ios-calendar-outline",
@@ -259,7 +250,15 @@ var NIMain = React.createClass({
           showModal: false,
           title: "When first observed...",
           value: null
-        }
+        },
+        where: {
+          done: false,
+          icon: "ios-location",
+          name: "where",
+          showModal: false,
+          title: "Where is hazard located...",
+          value: null
+        },
         // images: {
         //   done: false,
         //   icon: "android-car",
@@ -293,31 +292,38 @@ var NIMain = React.createClass({
     };
   },
 
-  _refreshWhen: function(props, state) {
-    let sections = state.sections
-      , TextSection = _.isEmpty(sections.when.value) ? this._defaultView :
-        <Text style={Styles.contentText}>{Moment(sections.when.value).format("ddd MMM Do, YYYY, h:mm a")}</Text>;
-      
-    this._views["when"] = 
-      <TouchableHighlight
-        onPress={() => this._toggleModal(true, sections.when.name)}>
-        <View style={Styles.sectionContent}>{TextSection}</View>
-      </TouchableHighlight>
-  },
+  _refresh: function(props, state, section) {
+    let sections = state.sections;
 
-  _refreshWhere: function(props, state) {
-    let currentSiteRight = props.currentSiteRight
-      , sections = state.sections
+    switch (section) {
+      case "when":
+        let TextSection = _.isEmpty(sections[section].value) ? this._defaultView :
+          <Text style={Styles.contentText}>{Moment(sections[section].value).format("ddd MMM Do, YYYY, h:mm a")}</Text>;
+          
+        this._views[section] = 
+          <TouchableHighlight
+            onPress={() => this._toggleModal(true, sections[section].name)}>
+            <View style={Styles.sectionContent}>{TextSection}</View>
+          </TouchableHighlight>
+        break;
 
-    // come up with the options
-    this._views["where"] =
-      <Site
-        imgHost={props.lookups.hosts["images"]}
-        info={sections.where.value}
-        showImg={true}
-        showPhoneBtn={true}
-        style={Styles.sectionContent}
-        themeColor={props.themeColor} />
+      case "where":
+        let currentSiteRight = props.currentSiteRight
+          , site = props.sites[currentSiteRight.siteId];
+
+        // come up with the options
+        this._views[section] =
+          <Site
+            imgHost={props.lookups.hosts.img.provider}
+            info={site}
+            showImg={true}
+            showPhoneBtn={true}
+            style={ [Styles.sectionContent, {flex: 1, flexDirection: "row"}] }
+            themeColor={props.themeColor} />
+
+        state.sections[section].value = site, state.sections[section].done = _.isEmpty(site) ? false : true;
+        break;
+    }
   },
 
   _resetSections: function() {
@@ -496,7 +502,7 @@ var NIMain = React.createClass({
 
     return (
       <View key={rowId} style={[Styles.topicBox, viewStyle]}>
-        <View style={Styles.sectionTitle}>
+        <View style={ [Styles.sectionTitle, viewStyle] }>
           <Icon
             name={section.icon}
             style={ [Styles.thIcon, textStyle] } />
@@ -524,30 +530,28 @@ var NIMain = React.createClass({
 
     return (
       <View style={Styles.main}>
-        <View style={Styles.body}>
-          <Modal
-            animation={false}
-            visible={!workflowStages[0].isActive}>
-            <Pending
-              setDone={() => this._setWorkflowStage(this._currentWorkflow, 0)}
-              style={Styles.submitting}
-              workflowMessages={workflowMessages}
-              workflowStages={workflowStages} />
-          </Modal>
-          <ListView
-            ref="listView"
-            dataSource={this._ds.cloneWithRows(state.sections)}
-            keyboardShouldPersistTaps={false}
-            removeClippedSubviews={true}
-            renderRow={this._renderSection}
-            scrollEventThrottle={200} />
-          <ActionButtons
-            cancel={this._resetSections}
-            inputChanged={_.every(state.sections, "done", true)}
-            saveData={() => this._submitIssue(_.last(this._submitStatuses))}
-            style={Styles.buttonsBox}
-            themeColor={props.themeColor} />
-        </View>
+        <Modal
+          animation={false}
+          visible={!workflowStages[0].isActive}>
+          <Pending
+            setDone={() => this._setWorkflowStage(this._currentWorkflow, 0)}
+            style={Styles.submitting}
+            workflowMessages={workflowMessages}
+            workflowStages={workflowStages} />
+        </Modal>
+        <ListView
+          ref="listView"
+          dataSource={this._ds.cloneWithRows(state.sections)}
+          keyboardShouldPersistTaps={false}
+          removeClippedSubviews={true}
+          renderRow={this._renderSection}
+          scrollEventThrottle={200} />
+        <ActionButtons
+          cancel={this._resetSections}
+          inputChanged={_.every(state.sections, "done", true)}
+          saveData={() => this._submitIssue(_.last(this._submitStatuses))}
+          style={Styles.buttonsBox}
+          themeColor={props.themeColor} />
         <Modal
           animation={false}
           visible={_.isEmpty(visibleSection) ? false : visibleSection.showModal}>
