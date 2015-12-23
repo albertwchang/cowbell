@@ -137,6 +137,7 @@ var NIMain = React.createClass({
   _currentWorkflow: "submit",
   _defaultView: null,
   _ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
+  _imgHost: "",
   _workflowMessages: {
     "submit": ["Waiting to Submit", "Submitting...", "Issue created!", "Error: failed to create issue"]
   },
@@ -147,12 +148,15 @@ var NIMain = React.createClass({
   },
 
   componentWillMount: function() {
+    let props = this.props;
     StatusBarIOS.setHidden(false);
     StatusBarIOS.setStyle("light-content");
+    this._imgHost = props.lookups.hosts.img.provider.url;
     this._defaultView = <Text style={Styles.contentText}>--- Please Select ---</Text>;
-    this._refresh(this.props, this.state, "when");
-    this._refresh(this.props, this.state, "where");
-    this._refresh(this.props, this.state, "img");
+    
+    _.each(this.state.sections, (value, key) => {
+      this._refresh(props, this.state, key);  
+    });
   },
 
   componentWillUpdate: function(newProps, newState) {

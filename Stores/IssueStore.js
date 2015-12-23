@@ -29,7 +29,7 @@ var IssueStore = Reflux.createStore({
 	_currentSiteRight: null,
 	_dbRefs: [],
   _host: null,
-	_images: null,
+	_img: null,
 	_imgTemplates: null,
 	_lookups: null,
 	_issues: new Array(2),
@@ -215,7 +215,7 @@ var IssueStore = Reflux.createStore({
    		let stagedImg = {
 	  		dbRecord: {
 		      authorId: userId,
-		      uri: this._images.folderpath +filename,
+		      uri: "/issues/" +filename,
 		      geoPoint: geoPoint,
 		      statusId: "",
 		      timestamp: Moment( Moment().toDate() ).format(),

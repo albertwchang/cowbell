@@ -60,7 +60,7 @@ var ImgMgr = React.createClass({
     // }
   }),
   // _imgDims: null,
-  _imgHost: "",
+  
   _ImgView: null,
 
   getInitialState: function() {
@@ -68,7 +68,7 @@ var ImgMgr = React.createClass({
   },
 
   componentWillMount: function() {
-    this._imgHost = this.props.lookups.hosts.img.provider.url;
+    
   },
 
   componentWillUpdate: function(newProps, newState) {

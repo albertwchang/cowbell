@@ -308,16 +308,16 @@ var MediaView = React.createClass({
 	},
 
 	render: function() {
-		var imgUri = this.props.stagedImg.file
-			? this.props.stagedImg.file.uri
-			: (this.props.prevImg ? this.props.imgHost.url +this.props.prevImg.uri +"?fit=crop&w=" +Display.width +"&h=" +Display.height : undefined);
+		let props = this.props;
+		let imgUri = props.stagedImg.file ? props.stagedImg.file.uri
+			: (props.prevImg ? props.imgHost +props.prevImg.uri +"?fit=crop&w=" +Display.width +"&h=" +Display.height : undefined);
 		
-		if (this.props.cameraOn) {
+		if (props.cameraOn) {
 			return (
 				<Camera
 					captureTarget={Camera.constants.CaptureTarget.disk}
-					flashMode={Camera.constants.FlashMode[this.props.flashMode ? "on" : "off"]}
-					orientation={this.props.orientation}
+					flashMode={Camera.constants.FlashMode[props.flashMode ? "on" : "off"]}
+					orientation={props.orientation}
 		    	ref="cam"
 		      style={this._styles.mediaSection}
 		      type={Camera.constants.Type.back} />
