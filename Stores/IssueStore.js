@@ -148,50 +148,6 @@ var IssueStore = Reflux.createStore({
 		return url +queryString;
 	},
 
-	onUploadImg: function(imgObj) {
-		// 1. Get S3 Policy data for uploading
-  	
-  	/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  		Need to workout how to handle edge-case of expired s3Policy
-  	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-		let fileExt = imgObj.file.ext
-			, s3Data = this._s3Policy.data
-			, s3Obj = {
-			uri: imgObj.file.uri,
-			uploadUrl: s3Data.url,
-			mimeType: "image/" +fileExt,
-			data: {
-				acl: 'public-read',
-				AWSAccessKeyId: s3Data.key,
-				'Content-Type': "image/" +fileExt,
-	      policy: s3Data.policy,
-	      key: "issues/vehicle/" +imgObj.file.name,
-	      signature: s3Data.signature,
-      },
-    };
-
-  	NativeModules.FileTransfer.upload(s3Obj, (err, res) => {
-    	if ( err == null && (res.status > 199 || res.status < 300) )
-    		IssueActions.uploadImg.completed();
-    	else
-    		IssueActions.uploadImg.failed(err);
-    });
-	},
-
-	onRecordImg: function(issue, imgObj) {
-  	let qUpload = IssueActions.uploadImg.triggerPromise(imgObj)
-      , params = ["images", issue.images.length]
-  		, qRecord = IssueActions.setParam(issue, params, imgObj.dbRecord);
-
-  	new Promise.all([qUpload, qRecord]).then((results) => {
-  		console.log("images uploaded and recorded");
-  		IssueActions.recordImg.completed();
-  	}).catch((err) => {
-  		console.log("Problem with upload and/or recording: ", err);
-  		IssueActions.recordImg.failed(err);
-  	})
-	},
-
 	onAddIssue: function(newIssue) {
 		let issuesRef = this._host.db;
 		let issueRef = issuesRef.push(newIssue);
@@ -237,15 +193,15 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-	onBuildImgObj: function(imgTypeId, imgUri) {
+	onBuildImgObj: function(imgUri) {
 		// retrieve Amazon S3 policy parameters early enough
 		/*************************************************************************
 		 If S3 policy times out, error callback will have to obtain a new policy
 		*************************************************************************/
 		let beg = imgUri.lastIndexOf('/') +1
 			, end = imgUri.lastIndexOf('.')
-			, fileExt = imgUri.substr(end +1);
-    let userId = this._currentUser.iid;
+			, fileExt = imgUri.substr(end +1)
+      , userId = this._currentUser.iid;
    	
    	LocationActions.getPosition.triggerPromise().then((position) => {
    		let geoPoint = {
@@ -255,13 +211,12 @@ var IssueStore = Reflux.createStore({
    			longitude: position.long
    		};
 
-   		let filename = this._buildImgFilename(Moment().format("X"),userId,imgTypeId,fileExt);  		
+   		let filename = this._buildImgFilename(Moment().format("X"),userId,fileExt);  		
    		let stagedImg = {
 	  		dbRecord: {
 		      authorId: userId,
 		      uri: this._images.folderpath +filename,
 		      geoPoint: geoPoint,
-		      imgTypeId: imgTypeId,
 		      statusId: "",
 		      timestamp: Moment( Moment().toDate() ).format(),
 		    },
@@ -391,6 +346,20 @@ var IssueStore = Reflux.createStore({
 		// });
 	},
 
+  onRecordImg: function(issue, imgObj) {
+    let qUpload = IssueActions.uploadImg.triggerPromise(imgObj)
+      , params = ["images", issue.images.length]
+      , qRecord = IssueActions.setParam(issue, params, imgObj.dbRecord);
+
+    new Promise.all([qUpload, qRecord]).then((results) => {
+      console.log("images uploaded and recorded");
+      IssueActions.recordImg.completed();
+    }).catch((err) => {
+      console.log("Problem with upload and/or recording: ", err);
+      IssueActions.recordImg.failed(err);
+    })
+  },
+
   onRefreshIssues: function(perspective) {
 		this._updateIssueList(null, perspective);
   },
@@ -449,8 +418,38 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-	_buildImgFilename: function(timestamp,userId,imgTypeId,fileExt) {
- 		return timestamp +"-" +userId +"-" +imgTypeId +"." +fileExt;
+  onUploadImg: function(imgObj) {
+    // 1. Get S3 Policy data for uploading
+    
+    /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      Need to workout how to handle edge-case of expired s3Policy
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+    let fileExt = imgObj.file.ext
+      , s3Data = this._s3Policy.data
+      , s3Obj = {
+      uri: imgObj.file.uri,
+      uploadUrl: s3Data.url,
+      mimeType: "image/" +fileExt,
+      data: {
+        acl: 'public-read',
+        AWSAccessKeyId: s3Data.key,
+        'Content-Type': "image/" +fileExt,
+        policy: s3Data.policy,
+        key: "issues/vehicle/" +imgObj.file.name,
+        signature: s3Data.signature,
+      },
+    };
+
+    NativeModules.FileTransfer.upload(s3Obj, (err, res) => {
+      if ( err == null && (res.status > 199 || res.status < 300) )
+        IssueActions.uploadImg.completed();
+      else
+        IssueActions.uploadImg.failed(err);
+    });
+  },
+
+	_buildImgFilename: function(timestamp, userId, fileExt) {
+ 		return timestamp +"-" +userId +"." +fileExt;
   },
 
 	_setLookups: function(data) {

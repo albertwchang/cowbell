@@ -13,8 +13,6 @@ var ViewMixin = require("../Mixins/View");
 // ACTIONS && STORES
 var HostActions = require("../Actions/HostActions");
 var HostStore = require("../Stores/HostStore");
-var LookupActions = require("../Actions/LookupActions");
-var LookupStore = require("../Stores/LookupStore");
 var ProfileStore = require("../Stores/ProfileStore");
 var IssueActions = require("../Actions/IssueActions");
 
@@ -37,15 +35,10 @@ var {
 var ImageEditing = NativeModules.ImageEditingManager;
 var CamMgr = React.createClass({
 	propTypes: {
-		db: PropTypes.object,
 		exitCamMgr: PropTypes.func,
 		imgHost: PropTypes.object,
-		imgType: PropTypes.object,
-		looups: PropTypes.object,
 		prevImg: PropTypes.object,
-		setImg: PropTypes.func,
-		stagedImg: PropTypes.object,
-		trashImg: PropTypes.func
+		setImg: PropTypes.func
   },
 	mixins: [Reflux.connect(ProfileStore), Reflux.ListenerMixin, ViewMixin],
 	cameraRef: null,
@@ -91,40 +84,36 @@ var CamMgr = React.createClass({
 			 Need to add ActivityIndicator until img is added to Firebase
 			************************************************************/ 
 			// this._setImg(this.state.stagedImg, this.props.issueId);
-			this.setState({
-				spinnerOn: true,
-			});
+			this.setState({ spinnerOn: true });
 
 			// InputHelperSceen saves stagedImg to Firebase, while VehicleScene
 			// will assign the staged Img to another staged Img obj
 			// this.props.setImg(this.state.stagedImg).then(() => {
 			this.props.setImg(this.state.stagedImg);
 	  	this._initCamMgrExit();
-		} else {
-			this.props.exitCamMgr();
 		}
+		else
+			this.props.exitCamMgr();
 	},
 
 	_captureImg: function() {
     this.cameraRef.capture((err, imgUri) => {
     	var self = this;
+    	let imgEditor = NativeModules.ImageEditingManager;
     	if (err) {
     		// future:  create an alert for this problem
     		console.log("Img couldn't be captured");
     		return;
     	}
 
-    	let imgEditor = NativeModules.ImageEditingManager;
-
-    	IssueActions.buildImgObj.triggerPromise(this.props.imgType.iid, imgUri)
-	    	.then((imgObj) => {
-	    		self.setState({
-	    			cameraOn: false,
-	    			stagedImg: imgObj,
-	    		});
-	    	}).catch((err) => {
-	    		console.log("something went wrong");
-	    	});
+    	IssueActions.buildImgObj.triggerPromise(imgUri).then((imgObj) => {
+    		self.setState({
+    			cameraOn: false,
+    			stagedImg: imgObj,
+    		});
+    	}).catch((err) => {
+    		console.log("something went wrong");
+    	});
     });
   },
 
@@ -148,20 +137,20 @@ var CamMgr = React.createClass({
 	},
 
 	_resetStagedImg: function() {
-  	return _.assign(this.props.imgType, {
+  	return {
 			dbRecord: null,
       file: null,
       isSet: false
-    })
+    };
   },
 
-  _selectImg: function() {
-  	AlertIOS.alert(
-		  'Select from Photo Album',
-		  'Will be implemented later...',
-		  [{text: 'Okay'}]
-		);
-  },
+  // _selectImg: function() {
+  // 	AlertIOS.alert(
+		//   'Select from Photo Album',
+		//   'Will be implemented later...',
+		//   [{text: 'Okay'}]
+		// );
+  // },
 
   _setCameraRef: function(ref) {
   	this.cameraRef = ref;
@@ -179,28 +168,21 @@ var CamMgr = React.createClass({
 	},
 
 	_trashImg: function() {
-		this.setState({
-			spinnerOn: true,
-		});
-
+		let props = this.props;
+		
+		this.setState({	spinnerOn: true });
 		new Promise((resolve, reject) => {
 			// 1. check for 'stagedImg'
-			if (this.state.stagedImg.file) {
-				this.setState({
-					stagedImg: this._resetStagedImg(),
-				});
-
+			if ( !_.isEmpty(this.state.stagedImg.file) ) {
+				this.setState({ stagedImg: this._resetStagedImg() });
 				resolve();
-			} else if (this.props.prevImg || this.props.stagedImg) {
+			} else if (props.prevImg || props.stagedImg) {
 				/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 					Q: How to refresh "prevImg" object?
 					Problem: "passProps" does not automatically refresh given that
 									inputHelperScene was pushed onto Navigation stack
 				!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-				this.props.trashImg().then(() => {
-					resolve();
-				})
-
+				props.setImg(null, resolve, reject);
 				/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 				Need to remove from Amazon S3
 				!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
@@ -211,13 +193,16 @@ var CamMgr = React.createClass({
 	},
 
 	render: function() {
-		var orientation = this.state.orientation;
-		var values = {
+		let props = this.props, state = this.state
+			, orientation = state.orientation
+			, controlPanelDims = null
+			, viewDims = null
+			, mainBoxStyle = null
+		
+		let values = {
 			min: Math.min(Display.width, Display.height),
 			max: Math.max(Display.width, Display.height)
 		};
-
-		var controlPanelDims = null, viewDims = null, mainBoxStyle = null;
 
 		if (orientation === this.Orientations.PORTRAIT) {
 			mainBoxStyle = {flexDirection: "column"};
@@ -252,20 +237,20 @@ var CamMgr = React.createClass({
 		return (
 			<View style={mainBoxStyle}>
 				<MediaView
-					cameraOn={this.state.cameraOn}
+					cameraOn={state.cameraOn}
 					dims={viewDims}
-					flashMode={this.state.flashMode}
-					imgHost={this.props.imgHost}
+					flashMode={state.flashMode}
+					imgHost={props.imgHost}
 					orientation={orientation}
-					prevImg={this.props.prevImg}
+					prevImg={props.prevImg}
 					setCameraRef={this._setCameraRef}
-					stagedImg={this.props.stagedImg || this.state.stagedImg} />
+					stagedImg={props.stagedImg || state.stagedImg} />
 				<ControlPanel
 					acceptImg={this._acceptImg}
-					cameraOn={this.state.cameraOn}
+					cameraOn={state.cameraOn}
 					captureImg={this._captureImg}
 					exitCamMgr={this._initCamMgrExit}
-					flashMode={this.state.flashMode}
+					flashMode={state.flashMode}
 					dims={controlPanelDims}
 					orientation={orientation}
 					selectImg={this._selectImg}

@@ -10,6 +10,7 @@ var TimerMixin = require('react-timer-mixin');
 // COMPONENTS
 var ActionButtons = require("../Comps/ActionButtons");
 var CamMgr = require("../Comps/CamMgr");
+var ImgMgr = require("./ImgMgr");
 var Pending = require("../Comps/Pending");
 var Site = require("../Comps/Site");
 var WhenMgr = require("../Comps/WhenMgr");
@@ -151,7 +152,7 @@ var NIMain = React.createClass({
     this._defaultView = <Text style={Styles.contentText}>--- Please Select ---</Text>;
     this._refresh(this.props, this.state, "when");
     this._refresh(this.props, this.state, "where");
-    // this._refreshImages(this.props, this.state)
+    this._refresh(this.props, this.state, "img");
   },
 
   componentWillUpdate: function(newProps, newState) {
@@ -160,14 +161,14 @@ var NIMain = React.createClass({
     if ( !_.eq(newProps, this.props) ) {
       this._refresh(newProps, newState, "where");
       this._refresh(newProps, newState, "when");
-      // this._refreshImages(newProps, newState);
+      this._refresh(newProps, newState, "img");
     } else {
       if ( !_.eq(oldState.sections.where.value, newState.sections.where.value) )
         this._refresh(newProps, newState, "where");
       if ( !_.eq(oldState.sections.when.value, newState.sections.when.value) )
         this._refresh(newProps, newState, "when");
-      // if ( !_.eq(oldState.sections.images.value, newState.sections.images.value) )
-      //   this._refreshImages(newProps, newState);
+      if ( !_.eq(oldState.sections.img.value, newState.sections.img.value) )
+        this._refresh(newProps, newState, "img");
     }
   },
 
@@ -217,26 +218,6 @@ var NIMain = React.createClass({
     scrollResponder.scrollResponderScrollNativeHandleToKeyboard(nodeHandle, offset);
   },
 
-  // _refreshImages: function(props, state) {
-  //   var currentSiteRight = props.currentSiteRight
-  //     , imgSection = state.sections.images
-  //     , doneState = imgSection.done ? "on" : "off";
-
-  //   if (!imgSection.value) {
-  //     imgSection.value = {
-  //       "licensePlate": null,
-  //       "vehicle": null
-  //     };
-  //   }
-
-  //   this._views["images"] =
-  //     <ImagesMgr
-  //       images={imgSection.value}
-  //       lookups={props.lookups}
-  //       setImages={(newImages, newState) => this._setSectionValue("images", newImages, [], newState)}
-  //       style={Styles.sectionContent} />
-  // },
-
   _refreshState: function() {
     this._views = [];
 
@@ -259,14 +240,14 @@ var NIMain = React.createClass({
           title: "Where is hazard located...",
           value: null
         },
-        // images: {
-        //   done: false,
-        //   icon: "android-car",
-        //   name: "images",
-        //   showModal: false,
-        //   title: "What does it look like...",
-        //   value: null
-        // }
+        img: {
+          done: false,
+          icon: "alert-circled",
+          name: "img",
+          showModal: false,
+          title: "What does it look like...",
+          value: null
+        }
       },
       workflowStages: {
         submit: [
@@ -293,7 +274,8 @@ var NIMain = React.createClass({
   },
 
   _refresh: function(props, state, section) {
-    let sections = state.sections;
+    let sections = state.sections,
+      { currentSiteRight, lookups } = props;
 
     switch (section) {
       case "when":
@@ -308,13 +290,12 @@ var NIMain = React.createClass({
         break;
 
       case "where":
-        let currentSiteRight = props.currentSiteRight
-          , site = props.sites[currentSiteRight.siteId];
+        let site = props.sites[currentSiteRight.siteId];
 
         // come up with the options
         this._views[section] =
           <Site
-            imgHost={props.lookups.hosts.img.provider}
+            imgHost={lookups.hosts.img.provider}
             info={site}
             showImg={true}
             showPhoneBtn={true}
@@ -323,6 +304,21 @@ var NIMain = React.createClass({
 
         state.sections[section].value = site, state.sections[section].done = _.isEmpty(site) ? false : true;
         break;
+
+      case "img":
+        let imgSection = sections[section];
+          // , doneState = imgSection.done ? "on" : "off";
+
+        this._views[section] =
+          <ImgMgr
+            openCam={() => this._toggleModal(true, section)}
+            img={imgSection.value}
+            lookups={lookups}
+            setImg={(newImg, newState) => this._setSectionValue(section, newImg, [], newState)}
+            style={Styles.sectionContent} />
+
+      default:
+        return;
     }
   },
 
@@ -334,7 +330,7 @@ var NIMain = React.createClass({
     this._childRef = this.refs.listView;
   },
 
-  _setSectionValue: function(section, newValue, path, state) {
+  _setSectionValue: function(section, newValue, path, state, doneCb) {
     let newState = _.cloneDeep(this.state)
       , targetSection = newState.sections[section];
 
@@ -343,18 +339,15 @@ var NIMain = React.createClass({
         targetSection.value = newValue;
         targetSection.done = _.isUndefined(state) ? !_.isEmpty(newValue) : state;
       }
-      else if (path.length === 1) {
-        let todoEntries = {};
-        
-        _.set(targetSection.value, path, newValue);
-        targetSection.done = this.isDone(_.pluck(todoEntries, "value"));
-      }
 
       targetSection.showModal = false;
       newState.sections[section] = targetSection;
 
       this.setState({ sections: newState.sections });
     }
+
+    if ( !_.isEmpty(doneCb) )
+      doneCb();
   },
 
   _setWorkflowStage: function(workflow, level) {
@@ -445,8 +438,7 @@ var NIMain = React.createClass({
       site
     } = props;
       
-    let imgHost = lookups.hosts["images"]
-      , section = state.sections[sectionId];
+    let section = state.sections[sectionId];
 
     switch(sectionId) {
       case "when":
@@ -486,7 +478,17 @@ var NIMain = React.createClass({
             leave={() => this._toggleModal(false, sectionId)}
             setSite={(newValue) => this._setSectionValue(sectionId, newValue, [])} />
         );  
-      break;
+        break;
+
+      case "img":
+        return (
+          <CamMgr
+            exitCamMgr={() => this._toggleModal(false, sectionId)}
+            imgHost={this._imgHost}
+            prevImg={section.value}
+            trashImg={() => this._trashImg()}
+            setImg={(newImg, doneCb) => this._setSectionValue(sectionId, newImg, [], false, doneCb)} />
+        );
 
       default:
         return null;
