@@ -335,8 +335,8 @@ var NIMain = React.createClass({
   },
 
   _setSectionValue: function(section, newValue, path, state, doneCb) {
-    let newState = _.cloneDeep(this.state)
-      , targetSection = newState.sections[section];
+    let sections = _.cloneDeep(this.state.sections)
+      , targetSection = sections[section];
 
     if ( !_.eq(_.property(path)(targetSection.value), newValue)) {
       if ( _.isEmpty(path) ) {
@@ -345,9 +345,9 @@ var NIMain = React.createClass({
       }
 
       targetSection.showModal = false;
-      newState.sections[section] = targetSection;
+      sections[section] = targetSection;
 
-      this.setState({ sections: newState.sections });
+      this.setState({ sections: sections });
     }
 
     if ( !_.isEmpty(doneCb) )
@@ -490,8 +490,7 @@ var NIMain = React.createClass({
             exitCamMgr={() => this._toggleModal(false, sectionId)}
             imgHost={this._imgHost}
             prevImg={section.value}
-            trashImg={() => this._trashImg()}
-            setImg={(newImg, doneCb) => this._setSectionValue(sectionId, newImg, [], false, doneCb)} />
+            setImg={(newImg, doneCb) => this._setSectionValue(sectionId, newImg, [], true, doneCb)} />
         );
 
       default:

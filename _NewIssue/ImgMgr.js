@@ -59,9 +59,7 @@ var ImgMgr = React.createClass({
     //   textAlign: "center"
     // }
   }),
-  // _imgDims: null,
-  
-  _ImgView: null,
+  _View: null,
 
   getInitialState: function() {
     return { imgDims: null }
@@ -86,8 +84,12 @@ var ImgMgr = React.createClass({
       };
 
       this._View = <Icon name={"camera"} style={iconStyle} />;
-    } else
-      this._View = <Image style={[this._styles.img, imgDims]} source={{uri: this._imgHost +img.uri}} />;
+    } else {
+      let imgUri = img.file.uri
+        , imgHost = this.props.lookups.hosts.img.provider.url;
+      
+      this._View = <Image style={[this._styles.img, imgDims]} source={{uri: imgUri}} />;
+    }
   },
 
   // _setImg: function(stagedImg) {

@@ -36,13 +36,12 @@ var ImageEditing = NativeModules.ImageEditingManager;
 var CamMgr = React.createClass({
 	propTypes: {
 		exitCamMgr: PropTypes.func,
-		imgHost: PropTypes.object,
+		imgHost: PropTypes.string,
 		prevImg: PropTypes.object,
 		setImg: PropTypes.func
   },
 	mixins: [Reflux.connect(ProfileStore), Reflux.ListenerMixin, ViewMixin],
 	cameraRef: null,
-	_camMgrOn: true,
 	_subscriber: null,
 	tabBarHeight: 50,
 
@@ -69,17 +68,18 @@ var CamMgr = React.createClass({
 	},
 
 	componentWillUpdate: function(newProps, newState) {
-		if (!this._camMgrOn)
-			newProps.exitCamMgr();
+		// if (!this._camMgrOn)
+		// 	newProps.exitCamMgr();
 	},
 
 	_acceptImg: function() {
+		let { prevImg, stagedImg, setImg, exitCamMgr } = this.props;
 		/***********************************************************
 		 	1. set the Img
 			 	a: if prevImg exists, simply leave
 			 	b. else (stagedImg is populated) add stagedImg to Issue object
 		************************************************************/	
-		if (!this.props.prevImg && !this.props.stagedImg) {
+		if (!prevImg && !stagedImg) {
 			/************************************************************
 			 Need to add ActivityIndicator until img is added to Firebase
 			************************************************************/ 
@@ -89,11 +89,11 @@ var CamMgr = React.createClass({
 			// InputHelperSceen saves stagedImg to Firebase, while VehicleScene
 			// will assign the staged Img to another staged Img obj
 			// this.props.setImg(this.state.stagedImg).then(() => {
-			this.props.setImg(this.state.stagedImg);
-	  	this._initCamMgrExit();
+			setImg(this.state.stagedImg);
+	  	// this._initCamMgrExit();
 		}
-		else
-			this.props.exitCamMgr();
+		
+		exitCamMgr();
 	},
 
 	_captureImg: function() {
@@ -107,10 +107,7 @@ var CamMgr = React.createClass({
     	}
 
     	IssueActions.buildImgObj.triggerPromise(imgUri).then((imgObj) => {
-    		self.setState({
-    			cameraOn: false,
-    			stagedImg: imgObj,
-    		});
+    		self.setState({ cameraOn: false, stagedImg: imgObj });
     	}).catch((err) => {
     		console.log("something went wrong");
     	});
@@ -119,7 +116,6 @@ var CamMgr = React.createClass({
 
   _initCamMgrExit: function() {
   	// this._orientationDidChange(this.Orientations.PORTRAIT);
-  	this._camMgrOn = false;
   	this._toggleCamera(false);
   },
 
@@ -157,10 +153,7 @@ var CamMgr = React.createClass({
   },
 
   _toggleCamera: function(state) {
-		this.setState({
-			cameraOn: state,
-			spinnerOn: false
-		});
+		this.setState({ cameraOn: state, spinnerOn: false });
 	},
 
 	_toggleFlashMode: function(mode) {
@@ -275,7 +268,7 @@ var MediaView = React.createClass({
 		cameraOn: PropTypes.bool,
 		dims: PropTypes.object,
 		flashMode: PropTypes.bool,
-		imgHost: PropTypes.object,
+		imgHost: PropTypes.string,
 		orientation: PropTypes.string,
 		prevImg: PropTypes.object,
 		stagedImg: PropTypes.object,
@@ -351,6 +344,7 @@ var ControlPanel = React.createClass({
 		toggleFlashMode: PropTypes.func,
 		trashImg: PropTypes.func
   },
+  _buttons: {},
 	getDefaultProps: function() {
 		return {
 			acceptImg: null,
@@ -370,13 +364,29 @@ var ControlPanel = React.createClass({
 		}
 	},
 
+	componentWillMount: function() {
+		let props = this.props
+			, onColor = this.Colors.night.section;
+
+		this._buttons["on"] = [
+  		{icon: ["flash-off", "ios-bolt-outline"], action: props.toggleFlashMode, color: onColor},
+  		{icon: "android-camera", action: props.captureImg, color: onColor},
+  		{icon: "ios-close-outline", action: props.exitCamMgr, color: onColor}
+	  ];
+
+	  this._buttons["off"] = [
+  		{icon: "ios-checkmark-outline", action: props.acceptImg, color: "#01DF01"},
+			{icon: "ios-trash-outline", action: props.trashImg, color: "#FF0000"}
+  	];
+	},
+
 	render: function() {
-		var borderWidth = 1;
-		var dims = this.props.dims;
-		var orientation = this.props.orientation;
-		var padding = 2;
+		let borderWidth = 1
+			, dims = this.props.dims
+			, orientation = this.props.orientation
+			, padding = 2;
 		
-		var styles = {
+		let styles = {
 			btn: {
 				flex: 1,
 			},
