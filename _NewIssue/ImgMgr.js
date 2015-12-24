@@ -65,13 +65,13 @@ var ImgMgr = React.createClass({
     return { imgDims: null };
   },
 
-  componentWillMount: function() {
-    this._View = null;
+  componentWillUpdate: function(newProps, newState) {
+    if ( !_.eq(newProps.img, this.props.img) || !_.eq(newState.imgDims, this.state.imgDims) || _.isEmpty(this._View) )
+      this._buildView(newProps.img, newState.imgDims);
   },
 
-  componentWillUpdate: function(newProps, newState) {
-    if ( !_.eq(newProps.img, this.props.img) || !_.eq(newState.imgDims, this.state.imgDims) || _.isEmpty(this._View) )    
-      this._buildView(newProps.img, newState.imgDims);
+  componentWillUnmount: function() {
+    this._View = null;
   },
 
   _buildView: function(img, imgDims) {
@@ -96,21 +96,22 @@ var ImgMgr = React.createClass({
 
   _setImgDims: function(e) {
     if ( _.isEmpty(this.state.imgDims) ) {
-      let layout = e.nativeEvent.layout; 
+      let width = e.nativeEvent.layout.width; 
       
       this.setState({
-        imgDims: { height: layout.width / this.AspectRatios["4x3"], width: layout.width }
+        imgDims: { height: width / this.AspectRatios["4x3"], width: width }
       });
     }
   },
 
   render: function() {
+    let { style, openCam } = this.props;
+
     return (
       <TouchableHighlight
-        onLayout={this._setImgDims}
-        onPress={openCam}
+        style={[style, this._styles.media]}
         underlayColor={this.Colors.night.border}
-        style={[style, this._styles.media]}>
+        onLayout={this._setImgDims} onPress={openCam}>
         <View>{this._View}</View>
       </TouchableHighlight>
     );

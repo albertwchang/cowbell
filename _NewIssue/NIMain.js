@@ -135,7 +135,6 @@ var NIMain = React.createClass({
   },
   _childRef: null,
   _currentWorkflow: "submit",
-  _defaultView: null,
   _ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
   _imgHost: "",
   _workflowMessages: {
@@ -152,7 +151,6 @@ var NIMain = React.createClass({
     StatusBarIOS.setHidden(false);
     StatusBarIOS.setStyle("light-content");
     this._imgHost = props.lookups.hosts.img.provider.url;
-    this._defaultView = <Text style={Styles.contentText}>--- Please Select ---</Text>;
     
     _.each(this.state.sections, (value, key) => {
       this._refresh(props, this.state, key);  
@@ -278,46 +276,46 @@ var NIMain = React.createClass({
   },
 
   _refresh: function(props, state, section) {
-    let sections = state.sections,
-      { currentSiteRight, lookups } = props;
+    let currentSection = state.sections[section]
+      , { currentSiteRight, lookups, sites, themeColor } = props;
 
     switch (section) {
       case "when":
-        let TextSection = _.isEmpty(sections[section].value) ? this._defaultView :
-          <Text style={Styles.contentText}>{Moment(sections[section].value).format("ddd MMM Do, YYYY, h:mm a")}</Text>;
+        let TextSection = _.isEmpty(currentSection.value) ?
+          <Text style={Styles.contentText}>--- Please Select ---</Text> :
+          <Text style={Styles.contentText}>{Moment(currentSection.value).format("ddd MMM Do, YYYY, h:mm a")}</Text>;
           
         this._views[section] = 
           <TouchableHighlight
-            onPress={() => this._toggleModal(true, sections[section].name)}>
+            onPress={() => this._toggleModal(true, currentSection.name)}>
             <View style={Styles.sectionContent}>{TextSection}</View>
           </TouchableHighlight>
         break;
 
       case "where":
-        let site = props.sites[currentSiteRight.siteId];
+        let site = sites[currentSiteRight.siteId];
 
         // come up with the options
         this._views[section] =
           <Site
-            imgHost={lookups.hosts.img.provider}
+            imgHost={this._imgHost}
             info={site}
             showImg={true}
             showPhoneBtn={true}
             style={ [Styles.sectionContent, {flex: 1, flexDirection: "row"}] }
-            themeColor={props.themeColor} />
+            themeColor={themeColor} />
 
-        state.sections[section].value = site, state.sections[section].done = _.isEmpty(site) ? false : true;
+        _.assign(this.state.sections[section], {
+          value: site,
+          done: _.isEmpty(site) ? false : true
+        });
+
         break;
-
       case "img":
-        let imgSection = sections[section];
-          // , doneState = imgSection.done ? "on" : "off";
-
-        this._views[section] = null;
         this._views[section] =
           <ImgMgr
             openCam={() => this._toggleModal(true, section)}
-            img={imgSection.value}
+            img={currentSection.value}
             lookups={lookups}
             style={Styles.sectionContent} />
         break;
@@ -522,7 +520,7 @@ var NIMain = React.createClass({
       currentSiteRight,
       currentUser,
       lookups,
-      site,
+      sites,
       themeColor
     } = props;
 
