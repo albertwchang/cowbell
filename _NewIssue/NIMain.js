@@ -135,45 +135,20 @@ var NIMain = React.createClass({
   },
   _childRef: null,
   _currentWorkflow: "submit",
-  _defaultView: null,
   _ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
   _imgHost: "",
   _workflowMessages: {
     "submit": ["Waiting to Submit", "Submitting...", "Issue created!", "Error: failed to create issue"]
   },
-  _views: [],
 
   getInitialState: function() {
     return this._refreshState();
   },
 
   componentWillMount: function() {
-    let props = this.props;
     StatusBarIOS.setHidden(false);
     StatusBarIOS.setStyle("light-content");
-    this._imgHost = props.lookups.hosts.img.provider.url;
-    this._defaultView = <Text style={Styles.contentText}>--- Please Select ---</Text>;
-    
-    _.each(this.state.sections, (value, key) => {
-      this._refresh(props, this.state, key);  
-    });
-  },
-
-  componentWillUpdate: function(newProps, newState) {
-    let oldState = this.state
-
-    if ( !_.eq(newProps, this.props) ) {
-      this._refresh(newProps, newState, "where");
-      this._refresh(newProps, newState, "when");
-      this._refresh(newProps, newState, "img");
-    } else {
-      if ( !_.eq(oldState.sections.where.value, newState.sections.where.value) )
-        this._refresh(newProps, newState, "where");
-      if ( !_.eq(oldState.sections.when.value, newState.sections.when.value) )
-        this._refresh(newProps, newState, "when");
-      if ( !_.eq(oldState.sections.img.value, newState.sections.img.value) )
-        this._refresh(newProps, newState, "img");
-    }
+    this._imgHost = this.props.lookups.hosts.img.provider.url;
   },
 
   _addIssue: function(statusId) {
@@ -223,8 +198,6 @@ var NIMain = React.createClass({
   },
 
   _refreshState: function() {
-    this._views = [];
-
     return {
       notes: "",
       sections: {
@@ -277,55 +250,6 @@ var NIMain = React.createClass({
     };
   },
 
-  _refresh: function(props, state, section) {
-    let sections = state.sections,
-      { currentSiteRight, lookups } = props;
-
-    switch (section) {
-      case "when":
-        let TextSection = _.isEmpty(sections[section].value) ? this._defaultView :
-          <Text style={Styles.contentText}>{Moment(sections[section].value).format("ddd MMM Do, YYYY, h:mm a")}</Text>;
-          
-        this._views[section] = 
-          <TouchableHighlight
-            onPress={() => this._toggleModal(true, sections[section].name)}>
-            <View style={Styles.sectionContent}>{TextSection}</View>
-          </TouchableHighlight>
-        break;
-
-      case "where":
-        let site = props.sites[currentSiteRight.siteId];
-
-        // come up with the options
-        this._views[section] =
-          <Site
-            imgHost={lookups.hosts.img.provider}
-            info={site}
-            showImg={true}
-            showPhoneBtn={true}
-            style={ [Styles.sectionContent, {flex: 1, flexDirection: "row"}] }
-            themeColor={props.themeColor} />
-
-        state.sections[section].value = site, state.sections[section].done = _.isEmpty(site) ? false : true;
-        break;
-
-      case "img":
-        let imgSection = sections[section];
-          // , doneState = imgSection.done ? "on" : "off";
-
-        this._views[section] =
-          <ImgMgr
-            openCam={() => this._toggleModal(true, section)}
-            img={imgSection.value}
-            lookups={lookups}
-            setImg={(newImg, newState) => this._setSectionValue(section, newImg, [], newState)}
-            style={Styles.sectionContent} />
-
-      default:
-        return;
-    }
-  },
-
   _resetSections: function() {
     this.setState(this._refreshState());
   },
@@ -334,24 +258,21 @@ var NIMain = React.createClass({
     this._childRef = this.refs.listView;
   },
 
-  _setSectionValue: function(section, newValue, path, state, doneCb) {
+  _setSectionValue: function(section, newValue, path, doneCb, rejectCb) {
     let sections = _.cloneDeep(this.state.sections)
-      , targetSection = sections[section];
-
-    if ( !_.eq(_.property(path)(targetSection.value), newValue)) {
+      // , targetSection = sections[section];
+    if ( !_.isUndefined(doneCb) )
+      doneCb();
+    
+    if ( !_.eq(_.property(path)(sections[section].value), newValue)) {
       if ( _.isEmpty(path) ) {
-        targetSection.value = newValue;
-        targetSection.done = _.isUndefined(state) ? !_.isEmpty(newValue) : state;
+        sections[section].value = newValue;
+        sections[section].done = !_.isEmpty(newValue);
       }
 
-      targetSection.showModal = false;
-      sections[section] = targetSection;
-
+      // targetSection.showModal = showModal;
       this.setState({ sections: sections });
     }
-
-    if ( !_.isEmpty(doneCb) )
-      doneCb();
   },
 
   _setWorkflowStage: function(workflow, level) {
@@ -420,7 +341,7 @@ var NIMain = React.createClass({
   },
 
   _toggleModal: function(state, section) {
-    let sections = this.state.sections;
+    let sections = _.cloneDeep(this.state.sections);
     sections[section].showModal = state;
     
     this.setState({ sections: sections });
@@ -435,14 +356,9 @@ var NIMain = React.createClass({
   },
 
   _renderModal: function(sectionId) {
-    let props = this.props, state = this.state, {
-      currentSiteRight,
-      currentUser,
-      lookups,
-      site
-    } = props;
-      
-    let section = state.sections[sectionId];
+    let { sections } = this.state
+      , { currentSiteRight, currentUser, lookups, sites } = this.props
+      , section = sections[sectionId];
 
     switch(sectionId) {
       case "when":
@@ -474,11 +390,9 @@ var NIMain = React.createClass({
       case "where":
         return (
           <WhereMgr
-            clientSiteId={_.isEmpty(section.value) ? null : section.value.iid}
-            clientSites={sites[this._orgTypeIds.CLIENT]}
             currentUser={currentUser}
             currentSiteRight={currentSiteRight}
-            imgHost={imgHost}
+            imgHost={this._imgHost}
             leave={() => this._toggleModal(false, sectionId)}
             setSite={(newValue) => this._setSectionValue(sectionId, newValue, [])} />
         );  
@@ -488,9 +402,8 @@ var NIMain = React.createClass({
         return (
           <CamMgr
             exitCamMgr={() => this._toggleModal(false, sectionId)}
-            imgHost={this._imgHost}
             prevImg={section.value}
-            setImg={(newImg, doneCb) => this._setSectionValue(sectionId, newImg, [], true, doneCb)} />
+            setImg={(newImg, doneCb) => this._setSectionValue(sectionId, newImg, [], doneCb)} />
         );
 
       default:
@@ -500,10 +413,53 @@ var NIMain = React.createClass({
   },
 
   _renderSection: function(section, sectionId, rowId) {
-    let props = this.props
-      , themeColor = props.themeColor
+    let currentSection = this.state.sections[rowId]
+      , { currentSiteRight, lookups, sites, themeColor } = this.props
       , textStyle = section.done ? {color: themeColor} : this.Styles._textStyle["need"]
-      , viewStyle = section.done ? {borderColor: themeColor} : this.Styles._viewStyle["need"];
+      , viewStyle = section.done ? {borderColor: themeColor} : this.Styles._viewStyle["need"]
+      , SectionView = null;
+
+    switch (rowId) {
+      case "when":
+        let TextSection = _.isEmpty(currentSection.value) ?
+          <Text style={Styles.contentText}>--- Please Select ---</Text> :
+          <Text style={Styles.contentText}>{Moment(currentSection.value).format("ddd MMM Do, YYYY, h:mm a")}</Text>;
+          
+        SectionView = 
+          <TouchableHighlight
+            onPress={() => this._toggleModal(true, currentSection.name)}>
+            <View style={Styles.sectionContent}>{TextSection}</View>
+          </TouchableHighlight>
+        break;
+
+      case "where":
+        let site = sites[currentSiteRight.siteId];
+
+        // come up with the options
+        SectionView =
+          <Site
+            imgHost={this._imgHost}
+            info={site}
+            showImg={true}
+            showPhoneBtn={true}
+            style={ [Styles.sectionContent, {flex: 1, flexDirection: "row"}] }
+            themeColor={themeColor} />
+
+        _.assign(this.state.sections[rowId], {
+          value: site,
+          done: _.isEmpty(site) ? false : true
+        });
+        break;
+
+      case "img":
+        SectionView =
+          <ImgMgr
+            openCam={() => this._toggleModal(true, rowId)}
+            img={currentSection.value}
+            lookups={lookups}
+            style={Styles.sectionContent} />
+        break;
+    }
 
     return (
       <View key={rowId} style={[Styles.topicBox, viewStyle]}>
@@ -513,50 +469,40 @@ var NIMain = React.createClass({
             style={ [Styles.thIcon, textStyle] } />
           <Text style={ [Styles.thText, textStyle] }>{section.title}</Text>
         </View>
-        {this._views[section.name]}
+        {SectionView}
       </View>
     );
   },
 
   render: function() {
-    let props = this.props, state = this.state, {
-      currentSiteRight,
-      currentUser,
-      lookups,
-      site,
-      themeColor
-    } = props;
-
-    let imgHost = lookups.hosts["images"]
-      , issue = state.issue
-      , visibleSection = _.find(state.sections, {"showModal": true})
+    let { issue, sections, workflowStages } = this.state
+      , { currentSiteRight, currentUser, lookups, sites, themeColor } = this.props
+      , visibleSection = _.find(sections, {"showModal": true})
       , workflowMessages = this._workflowMessages[this._currentWorkflow]
-      , workflowStages = state.workflowStages[this._currentWorkflow];
+      , currentWorkflowStages = workflowStages[this._currentWorkflow];
 
     return (
       <View style={Styles.main}>
-        <Modal
-          animation={false}
-          visible={!workflowStages[0].isActive}>
+        <Modal animation={false} visible={!currentWorkflowStages[0].isActive}>
           <Pending
             setDone={() => this._setWorkflowStage(this._currentWorkflow, 0)}
             style={Styles.submitting}
             workflowMessages={workflowMessages}
-            workflowStages={workflowStages} />
+            workflowStages={currentWorkflowStages} />
         </Modal>
         <ListView
           ref="listView"
-          dataSource={this._ds.cloneWithRows(state.sections)}
+          dataSource={this._ds.cloneWithRows(sections)}
           keyboardShouldPersistTaps={false}
           removeClippedSubviews={true}
           renderRow={this._renderSection}
           scrollEventThrottle={200} />
         <ActionButtons
           cancel={this._resetSections}
-          inputChanged={_.every(state.sections, "done", true)}
+          inputChanged={_.every(sections, "done", true)}
           saveData={() => this._submitIssue(_.last(this._submitStatuses))}
           style={Styles.buttonsBox}
-          themeColor={props.themeColor} />
+          themeColor={themeColor} />
         <Modal
           animation={false}
           visible={_.isEmpty(visibleSection) ? false : visibleSection.showModal}>

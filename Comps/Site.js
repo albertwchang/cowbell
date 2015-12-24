@@ -62,7 +62,7 @@ var Site = React.createClass({
 		showImg: PropTypes.bool,
 		showPhoneBtn: PropTypes.bool,
 		showAddy: PropTypes.object,
-		style: PropTypes.number,
+		// style: PropTypes.number,
 		themeColor: PropTypes.string
 	},
 
