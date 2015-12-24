@@ -167,11 +167,11 @@ var NIMain = React.createClass({
       this._refresh(newProps, newState, "when");
       this._refresh(newProps, newState, "img");
     } else {
-      if ( !_.eq(oldState.sections.where.value, newState.sections.where.value) )
+      if ( !_.eq(oldState.sections.where, newState.sections.where) )
         this._refresh(newProps, newState, "where");
-      if ( !_.eq(oldState.sections.when.value, newState.sections.when.value) )
+      if ( !_.eq(oldState.sections.when, newState.sections.when) )
         this._refresh(newProps, newState, "when");
-      if ( !_.eq(oldState.sections.img.value, newState.sections.img.value) )
+      if ( !_.eq(oldState.sections.img, newState.sections.img) )
         this._refresh(newProps, newState, "img");
     }
   },
@@ -313,16 +313,19 @@ var NIMain = React.createClass({
         let imgSection = sections[section];
           // , doneState = imgSection.done ? "on" : "off";
 
+        this._views[section] = null;
         this._views[section] =
           <ImgMgr
             openCam={() => this._toggleModal(true, section)}
             img={imgSection.value}
             lookups={lookups}
-            setImg={(newImg, newState) => this._setSectionValue(section, newImg, [], newState)}
             style={Styles.sectionContent} />
+        break;
 
       default:
-        return;
+        break;
+
+      return;
     }
   },
 
@@ -334,24 +337,21 @@ var NIMain = React.createClass({
     this._childRef = this.refs.listView;
   },
 
-  _setSectionValue: function(section, newValue, path, state, doneCb) {
+  _setSectionValue: function(section, newValue, path, doneCb, rejectCb) {
     let sections = _.cloneDeep(this.state.sections)
-      , targetSection = sections[section];
-
-    if ( !_.eq(_.property(path)(targetSection.value), newValue)) {
+      // , targetSection = sections[section];
+    if ( !_.isUndefined(doneCb) )
+      doneCb();
+    
+    if ( !_.eq(_.property(path)(sections[section].value), newValue)) {
       if ( _.isEmpty(path) ) {
-        targetSection.value = newValue;
-        targetSection.done = _.isUndefined(state) ? !_.isEmpty(newValue) : state;
+        sections[section].value = newValue;
+        sections[section].done = !_.isEmpty(newValue);
       }
 
-      targetSection.showModal = false;
-      sections[section] = targetSection;
-
+      // targetSection.showModal = showModal;
       this.setState({ sections: sections });
     }
-
-    if ( !_.isEmpty(doneCb) )
-      doneCb();
   },
 
   _setWorkflowStage: function(workflow, level) {
@@ -420,7 +420,7 @@ var NIMain = React.createClass({
   },
 
   _toggleModal: function(state, section) {
-    let sections = this.state.sections;
+    let sections = _.cloneDeep(this.state.sections);
     sections[section].showModal = state;
     
     this.setState({ sections: sections });
@@ -488,9 +488,8 @@ var NIMain = React.createClass({
         return (
           <CamMgr
             exitCamMgr={() => this._toggleModal(false, sectionId)}
-            imgHost={this._imgHost}
             prevImg={section.value}
-            setImg={(newImg, doneCb) => this._setSectionValue(sectionId, newImg, [], true, doneCb)} />
+            setImg={(newImg, doneCb) => this._setSectionValue(sectionId, newImg, [], doneCb)} />
         );
 
       default:
@@ -513,7 +512,7 @@ var NIMain = React.createClass({
             style={ [Styles.thIcon, textStyle] } />
           <Text style={ [Styles.thText, textStyle] }>{section.title}</Text>
         </View>
-        {this._views[section.name]}
+        {this._views[rowId]}
       </View>
     );
   },

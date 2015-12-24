@@ -78,11 +78,11 @@ var CowBell = React.createClass({
         , Reflux.ListenerMixin, IssueMixin, SiteMixin, ViewMixin],
   _contexts: {
     "issues": {
-      icon: "ios-glasses-outline",
+      icon: "ios-list-outline",
       comp: IssueList
     },
     "new": {
-      icon: "alert-circled",
+      icon: "ios-plus-outline",
       comp: NewIssue
     },
     "profile": {
@@ -277,11 +277,8 @@ var CowBell = React.createClass({
           barTintColor="#2E2E2E"
           style={styles.main}
           tintColor="#FE9A2E"
-          translucent={false}>{
-            _.map(tabs, (tabName) => {
-              return this._buildTabBarItem(tabName);
-            })
-          }
+          translucent={false}>
+          { tabs.map((tabName) => this._buildTabBarItem(tabName)) }
         </TabBarIOS>
       );
     }
