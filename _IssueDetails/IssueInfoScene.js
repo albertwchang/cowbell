@@ -297,7 +297,7 @@ var IssueInfoScene = React.createClass({
 						<LineSeparator vertMargin={4} height={0} />
 						<Site
 							info={props.site}
-							imgHost={imgHost}
+							imgHost={imgHost.url}
 							showImg={true}
 							showPhoneBtn={true}
 							style={this._styles.site}

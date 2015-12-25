@@ -154,7 +154,7 @@ var IssueListScene = React.createClass({
 							style={_styles.img} />
 						<Site
 							info={site}
-							imgHost={imgHost}
+							imgHost={imgHost.url}
 							showAddy={{street: true, city: true}}
 							showImg={true}
 							style={_styles.info} />

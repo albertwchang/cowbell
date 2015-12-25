@@ -71,7 +71,7 @@ var styles = StyleSheet.create({
 });
 
 var CowBell = React.createClass({
-  _chosenTab: "new",
+  _chosenTab: "issues",
   _gotLookups: false,
   mixins: [Reflux.connect(HostStore), Reflux.connect(LocationStore), Reflux.connect(LookupStore)
         , Reflux.connect(ProfileStore), Reflux.connect(SiteStore), Reflux.connect(UserStore)

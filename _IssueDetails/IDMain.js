@@ -11,7 +11,7 @@ var React = require("react-native");
 // COMPONENTS
 // var Invoicing = require("../Comps/Invoicing");
 var HistoryScene = require("./HistoryScene");
-var InputHelperScene = require("./InputHelperScene");
+// var InputHelperScene = require("./InputHelperScene");
 var LineSeparator = require("../Comps/LineSeparator");
 var MapScene = require("./MapScene");
 var NavBarTitle = require("../Comps/NavBarTitle");
