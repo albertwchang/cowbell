@@ -8,7 +8,7 @@ var Reflux = require("reflux");
 
 // CONTEXTS
 var Auth = require("./_Auth/AuthMain");
-// var NewIssue = require("./_NewIssue/NIMain");
+var NewIssue = require("./_NewIssue/NIMain");
 var IssueList = require("./_IssueList/ILMain");
 var Settings = require("./_Settings/SMain");
 var UserProfile = require("./_UserProfile/UPMain");
@@ -59,7 +59,7 @@ var styles = StyleSheet.create({
     flex: 1
   },
   navBar: {
-    backgroundColor: "#DF7401"
+    backgroundColor: "#FF2600"
   },
   loading: {
     flex: 1,
@@ -71,20 +71,20 @@ var styles = StyleSheet.create({
 });
 
 var CowBell = React.createClass({
-  _chosenTab: "issues",
+  _chosenTab: "new",
   _gotLookups: false,
   mixins: [Reflux.connect(HostStore), Reflux.connect(LocationStore), Reflux.connect(LookupStore)
         , Reflux.connect(ProfileStore), Reflux.connect(SiteStore), Reflux.connect(UserStore)
         , Reflux.ListenerMixin, IssueMixin, SiteMixin, ViewMixin],
   _contexts: {
     "issues": {
-      icon: "ios-glasses-outline",
+      icon: "ios-list-outline",
       comp: IssueList
     },
-    // "new": {
-    //   icon: "ios-compose",
-    //   comp: NewIssue
-    // },
+    "new": {
+      icon: "ios-plus-outline",
+      comp: NewIssue
+    },
     "profile": {
       icon: "ios-person",
       comp: UserProfile
@@ -138,12 +138,11 @@ var CowBell = React.createClass({
     // 3. retrieve references to "lookup"
     let qLookups = this._getLookups();
 
-    new Promise.all([qProfile, qLookups])
-      .then((results) => {
-        this._gotLookups = true;
-      }).finally(() => {
-        this.setState({ inProgress: false });
-      });
+    new Promise.all([qProfile, qLookups]).then((results) => {
+      this._gotLookups = true;
+    }).finally(() => {
+      this.setState({ inProgress: false });
+    });
   },
 
   componentWillUpdate: function(newProps, newState) {
@@ -169,7 +168,7 @@ var CowBell = React.createClass({
         key={tabName}
         onPress={() => this._setTab(tabName)}
         selected={isChosen}
-        title={tabName}>
+        title={_.capitalize(tabName)}>
         {isChosen ? this._routeContext(tabName) : ""}
       </Icon.TabBarItem>
     );
@@ -219,10 +218,10 @@ var CowBell = React.createClass({
       <Context
         currentSiteRight={state.currentSiteRight}
         currentUser={state.currentUser}
-        db={state.db}
+        host={state.host}
         lookups={state.lookups}
         sites={state.sites}
-        themeColor="#DF7401" />
+        themeColor="#FF2600" />
     );
   },
 
@@ -262,7 +261,7 @@ var CowBell = React.createClass({
     else if ( _.isEmpty(state.currentUser) )
       return (
         <Auth
-          db={state.db}
+          host={state.host}
           lookups={state.lookups}
           initSession={this._initSession}
           setProgress={this._setProgress}
@@ -278,11 +277,8 @@ var CowBell = React.createClass({
           barTintColor="#2E2E2E"
           style={styles.main}
           tintColor="#FE9A2E"
-          translucent={false}>{
-            _.map(tabs, (tabName) => {
-              return this._buildTabBarItem(tabName);
-            })
-          }
+          translucent={false}>
+          { tabs.map((tabName) => this._buildTabBarItem(tabName)) }
         </TabBarIOS>
       );
     }

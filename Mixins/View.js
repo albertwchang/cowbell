@@ -29,7 +29,7 @@ var View = {
 		ACTION_BTN_HEIGHT: 50,
 		NAV_BAR_HEIGHT: 43,
 		STATUS_BAR_HEIGHT: 20,
-		TAB_BAR_HEIGHT: 50
+		TAB_BAR_HEIGHT: 49
 	},
 	Orientations: {
 		// getOrientation: function() {
@@ -43,10 +43,16 @@ var View = {
 
 		return dims.STATUS_BAR_HEIGHT + dims.NAV_BAR_HEIGHT + dims.TAB_BAR_HEIGHT;
 	},
+	getNavBarStyle: function(themeColor) {
+		return {
+			alignItems: "flex-end",
+			backgroundColor: themeColor
+		};
+	},
 	Styles: {
 		_textStyle: StyleSheet.create({
 			need: {
-				color: "#FA5858"
+				color: "#d8d8d8"
 			},
 			on: {
 				color: "#3ADF00"
@@ -66,7 +72,7 @@ var View = {
 		}),
 		_viewStyle: StyleSheet.create({
 			need: {
-				borderColor: "#FA5858"
+				borderColor: "#d8d8d8"
 			},
 			on: {
 				borderColor: "#3ADF00"

@@ -152,6 +152,10 @@ var RLMain = React.createClass({
 	},
 
 	componentWillMount: function() {
+		/* Retrieve/get the following issues:
+			1) All issues pertaining to the current employer site that is set
+			2) All hazard issues that I have created
+		*/
 		this._reloadIssues().then((results) => {
 			this.setState({ gettingData: false });
 		});
@@ -376,23 +380,17 @@ var RLMain = React.createClass({
 			let title =
 				<NavBtn
 					onPress={this._toggleSearchBar}
-					style={{borderColor: "red", borderWidth: 0.75, borderRadius: 2, backgroundColor: "#FFFFFF"}}>
-					<Text>Search</Text>
+					style={{borderWidth: 0.75, borderRadius: 2}}>
+					<Text style={{color: this.Colors.night.text, fontSize: 22}}>Search</Text>
 				</NavBtn>;
-
-			let navBarStyle = {
-				alignItems: "flex-end",
-				backgroundColor: this.props.themeColor
-			};
 		
-			var navBar =
+			let navBar =
 				<NavBar
-					style={navBarStyle}
-					buttonsColor="#FFFFFF"
+					style={this.getNavBarStyle(this.props.themeColor)}
+					buttonsColor={this.Colors.night.text}
 					customPrev={mapBtn}
 					customNext={filterBtn}
-					customTitle={title}
-					titleColor="#FFFFFF" />
+					customTitle={title} />
 
 			return (
 				<Navigator

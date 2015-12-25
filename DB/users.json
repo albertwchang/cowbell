@@ -8,13 +8,7 @@
     },
     "phoneNum": 4152927110,
     "email": "bgonzalez@philzcoffee-sf.com",
-    "siteRights": [
-      {
-        "siteId": "site0",
-        "tasks": ["task0", "task1"]
-      }
-    ],
-    "jobs": ["issue5"],
+    "issues": ["issue0"],
     "settings": {
       "chosen": {
         "siteId": ""
@@ -28,16 +22,26 @@
         }
       }
     },
-    "signatureUri": "/users/signatures/bgonzalez.jpg",
+    "siteRights": [
+      {
+        "siteId": "site0",
+        "tasks": ["task0", "task1"]
+      }
+    ],
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "fa45a56d-aeb5-4b72-978b-fd39abb1bb43",
+      "prod": "c6e61bf1-3076-47f0-9efb-c09bb970eb86"
+    },
     "uid": "7438d2f0-d46a-4aa9-8c30-6fc6efff5428",
     "uri": {
-      "selfie": "/users/bgonzalez.jpg",
+      "selfie": "/users/selfies/bgonzalez.jpg",
       "signature": "/users/signatures/bgonzalez.jpg"
     }
   },
+
   "tgonzalez": {
     "iid": "tgonzalez",
     "name": {
@@ -53,7 +57,7 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue6"],
+    "issues": ["issue1"],
     "settings": {
       "chosen": {
         "siteId": ""
@@ -70,9 +74,13 @@
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "3c957129-e821-4c12-97bc-2aaccf42f6e6",
+      "prod": "bb5c3eb4-a1c8-4696-980e-b71645d33986"
+    },
     "uid": "5c6144c0-441e-48f6-90e0-13e16246ebd1",
     "uri": {
-      "selfie": "/users/tgonzalez.jpg",
+      "selfie": "/users/selfies/tgonzalez.jpg",
       "signature": "/users/signatures/tgonzalez.jpg"
     }
   },
@@ -104,13 +112,17 @@
         "tasks": ["task0", "task1"]
         }
     ],
-    "jobs": ["issue7"],
+    "issues": ["issue2"],
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "f8c0e732-47ea-48a1-b973-c970492537a8",
+      "prod": "d321f970-760c-41df-bb8f-d0d07a10400d"
+    },
     "uid": "b8f9fae7-3151-4f70-b769-8d411c94b910",
     "uri": {
-      "selfie": "/users/jgonzalez.jpg",
+      "selfie": "/users/selfies/jgonzalez.jpg",
       "signature": "/users/signatures/jgonzalez.jpg"
     }
   },
@@ -142,13 +154,17 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue8"],
+    "issues": "",
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "475addfc-4451-4f23-91c7-a0f290b28558",
+      "prod": "4803baee-c7ee-4d32-b8e1-8d4ae9806668"
+    },
     "uid": "c8c098d1-8eb5-4acb-bdc3-aa292f192628",
     "uri": {
-      "selfie": "/users/ggonzalez.jpg",
+      "selfie": "/users/selfies/ggonzalez.jpg",
       "signature": "/users/signatures/ggonzalez.jpg"
     }
   },
@@ -181,25 +197,31 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue9"],
+    "issues": "",
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "cf114d54-b70d-458c-9b9a-f6aecf6c68ac",
+      "prod": "64c2920e-1700-480d-9767-488e7c38f7e4"
+    },
     "uid": "1cfdaa4a-93aa-4aa8-9235-2bad9b444db9",
     "uri": {
-      "selfie": "/users/ygonzalez.jpg",
+      "selfie": "/users/selfies/ygonzalez.jpg",
       "signature": "/users/signatures/ygonzalez.jpg"
     }
   },
-  "afoley": {
-    "iid": "afoley",
+
+
+  "kbryant": {
+    "iid": "kbryant",
     "name": {
-      "first": "Axel",
+      "first": "Kobe",
       "middle": "",
-      "last": "Foley"
+      "last": "Bryant"
     },
-    "phoneNum": 8317283030,
-    "email": "afoley@bluebottle-sf.com",
+    "phoneNum": 4152712210,
+    "email": "kbryant@bluebottle-sf.com",
     "settings": {
       "chosen": {
         "siteId": ""
@@ -219,16 +241,153 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue0", "issue1", "issue2", "issue3", "issue4"],
+    "issues": ["issue3", "issue4"],
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "304e186f-833a-46ec-96db-6f99c7abeb2d",
+      "prod": "0b6e9720-0cca-4766-bfdc-0df19086750d"
+    },
+    "uid": "a2e5c765-d2dd-41ec-ab9c-91ce44eff8bd",
+    "uri": {
+      "selfie": "/users/selfies/kbryant.jpg",
+      "signature": "/users/signatures/kbryant.jpg"
+    }
+  },
+
+
+  "afoley": {
+    "iid": "afoley",
+    "name": {
+      "first": "Axel",
+      "middle": "",
+      "last": "Foley"
+    },
+    "phoneNum": 4159192212,
+    "email": "afoley@bluebottle-sf.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "issues": ["issue5"],
+    "siteRights": [
+      {
+        "siteId": "site1",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "3b69bb1e-416e-4b91-8504-3cbb3fb450be",
+      "prod": "85cbb06a-b671-447b-b476-a39ab9152aef"
+    },
     "uid": "95c4fcc3-27ee-463c-a30c-0b8b737ff0cc",
     "uri": {
-      "selfie": "/users/afoley.jpg",
+      "selfie": "/users/selfies/afoley.jpg",
       "signature": "/users/signatures/afoley.jpg"
     }
   },
+
+
+  "ljames": {
+    "iid": "ljames",
+    "name": {
+      "first": "Lebron",
+      "middle": "",
+      "last": "James"
+    },
+    "phoneNum": 4159921221,
+    "email": "ljames@lycsf.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site2",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue6"],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "6ec59eb3-0902-4a02-9055-ffa9b6e43923",
+      "prod": "e36b2cc1-372d-4c83-abb8-c8f564ed6cbd"
+    },
+    "uid": "e95a5f37-e482-4762-8c22-f799824f2af3",
+    "uri": {
+      "selfie": "/users/selfies/ljames.jpg",
+      "signature": "/users/signatures/ljames.jpg"
+    }
+  },
+
+
+  "pmanning": {
+    "iid": "pmanning",
+    "name": {
+      "first": "Peyton",
+      "middle": "",
+      "last": "Manning"
+    },
+    "phoneNum": 4152912232,
+    "email": "pmanning@lycsf.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site2",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue7"],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "7910ec3e-8148-406e-b456-abab3ac47f97",
+      "prod": "3ee87103-6694-40bf-98c0-e54a4eec4919"
+    },
+    "uid": "ca89fbf4-762e-4599-a0bc-d33e5543ca7d",
+    "uri": {
+      "selfie": "/users/selfies/pmanning.jpg",
+      "signature": "/users/signatures/pmanning.jpg"
+    }
+  },
+
   "wsmith": {
     "iid": "wsmith",
     "name": {
@@ -236,7 +395,7 @@
       "middle": "",
       "last": "Smith"
     },
-    "phoneNum": 8314772235,
+    "phoneNum": 4154322212,
     "email": "wsmith@lycsf.com",
     "settings": {
       "chosen": {
@@ -257,16 +416,66 @@
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue10", "issue11"],
+    "issues": ["issue8"],
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "45ab2bba-4736-4e8a-bc93-e677ba76d55e",
+      "prod": "d68bc88d-31e9-4e35-ba83-56d41545845d"
+    },
     "uid": "6478c514-87c7-4398-880a-fde9162843fe",
     "uri": {
-      "selfie": "/users/wsmith.jpg",
+      "selfie": "/users/selfies/wsmith.jpg",
       "signature": "/users/signatures/wsmith.jpg"
     }
   },
+
+
+  "soneal": {
+    "iid": "soneal",
+    "name": {
+      "first": "Shaq",
+      "middle": "",
+      "last": "O'neal"
+    },
+    "phoneNum": 4152210232,
+    "email": "soneal@starbucks-coffee.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site3",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": "",
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "f476e9d2-3924-4cb5-bb2e-4a13e254c807",
+      "prod": "d4567ccd-77e6-4b45-89a7-665a7263299e"
+    },
+    "uid": "e00134a0-c92f-4d50-80aa-b8087409136c",
+    "uri": {
+      "selfie": "/users/selfies/soneal.jpg",
+      "signature": "/users/signatures/soneal.jpg"
+    }
+  },
+
+
   "mramirez": {
     "iid": "mramirez",
     "name": {
@@ -274,8 +483,8 @@
       "middle": "",
       "last": "Ramirez"
     },
-    "phoneNum": 8314772230,
-    "email": "mramirez@lycsf.com",
+    "phoneNum": 6507715515,
+    "email": "mramirez@starbucks-coffee.com",
     "settings": {
       "chosen": {
         "siteId": ""
@@ -291,37 +500,34 @@
     },
     "siteRights": [
       {
-        "siteId": "site2",
+        "siteId": "site3",
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue12", "issue13", "issue14"],
+    "issues": "",
     "state": {
       "issueId": ""
+    },
+    "uids": {
+      "dev": "4870ffc1-22f9-423d-888e-39a61168b6db",
+      "prod": "fc0488cf-7653-4b8d-b69e-a8543a7328d3"
     },
     "uid": "688a3412-8fb8-4887-ba70-5b3f66443364",
     "uri": {
-      "selfie": "/users/mramirez.jpg",
+      "selfie": "/users/selfies/mramirez.jpg",
       "signature": "/users/signatures/mramirez.jpg"
     }
   },
-  "sconnery": {
-    "iid": "sconnery",
+
+  "aagassi": {
+    "iid": "aagassi",
     "name": {
-      "first": "Sean",
+      "first": "Andre",
       "middle": "",
-      "last": "Connery"
+      "last": "Agassi"
     },
-    "phoneNum": 6507715506,
-    "email": "sconnery@ruby-skye.com",
-    "signatureUri": "/users/signatures/sconnery.jpg",
-    "siteRights": [
-      {
-        "siteId": "site3",
-        "tasks": ["task0", "task1"]
-      }
-    ],
-    "jobs": ["issue15"],
+    "phoneNum": 8314622102,
+    "email": "aagassi@liveoaksuper.com",
     "settings": {
       "chosen": {
         "siteId": ""
@@ -335,24 +541,36 @@
         }
       }
     },
+    "siteRights": [
+      {
+        "siteId": "site4",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue12"],
     "state": {
       "issueId": ""
     },
-    "uid": "bad5ddfe-f491-400b-a495-60c099f28787",
+    "uids": {
+      "dev": "76fe3620-84d7-4a55-ae34-751af1f43c91",
+      "prod": "94d672f8-3145-46ff-a46a-ab7cccefeff0"
+    },
+    "uid": "cec42918-5bf9-41a1-97e5-ddd7588dd642",
     "uri": {
-      "selfie": "/users/sconnery.jpg",
-      "signature": "/users/sconnery.jpg"
+      "selfie": "/users/selfies/aagassi.jpg",
+      "signature": "/users/signatures/aagassi.jpg"
     }
   },
-  "jtravolta": {
-    "iid": "jtravolta",
+
+  "apeterson": {
+    "iid": "apeterson",
     "name": {
-      "first": "John",
+      "first": "Adrian",
       "middle": "",
-      "last": "Travolta"
+      "last": "Peterson"
     },
-    "phoneNum": 6507715502,
-    "email": "jtravolta@ruby-skye.com",
+    "phoneNum": 83147612012,
+    "email": "apeterson@liveoaksuper.com",
     "settings": {
       "chosen": {
         "siteId": ""
@@ -366,23 +584,290 @@
         }
       }
     },
-    "signatureUri": "/users/signatures/jtravolta.jpg",
+    "siteRights": [
+      {
+        "siteId": "site4",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue13"],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "f8914ac8-fab1-4f8a-a1f1-b712ae29e3fe",
+      "prod": "578bcefc-b64b-4bf5-80bc-47c9f5606639"
+    },
+    "uid": "e2fd613a-61cf-4707-802e-4e6ffc529ed0",
+    "uri": {
+      "selfie": "/users/selfies/apeterson.jpg",
+      "signature": "/users/signatures/apeterson.jpg"
+    }
+  },
+  
+
+  "cweber": {
+    "iid": "cweber",
+    "name": {
+      "first": "Chris",
+      "middle": "",
+      "last": "Weber"
+    },
+    "phoneNum": 8314755521,
+    "email": "cweber@liveoaksuper.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site4",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue14"],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "9f28aa58-5a89-4cdb-940c-94ba6fd03dfb",
+      "prod": "4a7f84ca-92dd-4485-af48-3b93c4bc834b"
+    },
+    "uid": "b00d2a13-f0c8-4ef4-a872-85d5c1c3af0e",
+    "uri": {
+      "selfie": "/users/selfies/cweber.jpg",
+      "signature": "/users/signatures/cweber.jpg"
+    }
+  },
+
+  "jmontana": {
+    "iid": "jmontana",
+    "name": {
+      "first": "Joe",
+      "middle": "",
+      "last": "Montana"
+    },
+    "phoneNum": 8314762212,
+    "email": "jmontana@capitolalaundry.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site6",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue18"],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "9ddb8193-a5b1-49d2-8f28-3950dd765a6f",
+      "prod": "b29c5454-1bd7-4182-b7c2-74c7262c5be3"
+    },
+    "uid": "3676fbb3-c81a-45e8-b7be-63cd2a384a88",
+    "uri": {
+      "selfie": "/users/selfies/jmontana.jpg",
+      "signature": "/users/signatures/jmontana.jpg"
+    }
+  },
+
+
+  "jrice": {
+    "iid": "jrice",
+    "name": {
+      "first": "Jerry",
+      "middle": "",
+      "last": "Rice"
+    },
+    "phoneNum": 8314420012,
+    "email": "jrice@capitolalaundry.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site6",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue19"],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "18e64eda-8fee-458e-b2ca-b35a54afaf2a",
+      "prod": "8785fecf-380c-4e52-8bce-4c33a7d3ad9a"
+    },
+    "uid": "955be104-be69-4084-9772-5c05952baab0",
+    "uri": {
+      "selfie": "/users/selfies/jrice.jpg",
+      "signature": "/users/signatures/jrice.jpg"
+    }
+  },
+
+
+  "achang28": {
+    "iid": "achang28",
+    "name": {
+      "first": "Albert",
+      "middle": "",
+      "last": "Chang"
+    },
+    "phoneNum": 6507715515,
+    "email": "achang28@starbucks.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site7",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue20"],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "dc243619-3b66-49be-be32-7087d9036c96",
+      "prod": "0e05a9cf-8003-47be-9a72-1d52e388215d"
+    },
+    "uid": "58c7777e-50ac-4f30-831d-d2f6af1136d1",
+    "uri": {
+      "selfie": "/users/selfies/achang28.jpg",
+      "signature": "/users/signatures/achang28.jpg"
+    }
+  },
+
+
+
+  "krafferty": {
+    "iid": "krafferty",
+    "name": {
+      "first": "Kevin",
+      "middle": "",
+      "last": "Rafferty"
+    },
+    "phoneNum": 8312210242,
+    "email": "krafferty@thecrowsnest-santacruz.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site5",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "issues": ["issue15", "issue16", "issue17"],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "31612c6f-228f-407d-850b-dff08bf49740",
+      "prod": "f34bcf17-69e7-4dad-a824-a0a9b225e4d5"
+    },
+    "uid": "a50d19a3-0ce7-42e0-9e8b-bb4c23a6742e",
+    "uri": {
+      "selfie": "/users/selfies/krafferty.jpg",
+      "signature": "/users/signatures/krafferty.jpg"
+    }
+  },
+
+  "tbrady": {
+    "iid": "tbrady",
+    "name": {
+      "first": "Tom",
+      "middle": "",
+      "last": "Brady"
+    },
+    "phoneNum": 4155021281,
+    "email": "tbrady@ruby-skye.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
     "siteRights": [
       {
         "siteId": "site3",
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue16", "issue17"],
+    "issues": ["issue9"],
     "state": {
       "issueId": ""
     },
-    "uid": "ea797310-0dfe-4166-9ac8-d766f94126b5",
+    "uids": {
+      "dev": "e83456bf-3865-4a99-9021-43e46917173d",
+      "prod": "000ebeb1-62fc-440f-97ac-8338cd13f2c2"
+    },
+    "uid": "1975ed6f-ba5d-475e-9853-5c61f7e33782",
     "uri": {
-      "selfie": "/users/jtravolta.jpg",
-      "signature": "/users/jtravolta.jpg"
+      "selfie": "/users/selfies/tbrady.jpg",
+      "signature": "/users/signatures/tbrady.jpg"
     }
   },
+
   "gclooney": {
     "iid": "gclooney",
     "name": {
@@ -405,21 +890,110 @@
         }
       }
     },
-    "signatureUri": "/users/signatures/gclooney.jpg",
+    "issues": ["issue10"],
     "siteRights": [
       {
         "siteId": "site3",
         "tasks": ["task0", "task1"]
       }
     ],
-    "jobs": ["issue18", "issue19"],
     "state": {
       "issueId": ""
     },
+    "uids": {
+      "dev": "70cf79e9-3447-4d26-98e9-36a9425d1f22",
+      "prod": "6913273e-cc28-4260-9f86-76c43abe9545"
+    },
     "uid": "7d9d87f9-ae20-4319-b5a0-d6802c981832",
     "uri": {
-      "selfie": "/users/gclooney.jpg",
-      "signature": "/users/gclooney.jpg"
+      "selfie": "/users/selfies/gclooney.jpg",
+      "signature": "/users/signatures/gclooney.jpg"
+    }
+  },
+
+  "jtravolta": {
+    "iid": "jtravolta",
+    "name": {
+      "first": "John",
+      "middle": "",
+      "last": "Travolta"
+    },
+    "phoneNum": 4155529921,
+    "email": "jtravolta@ruby-skye.com",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "issues": ["issue11"],
+    "siteRights": [
+      {
+        "siteId": "site3",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "44559244-467f-4c92-8fc3-ba33b2073758",
+      "prod": "fb11d743-c9bc-4e92-9588-58389b3f1aea"
+    },
+    "uid": "ea797310-0dfe-4166-9ac8-d766f94126b5",
+    "uri": {
+      "selfie": "/users/selfies/jtravolta.jpg",
+      "signature": "/users/signatures/jtravolta.jpg"
+    }
+  },
+  
+  "sconnery": {
+    "iid": "sconnery",
+    "name": {
+      "first": "Sean",
+      "middle": "",
+      "last": "Connery"
+    },
+    "phoneNum": 4156230021,
+    "email": "sconnery@ruby-skye.com",
+    "issues": "",
+    "settings": {
+      "chosen": {
+        "siteId": ""
+      },
+      "filters": {
+        "statuses": {
+          "states": {
+            "done": false,
+            "open": true
+          }
+        }
+      }
+    },
+    "siteRights": [
+      {
+        "siteId": "site3",
+        "tasks": ["task0", "task1"]
+      }
+    ],
+    "state": {
+      "issueId": ""
+    },
+    "uids": {
+      "dev": "eb58bd2f-a4ef-47b4-acbc-360d7a8fba2d",
+      "prod": "42d08b5b-c69a-445c-b050-0a137f6f7216"
+    },
+    "uid": "bad5ddfe-f491-400b-a495-60c099f28787",
+    "uri": {
+      "selfie": "/users/selfies/sconnery.jpg",
+      "signature": "/users/signatures/sconnery.jpg"
     }
   }
 }

@@ -9,23 +9,24 @@ var _ = require("lodash");
 
 var UserStore = Reflux.createStore({
 	listenables: [UserActions],
-	_db: null,
+	_host: null,
 	_users: [],
+	_storeName: "users",
 
 	init: function() {
-		this.listenTo(HostStore, this._updateDb, this._updateDb);
+		this.listenTo(HostStore, this._setHost, this._setHost);
 	},
 
 	getInitialState: function() {
 		return { users: this._users }
 	},
 
-	onEndListeners: function() {
+	// onEndListeners: function() {
 
-	},
+	// },
 
 	onPullUsers: function(siteId, userIds) {
-		let usersRef = this._db; // refers to "user" collection within DB
+		let usersRef = this._host.db; // refers to "user" collection within DB
 
 		if ( _.isEmpty(userIds) || !_.isEmpty(this._users[siteId]) )
 			UserActions.pullUsers.completed();
@@ -46,8 +47,10 @@ var UserStore = Reflux.createStore({
 		}
 	},
 
-	_updateDb: function(data) {
-		this._db = data.db.child("users");
+	_setHost: function(data) {
+		this._host = _.mapValues(data.host, (value, key) => {
+			return (key === "db") ? value.child(this._storeName) : value;
+		});
 	},
 });
 

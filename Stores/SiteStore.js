@@ -10,12 +10,12 @@ var _ = require("lodash");
 
 var LocationStore = Reflux.createStore({
 	listenables: [SiteActions],
-	_db: null,
+	_host: null,
 	_dbRefs: [],
 	_sites: {},
 
 	init: function() {
-		this.listenTo(HostStore, this._updateDb, this._updateDb);
+		this.listenTo(HostStore, this._setHost, this._setHost);
 	},
 
 	getInitialState: function() {
@@ -40,7 +40,7 @@ var LocationStore = Reflux.createStore({
 
 	// "Pulling sites" extracts data from the DB
 	onPullEmployerSite: function(siteId) {
-		let siteRef = this._db.child(siteId);
+		let siteRef = this._host.db.child(siteId);
 		
 		// add to list of other db objects for the purpose being "unlistened to" later
 		this._dbRefs.push(siteRef);
@@ -59,7 +59,7 @@ var LocationStore = Reflux.createStore({
 	},
 
 	onSetIssueId: function(issueId, siteId) {
-		let siteIssuesRef = this._db.child(siteId).child("issues");
+		let siteIssuesRef = this._host.db.child(siteId).child("issues");
 		this._dbRefs.push(siteIssuesRef);
 
 		siteIssuesRef.transaction((prevList) => {
@@ -89,9 +89,11 @@ var LocationStore = Reflux.createStore({
 		});
 	},
 
-	_updateDb: function(data) {
-		this._db = data.db.child("sites");
-	},
+	_setHost: function(data) {
+		this._host = _.mapValues(data.host, (value, key) => {
+			return (key === "db") ? value.child("sites") : value;
+		});
+	}
 });
 
 

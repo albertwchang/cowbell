@@ -34,7 +34,8 @@ var _styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "column",
 		height: Display.height - ViewMixin.getInnerView(),
-		paddingHorizontal: 4
+		paddingHorizontal: 4,
+		paddingVertical: 4
 	},
 	separatorIcon: {
 		alignSelf: "center",
@@ -97,10 +98,9 @@ var HistoryScene = React.createClass({
 						fontSize: 14,
 						letterSpacing: 1
 					}, date: {
-						color: "#D8D8D8",
+						color: ViewMixin.Colors.night.text,
 						flex: 1,
-						fontSize: 14,
-						fontWeight: "bold",
+						fontSize: 15,
 						letterSpacing: 1
 					},
 				img: {

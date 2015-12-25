@@ -1,3 +1,5 @@
+'use strict';
+
 var Camera = require('react-native-camera');
 var Carousel = require("react-native-carousel");
 var Display = require('react-native-device-display');
@@ -7,14 +9,15 @@ var Orientation = require('react-native-orientation');
 var React = require("react-native");
 var Reflux = require("reflux");
 
+// COMPONENTS
+var ChoiceControl = require('./ChoiceControl');
+
 // MIXINS
 var ViewMixin = require("../Mixins/View");
 
 // ACTIONS && STORES
 var HostActions = require("../Actions/HostActions");
 var HostStore = require("../Stores/HostStore");
-var LookupActions = require("../Actions/LookupActions");
-var LookupStore = require("../Stores/LookupStore");
 var ProfileStore = require("../Stores/ProfileStore");
 var IssueActions = require("../Actions/IssueActions");
 
@@ -22,36 +25,48 @@ var IssueActions = require("../Actions/IssueActions");
 var Moment = require('moment');
 var _ = require("lodash");
 
-var {
-	AlertIOS,
-	Dimensions,
-	Image,
-	NativeModules,
-	PropTypes,
-	StyleSheet,
-	Text,
-	TouchableHighlight,
-	View,
-} = React;
-
+var { AlertIOS, Dimensions, Image, NativeModules, PropTypes, StyleSheet, Text, TouchableHighlight, View } = React;
 var ImageEditing = NativeModules.ImageEditingManager;
+var Styles = {
+	main: null,
+	media: {
+		backgroundColor: "#000000",
+		justifyContent: 'center'
+	},
+	btn: {
+		flex: 1,
+	},
+	btnIcon: {
+		alignSelf: "center",
+		color: ViewMixin.Colors.night.text,
+		fontSize: 0
+	},
+	controlPanel: {
+		alignItems: "center",
+		bottom: 0,
+		backgroundColor: "#2E2E2E",
+		borderTopWidth: 0,
+	  borderColor: '#A4A4A4',
+		flexDirection: "row",
+		height: 0,
+		paddingVertical: 0,
+		position: "absolute",
+		width: 0,
+	}
+};
 var CamMgr = React.createClass({
 	propTypes: {
-		db: PropTypes.object,
 		exitCamMgr: PropTypes.func,
-		imgHost: PropTypes.object,
-		imgType: PropTypes.object,
-		looups: PropTypes.object,
+		imgHost: PropTypes.string,
 		prevImg: PropTypes.object,
-		setImg: PropTypes.func,
-		stagedImg: PropTypes.object,
-		trashImg: PropTypes.func
+		setImg: PropTypes.func
   },
 	mixins: [Reflux.connect(ProfileStore), Reflux.ListenerMixin, ViewMixin],
-	cameraRef: null,
-	_camMgrOn: true,
-	_subscriber: null,
-	tabBarHeight: 50,
+	_camRef: "cam",
+	_dims: {
+		controlPanel: {},
+		media: {}
+	},
 
 	getInitialState: function() {
 		return {
@@ -67,6 +82,16 @@ var CamMgr = React.createClass({
 		// Orientation.shouldRotate(1);
 		Orientation.unlockAllOrientations();
 		Orientation.addOrientationListener(this._orientationDidChange);
+	  this._calcDims();
+	  this._buildControlPanel();
+	  // this._buildMediaView();
+	},
+
+	componentWillUpdate: function(newProps, newState) {
+		if (  !_.eq(newState.orientation, this.state.orientation) ) {
+			this._calcDims();
+			this._buildControlPanel();
+		}
 	},
 
 	componentWillUnmount: function () {
@@ -75,68 +100,133 @@ var CamMgr = React.createClass({
 		Orientation.removeOrientationListener(this._orientationDidChange);
 	},
 
-	componentWillUpdate: function(newProps, newState) {
-		if (!this._camMgrOn)
-			newProps.exitCamMgr();
-	},
-
 	_acceptImg: function() {
+		let { prevImg, stagedImg, setImg, exitCamMgr } = this.props;
 		/***********************************************************
 		 	1. set the Img
 			 	a: if prevImg exists, simply leave
 			 	b. else (stagedImg is populated) add stagedImg to Issue object
 		************************************************************/	
-		if (!this.props.prevImg && !this.props.stagedImg) {
+		if (!prevImg && !stagedImg) {
 			/************************************************************
 			 Need to add ActivityIndicator until img is added to Firebase
 			************************************************************/ 
 			// this._setImg(this.state.stagedImg, this.props.issueId);
-			this.setState({
-				spinnerOn: true,
-			});
+			this.setState({ spinnerOn: true });
 
 			// InputHelperSceen saves stagedImg to Firebase, while VehicleScene
 			// will assign the staged Img to another staged Img obj
 			// this.props.setImg(this.state.stagedImg).then(() => {
-			this.props.setImg(this.state.stagedImg);
-	  	this._initCamMgrExit();
-		} else {
-			this.props.exitCamMgr();
+			setImg(this.state.stagedImg);
+	  	// this._initCamMgrExit();
 		}
+		
+		exitCamMgr();
 	},
 
+	_buildControlPanel: function() {
+		let { prevImg, imgHost } = this.props
+			, { stagedImg, cameraOn, orientation } = this.state
+			, borderWidth = 1, padding = 2;
+
+		let cp = "controlPanel";
+		_.assign(Styles.btnIcon, {
+			fontSize: this._dims[cp].height - 2*padding - borderWidth
+		});
+		_.assign(Styles[cp], {
+			borderTopWidth: borderWidth,
+			height: this._dims[cp].height,
+			paddingVertical: padding,
+			width: this._dims[cp].width
+		});
+
+		_.assign(Styles.media, this._dims.media);
+	},
+
+	// _buildMediaView: function() {
+	// 	let { prevImg, imgHost } = this.props
+	// 		, { cameraOn, flashMode, stagedImg, orientation } = this.state;
+		
+	// 	if (cameraOn) {
+	// 		this._MediaView =
+	// 			<Camera
+	// 				captureTarget={Camera.constants.CaptureTarget.disk}
+	// 				flashMode={Camera.constants.FlashMode[flashMode ? "on" : "off"]}
+	// 				orientation={orientation}
+	// 	    	ref={this._camRef}
+	// 	      style={Styles.media}
+	// 	      type={Camera.constants.Type.back} />
+	// 	} else {
+	// 		let imgUri = stagedImg.file ? stagedImg.file.uri
+	// 			: (prevImg ? imgHost +prevImg.uri +"?fit=crop&w=" +Display.width +"&h=" +Display.height : undefined);
+			
+	// 		this._MediaView =
+	// 			<Image resizeMode="contain" style={Styles.media} source={ {uri: imgUri} } />;
+	// 	}
+	// },
+
+	_calcDims: function() {
+		let direction, minSizeParam, maxSizeParam;
+		
+		if (this.state.orientation === this.Orientations.PORTRAIT) {
+			direction = "column";
+			maxSizeParam = "height";
+			minSizeParam = "width";
+		} else {
+			direction = "row";
+			maxSizeParam = "width";
+			minSizeParam = "height";
+		}
+
+		Styles.main = { flexDirection: direction };
+		this._dims.controlPanel[maxSizeParam] = this.Dimensions.TAB_BAR_HEIGHT;
+		this._dims.controlPanel[minSizeParam] = Math.min(Display.width, Display.height);
+		this._dims.media[maxSizeParam] = Math.max(Display.width, Display.height);
+		this._dims.media[minSizeParam] = Math.min(Display.width, Display.height);
+  },
+
 	_captureImg: function() {
-    this.cameraRef.capture((err, imgUri) => {
+    this.refs[this._camRef].capture((err, imgUri) => {
     	var self = this;
+    	let imgEditor = NativeModules.ImageEditingManager;
+    	
     	if (err) {
     		// future:  create an alert for this problem
-    		console.log("Img couldn't be captured");
-    		return;
+    		AlertIOS.alert("Can't capture Img:", err
+    			, [{ text: 'Okay', onPress: function() {
+    				console.log("testing");
+    			}}]
+    			, 'default');
     	}
 
-    	let imgEditor = NativeModules.ImageEditingManager;
-
-    	IssueActions.buildImgObj.triggerPromise(this.props.imgType.iid, imgUri)
-	    	.then((imgObj) => {
-	    		self.setState({
-	    			cameraOn: false,
-	    			stagedImg: imgObj,
-	    		});
-	    	}).catch((err) => {
-	    		console.log("something went wrong");
-	    	});
+    	IssueActions.buildImgObj.triggerPromise(imgUri).then((imgObj) => {
+    		self.setState({ cameraOn: false, stagedImg: imgObj });
+    	}).catch((err) => {
+    		console.log("something went wrong");
+    	});
     });
   },
 
-  _initCamMgrExit: function() {
-  	// this._orientationDidChange(this.Orientations.PORTRAIT);
-  	this._camMgrOn = false;
-  	this._toggleCamera(false);
+  _getImgUri: function(img) {
+  	let imgUri = ""
+  		, imgHost = this.props.imgHost;
+  	
+  	if ( _.isEmpty(imgHost) )
+  		imgUri = img.file.uri;
+  	else if ( _.isEmpty(img) )
+  		return;
+  	else
+  		imgUri = imgHost +img.uri +"?fit=crop&w=" +Display.width +"&h=" +Display.height;
+
+  	return imgUri;
   },
 
+  // _initCamMgrExit: function() {
+  	// this._orientationDidChange(this.Orientations.PORTRAIT);
+  	// this._toggleCamera(false);
+  // },
+
   _orientationDidChange: function(newOrientation) {
-		var x = Dimensions.get("window").width;
-		
 		if (!newOrientation)
 			return;
 
@@ -148,30 +238,19 @@ var CamMgr = React.createClass({
 	},
 
 	_resetStagedImg: function() {
-  	return _.assign(this.props.imgType, {
-			dbRecord: null,
-      file: null,
-      isSet: false
-    })
+  	return { dbRecord: null, file: null, isSet: false };
   },
 
-  _selectImg: function() {
-  	AlertIOS.alert(
-		  'Select from Photo Album',
-		  'Will be implemented later...',
-		  [{text: 'Okay'}]
-		);
-  },
-
-  _setCameraRef: function(ref) {
-  	this.cameraRef = ref;
-  },
+  // _selectImg: function() {
+  // 	AlertIOS.alert(
+		//   'Select from Photo Album',
+		//   'Will be implemented later...',
+		//   [{text: 'Okay'}]
+		// );
+  // },
 
   _toggleCamera: function(state) {
-		this.setState({
-			cameraOn: state,
-			spinnerOn: false
-		});
+		this.setState({ cameraOn: state, spinnerOn: false });
 	},
 
 	_toggleFlashMode: function(mode) {
@@ -179,319 +258,77 @@ var CamMgr = React.createClass({
 	},
 
 	_trashImg: function() {
-		this.setState({
-			spinnerOn: true,
-		});
+		let props = this.props, qSetImg
+			, endState = { cameraOn: true, spinnerOn: false }
+		
+		if ( !_.isEmpty(props.imgHost) )
+			this.setState({	spinnerOn: true });
+		
+		// 1. check for 'stagedImg'
+		if ( !_.isEmpty(this.state.stagedImg.file) ) {
+			_.assign( endState, {stagedImg: this._resetStagedImg()} );
+			qSetImg = new Promise.resolve();
+		} else if ( !_.isEmpty(props.prevImg) || !_.isEmpty(props.stagedImg) ) {
+			/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				Q: How to refresh "prevImg" object?
+				Problem: "passProps" does not automatically refresh given that
+								inputHelperScene was pushed onto Navigation stack
+			!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+			qSetImg = new Promise((resolve, reject) => {
+				props.setImg(null, resolve, reject);
+			});
+			/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ 				Need to remove from Amazon S3
+			!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+		}
 
-		new Promise((resolve, reject) => {
-			// 1. check for 'stagedImg'
-			if (this.state.stagedImg.file) {
-				this.setState({
-					stagedImg: this._resetStagedImg(),
-				});
-
-				resolve();
-			} else if (this.props.prevImg || this.props.stagedImg) {
-				/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-					Q: How to refresh "prevImg" object?
-					Problem: "passProps" does not automatically refresh given that
-									inputHelperScene was pushed onto Navigation stack
-				!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-				this.props.trashImg().then(() => {
-					resolve();
-				})
-
-				/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	 				Need to remove from Amazon S3
-				!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-			}	
-		}).then(() => {
-			this._toggleCamera(true);
+		qSetImg.then(() => {
+			this.setState(endState)
 		});
 	},
 
 	render: function() {
-		var orientation = this.state.orientation;
-		var values = {
-			min: Math.min(Display.width, Display.height),
-			max: Math.max(Display.width, Display.height)
-		};
-
-		var controlPanelDims = null, viewDims = null, mainBoxStyle = null;
-
-		if (orientation === this.Orientations.PORTRAIT) {
-			mainBoxStyle = {flexDirection: "column"};
-			controlPanelDims = {
-				height: this.tabBarHeight,
-				width: values.min
-				// width: Display.width
-			};
-
-			viewDims = {
-				height: values.max,
-				// height: Display.height,
-				width: values.min
-				// width: Display.width
-			};
-		} else {
-			mainBoxStyle = {flexDirection: "row"};
-			controlPanelDims = {
-				height: values.min,
-				// height: Display.height,
-				width: this.tabBarHeight
-			};
-
-			viewDims = {
-				height: values.min,
-				// height: Display.height,
-				width: values.max
-				// width: Display.width
-			};
-		}
-
-		return (
-			<View style={mainBoxStyle}>
-				<MediaView
-					cameraOn={this.state.cameraOn}
-					dims={viewDims}
-					flashMode={this.state.flashMode}
-					imgHost={this.props.imgHost}
-					orientation={orientation}
-					prevImg={this.props.prevImg}
-					setCameraRef={this._setCameraRef}
-					stagedImg={this.props.stagedImg || this.state.stagedImg} />
-				<ControlPanel
-					acceptImg={this._acceptImg}
-					cameraOn={this.state.cameraOn}
-					captureImg={this._captureImg}
-					exitCamMgr={this._initCamMgrExit}
-					flashMode={this.state.flashMode}
-					dims={controlPanelDims}
-					orientation={orientation}
-					selectImg={this._selectImg}
-					toggleFlashMode={this._toggleFlashMode}
-					trashImg={this._trashImg} />
-			</View>
-		);
-	}
-});
-
-
-/**********************************************************************************
-																	M E D I A   V I E W
-**********************************************************************************/
-var MediaView = React.createClass({
-	mixins: [ViewMixin],
-	_styles: {
-		saving: null,
-	  mediaSection: null
-	},
-	propTypes: {
-		cameraOn: PropTypes.bool,
-		dims: PropTypes.object,
-		flashMode: PropTypes.bool,
-		imgHost: PropTypes.object,
-		orientation: PropTypes.string,
-		prevImg: PropTypes.object,
-		stagedImg: PropTypes.object,
-		setCameraRef: PropTypes.func
-  },
-
-	componentWillMount: function() {
-		this._refreshStyles(this.props);
-	},
-
-	componentDidMount: function() {
-		if (this.refs["cam"])
-			this.props.setCameraRef(this.refs.cam);
-	},
-
-	componentDidUpdate: function() {
-		if (this.refs["cam"])
-			this.props.setCameraRef(this.refs.cam);
-	},
-
-	componentWillReceiveProps: function(newProps) {
-		this._refreshStyles(newProps);
-	},
-
-	_refreshStyles: function(newProps) {
-		this._styles.mediaSection = _.assign(newProps.dims, {
-			backgroundColor: "#000000",
-			justifyContent: 'center'
-		});
-	},
-
-	render: function() {
-		var imgUri = this.props.stagedImg.file
-			? this.props.stagedImg.file.uri
-			: (this.props.prevImg ? this.props.imgHost.url +this.props.prevImg.uri +"?fit=crop&w=" +Display.width +"&h=" +Display.height : undefined);
+		let { exitCamMgr, prevImg, imgHost } = this.props
+			, { cameraOn, flashMode, stagedImg, orientation } = this.state;
 		
-		if (this.props.cameraOn) {
-			return (
-				<Camera
-					captureTarget={Camera.constants.CaptureTarget.disk}
-					flashMode={Camera.constants.FlashMode[this.props.flashMode ? "on" : "off"]}
-					orientation={this.props.orientation}
-		    	ref="cam"
-		      style={this._styles.mediaSection}
-		      type={Camera.constants.Type.back} />
-			);
-		} else {
-			return (
-				<Image
-					resizeMode="contain"
-					style={this._styles.mediaSection}
-					source={ {uri: imgUri} } />
-			);
-		}
-	}
-});
+		if (this.state.cameraOn) {
+			let { _toggleFlashMode, _captureImg } = this;
+			let buttons = [
+	  		{icon: "ios-bolt-outline", action: _toggleFlashMode},
+				{icon: "android-camera", action: _captureImg},
+				{icon: "ios-close-outline", action: exitCamMgr}
+		  ];
 
-
-/**********************************************************************************
-															C O N T R O L   P A N E L
-**********************************************************************************/
-var ControlPanel = React.createClass({
-	mixins: [ViewMixin],
-	propTypes: {
-		acceptImg: PropTypes.func,
-		cameraOn: PropTypes.bool,
-		captureImg: PropTypes.func,
-		exitCamMgr: PropTypes.func,
-		flashMode: PropTypes.bool,
-		dims: PropTypes.object,
-		orientation: PropTypes.string,
-		selectImg: PropTypes.func,
-		toggleFlashMode: PropTypes.func,
-		trashImg: PropTypes.func
-  },
-	getDefaultProps: function() {
-		return {
-			acceptImg: null,
-			cameraOn: false,
-			captureImg: null,
-			exitCamMgr: null,
-			dims: null,
-			orientation: "",
-			selectImg: null,
-			trashImg: null,
-		}
-	},
-
-	getInitialState: function() {
-		return {
-			flashlightState: false
-		}
-	},
-
-	render: function() {
-		var borderWidth = 1;
-		var dims = this.props.dims;
-		var orientation = this.props.orientation;
-		var padding = 2;
-		
-		var styles = {
-			btn: {
-				flex: 1,
-			},
-			btnIcon: {
-				alignSelf: "center",
-				color: "#A4A4A4",
-				fontSize: 0
-			},
-			controlPanel: null
-		};
-
-		if (orientation === this.Orientations.PORTRAIT) {
-			styles.btnIcon.fontSize = dims.height - 2*padding - borderWidth;
-			styles.controlPanel = {
-				alignItems: "center",
-				bottom: 0,
-				backgroundColor: "#2E2E2E",
-				borderTopWidth: borderWidth,
-			  borderColor: '#A4A4A4',
-				flexDirection: "row",
-				height: dims.height,
-				paddingVertical: padding,
-				position: "absolute",
-				width: dims.width,
-			}
-		} else {
-			styles.btnIcon.fontSize = dims.width - 2*padding - borderWidth;
-			styles.controlPanel = {
-				alignItems: "center",
-				backgroundColor: "#2E2E2E",
-				borderRightWidth: borderWidth,
-			  borderColor: '#A4A4A4',
-				flexDirection: "column",
-				height: dims.height,
-				paddingHorizontal: padding,
-				position: "absolute",
-				left: 0,
-				width: dims.width,
-			}
-		}
-		
-		if (this.props.cameraOn) {
-			// <TouchableHighlight
-			// 	onPress={this.props.selectImg}
-			// 	style={styles.btn}>
-			// 	<Icon
-			// 		name={"images"}
-			// 		style={ [styles.btnIcon] } />
-			// </TouchableHighlight>
-
-			return (
-				<View style={styles.controlPanel}>
-					<TouchableHighlight
-						onPress={() => this.props.toggleFlashMode(!this.props.flashMode)}
-						style={styles.btn}>
-						<Icon
-							name={this.props.flashMode ? "flash-off" : "ios-bolt-outline"}
-							style={ [styles.btnIcon] } />
-					</TouchableHighlight>
-					<TouchableHighlight
-						onPress={this.props.captureImg}
-						style={styles.btn}>
-						<Icon
-							name={"android-camera"}
-							style={ [styles.btnIcon] } />
-					</TouchableHighlight>
-					<TouchableHighlight
-						onPress={this.props.exitCamMgr}
-						style={styles.btn}>
-						<View>
-							<Icon
-								name={"ios-close-outline"}
-								style={ [styles.btnIcon] } />
-						</View>
-					</TouchableHighlight>
+		  return (
+				<View style={Styles.main}>
+					<Camera
+						captureTarget={Camera.constants.CaptureTarget.disk}
+						flashMode={Camera.constants.FlashMode[flashMode ? "on" : "off"]}
+						orientation={orientation}
+			    	ref={this._camRef}
+			      style={Styles.media}
+			      type={Camera.constants.Type.back} />
+			    <View style={Styles.controlPanel}>
+						{buttons.map((btn, index) => (
+							<TouchableHighlight key={index} onPress={btn.action} style={Styles.btn}>
+								<Icon name={btn.icon} style={Styles.btnIcon} />
+							</TouchableHighlight>	
+						))}
+					</View>
 				</View>
 			);
-		} else {
+		}
+		else {
+			let imgUri = _.isEmpty(stagedImg.file) ? this._getImgUri(prevImg) : stagedImg.file.uri;
+
 			return (
-				<View style={[ styles.controlPanel ]}>
-					<View style={styles.btn}></View>
-					<TouchableHighlight
-						onPress={this.props.acceptImg}
-						style={styles.btn}>
-						<Icon
-							name={"ios-checkmark-outline"}
-							style={ [styles.btnIcon, {color: "#01DF01"}] } />
-					</TouchableHighlight>
-					<TouchableHighlight
-						onPress={this.props.trashImg}
-						style={styles.btn}>
-						<Icon
-							name={"ios-trash-outline"}
-							style={ [styles.btnIcon, {color: "#FF0000"}] } />
-					</TouchableHighlight>
-					<View style={styles.btn}></View>
+				<View style={Styles.main}>
+			    <Image resizeMode="contain" style={Styles.media} source={ {uri: imgUri} } />
+					<ChoiceControl accept={this._acceptImg}	styles={Styles} trash={this._trashImg} />
 				</View>
 			);
 		}
 	}
-})
+});
 
 module.exports = CamMgr;

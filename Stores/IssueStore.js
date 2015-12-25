@@ -27,14 +27,15 @@ var IssueStore = Reflux.createStore({
 	mixins: [IssueMixin, SiteMixin],
 	_currentUser: null,
 	_currentSiteRight: null,
-	_db: null,
 	_dbRefs: [],
-	_images: null,
+  _host: null,
+	_img: null,
 	_imgTemplates: null,
 	_lookups: null,
 	_issues: new Array(2),
+  _s3Policy: null,
 	_sites: null,
-	_s3Policy: null,
+  _storeName: "issues",
 
 	/*************************************************************************
 		Currently, "all" = summary list, "user" = issues pertaining to single
@@ -42,7 +43,7 @@ var IssueStore = Reflux.createStore({
 	*************************************************************************/
 
 	init: function() {
-		this.listenTo(HostStore, this._updateHost, this._updateHost);
+		this.listenTo(HostStore, this._setHost, this._setHost);
 		this.listenTo(LookupStore, this._setLookups, this._setLookups);
 		this.listenTo(ProfileStore, this._setProfile, this._setProfile);
 		this.listenTo(SiteStore, this._setSites, this._setSites);
@@ -148,52 +149,8 @@ var IssueStore = Reflux.createStore({
 		return url +queryString;
 	},
 
-	onUploadImg: function(imgObj) {
-		// 1. Get S3 Policy data for uploading
-  	
-  	/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  		Need to workout how to handle edge-case of expired s3Policy
-  	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-		let fileExt = imgObj.file.ext
-			, s3Data = this._s3Policy.data
-			, s3Obj = {
-			uri: imgObj.file.uri,
-			uploadUrl: s3Data.url,
-			mimeType: "image/" +fileExt,
-			data: {
-				acl: 'public-read',
-				AWSAccessKeyId: s3Data.key,
-				'Content-Type': "image/" +fileExt,
-	      policy: s3Data.policy,
-	      key: "issues/vehicle/" +imgObj.file.name,
-	      signature: s3Data.signature,
-      },
-    };
-
-  	NativeModules.FileTransfer.upload(s3Obj, (err, res) => {
-    	if ( err == null && (res.status > 199 || res.status < 300) )
-    		IssueActions.uploadImg.completed();
-    	else
-    		IssueActions.uploadImg.failed(err);
-    });
-	},
-
-	onRecordImg: function(issue, imgObj) {
-  	let qUpload = IssueActions.uploadImg.triggerPromise(imgObj)
-      , params = ["images", issue.images.length]
-  		, qRecord = IssueActions.setParam(issue, params, imgObj.dbRecord);
-
-  	new Promise.all([qUpload, qRecord]).then((results) => {
-  		console.log("images uploaded and recorded");
-  		IssueActions.recordImg.completed();
-  	}).catch((err) => {
-  		console.log("Problem with upload and/or recording: ", err);
-  		IssueActions.recordImg.failed(err);
-  	})
-	},
-
 	onAddIssue: function(newIssue) {
-		let issuesRef = this._db;
+		let issuesRef = this._host.db;
 		let issueRef = issuesRef.push(newIssue);
 
 		issueRef.update({"iid": issueRef.key()}, (err) => {
@@ -237,15 +194,15 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-	onBuildImgObj: function(imgTypeId, imgUri) {
+	onBuildImgObj: function(imgUri) {
 		// retrieve Amazon S3 policy parameters early enough
 		/*************************************************************************
 		 If S3 policy times out, error callback will have to obtain a new policy
 		*************************************************************************/
 		let beg = imgUri.lastIndexOf('/') +1
 			, end = imgUri.lastIndexOf('.')
-			, fileExt = imgUri.substr(end +1);
-    let userId = this._currentUser.iid;
+			, fileExt = imgUri.substr(end +1)
+      , userId = this._currentUser.iid;
    	
    	LocationActions.getPosition.triggerPromise().then((position) => {
    		let geoPoint = {
@@ -255,13 +212,12 @@ var IssueStore = Reflux.createStore({
    			longitude: position.long
    		};
 
-   		let filename = this._buildImgFilename(Moment().format("X"),userId,imgTypeId,fileExt);  		
+   		let filename = this._buildImgFilename(Moment().format("X"),userId,fileExt);  		
    		let stagedImg = {
 	  		dbRecord: {
 		      authorId: userId,
-		      uri: this._images.folderpath +filename,
+		      uri: "/issues/" +filename,
 		      geoPoint: geoPoint,
-		      imgTypeId: imgTypeId,
 		      statusId: "",
 		      timestamp: Moment( Moment().toDate() ).format(),
 		    },
@@ -286,7 +242,7 @@ var IssueStore = Reflux.createStore({
 		this._issues["user"] = null;
 		this._currentUser = null;
 		this._currentSiteRight = null;
-		this._db = null;
+		this._host = null;
 		this._images = null;
 		this._imgTemplates = null;
 		this._lookups = null;
@@ -363,10 +319,9 @@ var IssueStore = Reflux.createStore({
   // 1. One-time pull of existing tow issue base
   // 2. Setup listener for any updates made to existing tow issues
 	onPullIssues: function(issueIds, perspective) {
-		let qIssues = Defer()
-		  , siteRight = this._currentSiteRight;
-		
-    let issuesRef = this._db.orderByChild("siteId").equalTo(siteRight.siteId);
+		// let qIssues = Defer()
+    let siteRight = this._currentSiteRight
+      , issuesRef = this._host.db.orderByChild("siteId").equalTo(siteRight.siteId);
 		
     this._dbRefs.push(issuesRef);
 		
@@ -381,22 +336,37 @@ var IssueStore = Reflux.createStore({
 			*/
 
 			this._updateIssueList(issues, perspective);
-			IssueActions.pullIssues.completed(this._issues[perspective] = issues);
-			qIssues.resolve();
+      IssueActions.pullIssues.completed(this._issues[perspective] = issues);
+			
+      // qIssues.resolve();
+      // handle updated tow issues
+      issuesRef.on("child_changed", (snapshot) => this._assignIssue(snapshot, perspective));
 		});
-
-		// handle updated tow issues
-		qIssues.promise.then(() => {
-			dbRef.on("child_changed", (snapshot) => this._assignIssue(snapshot, perspective));
-		});
+		
+    // qIssues.promise.then(() => {	
+		// });
 	},
+
+  onRecordImg: function(issue, imgObj) {
+    let qUpload = IssueActions.uploadImg.triggerPromise(imgObj)
+      , params = ["images", issue.images.length]
+      , qRecord = IssueActions.setParam(issue, params, imgObj.dbRecord);
+
+    new Promise.all([qUpload, qRecord]).then((results) => {
+      console.log("images uploaded and recorded");
+      IssueActions.recordImg.completed();
+    }).catch((err) => {
+      console.log("Problem with upload and/or recording: ", err);
+      IssueActions.recordImg.failed(err);
+    })
+  },
 
   onRefreshIssues: function(perspective) {
 		this._updateIssueList(null, perspective);
   },
 
 	onRemoveFromImages: function(issue, imgTypeId) {
-		let imagesRef = this._db.child(issue.iid).child("images");
+		let imagesRef = this._host.db.child(issue.iid).child("images");
 
 		imagesRef.transaction((prevList) => {
 		  if (!prevList)
@@ -417,7 +387,7 @@ var IssueStore = Reflux.createStore({
 	},
 
 	onSetParam: function(issue, params, value) {
-		let ref = this._db.child(issue.iid)
+		let ref = this._host.db.child(issue.iid)
 		  , lastIndex = _.last(params)
 		  , action, arg;
 		
@@ -449,8 +419,38 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-	_buildImgFilename: function(timestamp,userId,imgTypeId,fileExt) {
- 		return timestamp +"-" +userId +"-" +imgTypeId +"." +fileExt;
+  onUploadImg: function(imgObj) {
+    // 1. Get S3 Policy data for uploading
+    
+    /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      Need to workout how to handle edge-case of expired s3Policy
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+    let file = imgObj.file
+      , s3Data = this._host.s3Policy.data
+      , s3Obj = {
+      uri: file.uri,
+      uploadUrl: s3Data.url,
+      mimeType: "image/" +file.ext,
+      data: {
+        'acl': 'public-read',
+        'AWSAccessKeyId': s3Data.key,
+        'Content-Type': "image/" +file.ext,
+        'policy': s3Data.policy,
+        'key': this._storeName +"/" +file.name,
+        'signature': s3Data.signature,
+      },
+    };
+
+    NativeModules.FileTransfer.upload(s3Obj, (err, res) => {
+      if ( err == null && (res.status > 199 || res.status < 300) )
+        IssueActions.uploadImg.completed();
+      else
+        IssueActions.uploadImg.failed(err);
+    });
+  },
+
+	_buildImgFilename: function(timestamp, userId, fileExt) {
+ 		return timestamp +"-" +userId +"." +fileExt;
   },
 
 	_setLookups: function(data) {
@@ -466,10 +466,10 @@ var IssueStore = Reflux.createStore({
 		this._sites = data.sites;
 	},
 
-	_updateHost: function(data) {
-		this._db = data.db.child("issues");
-		this._images = data.images;
-		this._s3Policy = data.s3Policy;
+	_setHost: function(data) {
+    this._host = _.mapValues(data.host, (value, key) => {
+      return (key === "db") ? value.child("issues") : value;
+    });
 	},
 });
 
