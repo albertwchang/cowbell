@@ -25,24 +25,14 @@ var SiteMixin = require("../Mixins/Site");
 var ViewMixin = require("../Mixins/View");
 
 // ACTIONS && STORES
+var IssueActions = require("../Actions/IssueActions");
+var SiteActions = require("../Actions/SiteActions");
 
 // Utilities
 var Async = require("async");
 var Moment = require("moment");
 var _ = require("lodash");
-
-var {
-  Modal,
-  PropTypes,
-  ListView,
-  StatusBarIOS,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View,
-} = React;
-
+var { Modal, PropTypes, ListView, StatusBarIOS, StyleSheet, Text, TextInput, TouchableHighlight, View } = React;
 var Styles = StyleSheet.create({
   navBarTitle: {
     alignItems: "center",
@@ -137,6 +127,8 @@ var NIMain = React.createClass({
   _currentWorkflow: "submit",
   _ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
   _imgHost: "",
+  _site: null,
+  _submitStatus: null,
   _workflowMessages: {
     "submit": ["Waiting to Submit", "Submitting...", "Issue created!", "Error: failed to create issue"]
   },
@@ -146,28 +138,30 @@ var NIMain = React.createClass({
   },
 
   componentWillMount: function() {
+    let { currentSiteRight, lookups, sites } = this.props
+      , { hosts, statuses } = lookups;
+
     StatusBarIOS.setHidden(false);
     StatusBarIOS.setStyle("light-content");
-    this._imgHost = this.props.lookups.hosts.img.provider.url;
+    this._imgHost = hosts.img.provider.url;
+    this._site = sites[currentSiteRight.siteId];
+    this._submitStatus = _.find(statuses, (status) => {
+      return !_.has(status, "prevStatuses");
+    });
   },
 
-  _addIssue: function(statusId) {
-    let props = this.props, state = this.state
-      , sections = state.sections
-      , imgKeys = _.keys(sections.images.value)
-      , geoPoint = sections["images"].value[imgKeys[0]].dbRecord.geoPoint
-      , lookups = props.lookups
-      , siteRight = props.currentSiteRight
-      , user = props.currentUser
-      , statusDef = lookups.statuses[statusId];
+  _addIssue: function(statusDef) {
+    let { notes, sections } = this.state
+      , { lookups, currentSiteRight, currentUser } = this.props
+      , dbRecord = sections["img"].value.dbRecord;
 
     // 1. create 1st status entry that will be added to issue object
     let buildStatusEntry = function() {
       return {
-        authorId: user.iid,
-        geoPoint: geoPoint,
-        statusId: statusId,
-        notes: state.notes,
+        authorId: currentUser.iid,
+        geoPoint: dbRecord.geoPoint,
+        statusId: statusDef.iid,
+        notes: notes,
         timestamp: Moment(Moment().toDate()).format()
       };
     };
@@ -176,9 +170,9 @@ var NIMain = React.createClass({
     let newIssue = {
       iid: "",
       firstSeen: Moment(sections["when"].value).format(),
-      geoPoint: geoPoint,
-      images: _.pluck(sections["images"].value, "dbRecord"),
-      siteId: props.siteId,
+      geoPoint: dbRecord.geoPoint,
+      images: [dbRecord],
+      siteId: this._site.iid,
       statusEntries: new Array(buildStatusEntry())
     };
     
@@ -290,13 +284,8 @@ var NIMain = React.createClass({
       this._resetSections();
   },
 
-  _submitIssue: function(status) {
+  _submitIssue: function(statusDef) {
     let self = this;
-
-    let addToSite = function(issueId, orgTypeId, siteId) {
-     return SiteActions.setIssueId.triggerPromise(issueId, siteId);
-    };
-
     // 1. Turn Progress Indidicator on
     this._setWorkflowStage("submit", 1);
 
@@ -305,16 +294,14 @@ var NIMain = React.createClass({
       (uploadImagesCb) => {
         // 2a. Add images to Image Host Provider
         this._uploadImages().then(() => {
-          // qImages.resolve();
           uploadImagesCb(null, "All images successfully added");
         }).catch((err) => {
-          // qImages.reject();
           uploadImagesCb("Couldn't add new Img", null);
         });
       },
       (addToDbCb) => {
         // 2b. Add Tow Issue to DB
-        this._addIssue(status.iid).then((issueId) => {
+        this._addIssue(statusDef).then((issueId) => {
           addToDbCb(null, issueId);
         }).catch(() => {
           addToDbCb("Couldn't add Issue", null);
@@ -322,16 +309,8 @@ var NIMain = React.createClass({
       }
     ], (err, results) => {
       // 3. Add issueId to corresponding sites
-      let qSites, issueId = results[1];
-
-      if (status.assignTo[this._orgTypeIds.VENDOR].site === false)
-        qSites = addToSite(issueId, this._orgTypeIds.CLIENT, this.props.siteIds[this._orgTypeIds.CLIENT]);
-      else
-        qSites = _.map(self._siteIds, (siteId, orgTypeId) => {
-          return addToSite(issueId, orgTypeId, siteId);
-        });
-
-      new Promise.all(qSites).then(() => {
+      let issueId = results[1];
+      SiteActions.setIssueId.triggerPromise(issueId, this._site.iid).then(() => {
         console.log("All sites updated with issueId")
         self._setWorkflowStage("submit", 2);
       }).catch(() => {
@@ -348,11 +327,11 @@ var NIMain = React.createClass({
   },
 
   _uploadImages: function() {
-    let qImages = new Promise.all(_.map(this.props.sections["images"].value, (stagedImg) => {
-      return IssueActions.uploadImg.triggerPromise(stagedImg);
-    }));
+    // let qImages = new Promise.all(_.map(this.props.sections["images"].value, (stagedImg) => {
+    //   return IssueActions.uploadImg.triggerPromise(this.props.sections["img"].value);
+    // }));
 
-    return qImages;
+    return IssueActions.uploadImg.triggerPromise(this.state.sections["img"].value);
   },
 
   _renderModal: function(sectionId) {
@@ -433,7 +412,8 @@ var NIMain = React.createClass({
         break;
 
       case "where":
-        let site = sites[currentSiteRight.siteId];
+        // let site = sites[currentSiteRight.siteId];
+        let site = this._site;
 
         // come up with the options
         SectionView =
@@ -500,7 +480,7 @@ var NIMain = React.createClass({
         <ActionButtons
           cancel={this._resetSections}
           inputChanged={_.every(sections, "done", true)}
-          saveData={() => this._submitIssue(_.last(this._submitStatuses))}
+          saveData={() => this._submitIssue(this._submitStatus)}
           style={Styles.buttonsBox}
           themeColor={themeColor} />
         <Modal

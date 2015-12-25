@@ -52,12 +52,6 @@ var ImgMgr = React.createClass({
       borderWidth: 0.75,
       resizeMode: "cover"
     }
-    // icon: {
-    //   alignSelf: "center",
-    //   color: "#848484",
-    //   fontSize: 200,
-    //   textAlign: "center"
-    // }
   }),
   _View: null,
 
@@ -75,17 +69,15 @@ var ImgMgr = React.createClass({
   },
 
   _buildView: function(img, imgDims) {
-    this._View = null;
-
     if ( _.isEmpty(img) || _.isUndefined(img)) {
       let iconStyle = {
         alignSelf: "center",
         color: this.Colors.night.border,
-        fontSize: imgDims.width * 0.75,
+        fontSize: imgDims.width * 0.5,
         textAlign: "center"
       };
 
-      this._View = <Icon name={"camera"} style={iconStyle} />;
+      this._View = <Icon name={"camera"} style={iconStyle} />
     } else {
       let imgUri = img.file.uri
         , imgHost = this.props.lookups.hosts.img.provider.url;

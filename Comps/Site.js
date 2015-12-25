@@ -57,12 +57,11 @@ var styles = StyleSheet.create({
 var Site = React.createClass({
 	mixins: [SiteMixin],
 	propTypes: {
-		imgHost: PropTypes.object,
+		imgHost: PropTypes.string,
 		info: PropTypes.object,
 		showImg: PropTypes.bool,
 		showPhoneBtn: PropTypes.bool,
 		showAddy: PropTypes.object,
-		// style: PropTypes.number,
 		themeColor: PropTypes.string
 	},
 
@@ -70,34 +69,27 @@ var Site = React.createClass({
 		return {
 			isBtn: false,
 			showImg: true,
-			showAddy: {
-				street: true,
-				city: true,
-				state: true,
-				zip: true
-			}
+			showAddy: { street: true, city: true, state: true, zip: true }
 		}
 	},
 
 	render: function() {
-		let props = this.props
-			, info = props.info
+		let { info, imgHost, showAddy, showPhoneBtn, showImg, style, themeColor } = this.props
 			, address = info.address
-			, imgUri = props.imgHost.url +info.img.icon +"?w=49"
-			, showAddy = props.showAddy;
+			, imgUri = imgHost +info.img.icon +"?w=49";
 
-		let Img = props.showImg ? <Image style={styles.img} source={{ uri: imgUri }} /> : null;
-		let PhoneBtn = this.props.showPhoneBtn ?
+		let Img = showImg ? <Image style={styles.img} source={{ uri: imgUri }} /> : null;
+		let PhoneBtn = showPhoneBtn ?
 			<TouchableHighlight
 				onPress={() => Comm.phonecall(info.phoneNum.toString(), true)}
-				style={ [styles.callBtn, {backgroundColor: props.themeColor, borderRadius: 6}] }>
+				style={ [styles.callBtn, { backgroundColor: themeColor, borderRadius: 6 } ] }>
 				<View style={styles.callBtn}>
 					<Icon name={"ios-telephone"} style={ [styles.callBtnIcon] } />
 				</View>
 			</TouchableHighlight> : null;
 		
 		return (
-			<View style={props.style}>
+			<View style={style}>
 				{Img}
 				<View style={styles.infoSection}>
 					<Text numberOfLines={1} style={styles.name}>{info.name}</Text>

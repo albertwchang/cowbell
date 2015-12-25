@@ -33,8 +33,9 @@ var IssueStore = Reflux.createStore({
 	_imgTemplates: null,
 	_lookups: null,
 	_issues: new Array(2),
+  _s3Policy: null,
 	_sites: null,
-	_s3Policy: null,
+  _storeName: "issues",
 
 	/*************************************************************************
 		Currently, "all" = summary list, "user" = issues pertaining to single
@@ -424,19 +425,19 @@ var IssueStore = Reflux.createStore({
     /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       Need to workout how to handle edge-case of expired s3Policy
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-    let fileExt = imgObj.file.ext
-      , s3Data = this._s3Policy.data
+    let file = imgObj.file
+      , s3Data = this._host.s3Policy.data
       , s3Obj = {
-      uri: imgObj.file.uri,
+      uri: file.uri,
       uploadUrl: s3Data.url,
-      mimeType: "image/" +fileExt,
+      mimeType: "image/" +file.ext,
       data: {
-        acl: 'public-read',
-        AWSAccessKeyId: s3Data.key,
-        'Content-Type': "image/" +fileExt,
-        policy: s3Data.policy,
-        key: "issues/vehicle/" +imgObj.file.name,
-        signature: s3Data.signature,
+        'acl': 'public-read',
+        'AWSAccessKeyId': s3Data.key,
+        'Content-Type': "image/" +file.ext,
+        'policy': s3Data.policy,
+        'key': this._storeName +"/" +file.name,
+        'signature': s3Data.signature,
       },
     };
 
