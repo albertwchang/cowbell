@@ -1,6 +1,6 @@
 var Host = {
   getEnv: function() {
-    return "dev";
+    return "prod";
   }
 };
 
