@@ -24,6 +24,11 @@ This is application is currently WIP (Work In Progress), and is based on an earl
 ## Instructions for getting Xcode to run app
 1. From the Navigator application, go into the "ios" sub-directory of the "cowbell" directory
 2. Double-click "CowBell.xcodeproj".  Wait for Xcode to initialize and become ready.
+3. Add the "RCTFileTransfer" file into the project by finding it, and selecting it.  See images below:
+![Image of Adding File](https://cloud.githubusercontent.com/assets/3760499/12004598/fdeaebe2-ab1a-11e5-9f89-865cf764547a.png)
+![Image of Adding File part 2](https://cloud.githubusercontent.com/assets/3760499/12004601/1e64a7d2-ab1b-11e5-9155-a7997174d217.png)
+****** Notice that "RCTFileTransfer" is now under the "Base" folder...
+![Image of Adding File part 3](https://cloud.githubusercontent.com/assets/3760499/12004607/9601bb0e-ab1b-11e5-9010-6a5f804977df.png)
 4. Choose your device and IOS version from the drop-dowmn menu.
 ![Image of choosing device + IOS version](https://cloud.githubusercontent.com/assets/3760499/11663655/4c3966a2-9d92-11e5-8d7b-1634d9ffc390.png)
 
