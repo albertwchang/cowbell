@@ -179,8 +179,7 @@ var CowBell = React.createClass({
     return LookupActions.validateLookups.triggerPromise().then((lookups) => {
       
       // 3a. Get policy for being allowed to upload images
-      let imgPolicy = lookups.hosts["img"].policy;
-      return HostActions.pullS3Policy.triggerPromise(imgPolicy);
+      // let uploadParams = lookups.hosts["img"].upload.params;
     });
   },
 

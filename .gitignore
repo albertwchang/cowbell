@@ -21,7 +21,6 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-
 # Android/IJ
 #
 .idea
@@ -31,5 +30,5 @@ local.properties
 # node.js
 #
 node_modules/
-# Mixins/Host.js
+Mixins/Host.js
 npm-debug.log

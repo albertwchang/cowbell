@@ -61,7 +61,7 @@ var IssueStore = Reflux.createStore({
 	_assignIssue: function(issueRef, perspective) {
 		let issueId = issueRef.key();
 		let issue = issueRef.val();
-		let existingissues = this._issues[perspective]; // issues is NOT an array!!!
+		let existingIssues = this._issues[perspective]; // issues is NOT an array!!!
 		
 		if ( existingIssues[issueId] && !_.eq(existingIssues[issueId].statusEntries, issue.statusEntries) )
 			issue.statusEntries = this._scrubStatusEntries(issue.statusEntries, ["read", "status"]);
@@ -204,32 +204,32 @@ var IssueStore = Reflux.createStore({
 			, fileExt = imgUri.substr(end +1)
       , userId = this._currentUser.iid;
    	
-   	LocationActions.getPosition.triggerPromise().then((position) => {
-   		let geoPoint = {
-   			lat: position.lat,
-   			latitude: position.lat,
-   			long: position.long,
-   			longitude: position.long
-   		};
+   	LocationActions.getPosition.triggerPromise((position) => {
+      let geoPoint = {
+        lat: position.lat,
+        latitude: position.lat,
+        long: position.long,
+        longitude: position.long
+      };
 
-   		let filename = this._buildImgFilename(Moment().format("X"),userId,fileExt);  		
-   		let stagedImg = {
-	  		dbRecord: {
-		      authorId: userId,
-		      uri: "/issues/" +filename,
-		      geoPoint: geoPoint,
-		      statusId: "",
-		      timestamp: Moment( Moment().toDate() ).format(),
-		    },
-		    file: {
-		      ext: fileExt,
-		      name: filename,
-		      uri: "" +imgUri,
-		    },
-			};
+      let filename = this._buildImgFilename(Moment().format("X"),userId,fileExt);     
+      let stagedImg = {
+        dbRecord: {
+          authorId: userId,
+          uri: "/issues/" +filename,
+          geoPoint: geoPoint,
+          statusId: "",
+          timestamp: Moment( Moment().toDate() ).format(),
+        },
+        file: {
+          ext: fileExt,
+          name: filename,
+          uri: "" +imgUri,
+        },
+      };
 
-			IssueActions.buildImgObj.completed(stagedImg);	
-   	});
+      IssueActions.buildImgObj.completed(stagedImg);
+    });
 	},
 
 	onEndListeners: function() {
@@ -340,7 +340,9 @@ var IssueStore = Reflux.createStore({
 			
       // qIssues.resolve();
       // handle updated tow issues
-      issuesRef.on("child_changed", (snapshot) => this._assignIssue(snapshot, perspective));
+      issuesRef.on("child_changed", (snapshot) => {
+        return this._assignIssue(snapshot, perspective);
+      });
 		});
 		
     // qIssues.promise.then(() => {	
@@ -426,22 +428,15 @@ var IssueStore = Reflux.createStore({
       Need to workout how to handle edge-case of expired s3Policy
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
     let file = imgObj.file
-      , s3Data = this._host.s3Policy.data
-      , s3Obj = {
+    let uploadSpecs = _.assign(_.cloneDeep(this._lookups.hosts.img.upload.params), {
       uri: file.uri,
-      uploadUrl: s3Data.url,
       mimeType: "image/" +file.ext,
-      data: {
-        'acl': 'public-read',
-        'AWSAccessKeyId': s3Data.key,
-        'Content-Type': "image/" +file.ext,
-        'policy': s3Data.policy,
-        'key': this._storeName +"/" +file.name,
-        'signature': s3Data.signature,
-      },
-    };
+      data: { 'Content-Type': "image/" +file.ext }
+    });
 
-    NativeModules.FileTransfer.upload(s3Obj, (err, res) => {
+    NativeModules.FileTransfer.upload(uploadSpecs, (err, res) => {
+      debugger;
+
       if ( err == null && (res.status > 199 || res.status < 300) )
         IssueActions.uploadImg.completed();
       else

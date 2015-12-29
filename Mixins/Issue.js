@@ -2,34 +2,11 @@ var SiteMixin = require("./Site");
 var _ = require("lodash");
 
 var Issue = {
-	Images: {
-		LICENSE_PLATE: "licensePlate",
-		VEHICLE: "vehicle",
-		VIN: "vin"
-	},
 	Filters: {
 		DONE: "done",
 		OPEN: "open"
 	},
-	SceneIndexes: {
-		APPROVAL: 0,
-		LICENSEPLATE: 2,
-		POLICE: 0,
-		REASON: 0,
-		VEHCILEINFO: 2,
-		VIN: 2
-	},
-	StatusIds: {
-		SUGGEST: "status0",
-		CONFIRM: "status1",
-		CREATE: "status2"
-	},
-	TaskIds: {
-		CREATE_TOW_issue: "task2",
-		UPDATE_STATUS: "task3",
-		VIEW_STATUS: "task4"
-	},
-
+	
 	buildSites: function(siteIds, statusRef, orgTypeTodoEntries, orgTypeTodos) {
     let sites = _.mapValues(siteIds, (siteId, orgTypeId) => {
       let sid = statusRef.assignTo[orgTypeId].site ? siteId : ""

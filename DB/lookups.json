@@ -8,22 +8,17 @@
           "type": "images",
           "url": "http://cowbell.imgix.net"
         },
-        "policy": {
-          "action": "GET",
-          "name": "martiangold",
+        "upload": {
+          "name": "cowbell-server",
           "params": {
-            "method": "GET",
+            "enctype": "multipart/form-data",
             "headers": {
               "Content-Type": "application/json; charset=utf-8"
             },
+            "method": "POST",
+            "type": "file",
+            "uploadUrl": "http://localhost:3000/upload/images",
             "withCredentials": true
-          },
-          "source": {
-            "url": "http://towimg.martiangold.com/s3-upload.php?",
-            "params": {
-              "encoding": "json",
-              "bucket": "cow-bell"
-            }
           }
         }
       }
