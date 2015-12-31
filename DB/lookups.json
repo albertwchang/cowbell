@@ -17,7 +17,7 @@
             },
             "method": "POST",
             "type": "file",
-            "uploadUrl": "http://localhost:3000/upload/images",
+            "uploadUrl": "http://localhost:3000/upload/images/wip",
             "withCredentials": true
           }
         }

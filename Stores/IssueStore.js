@@ -427,16 +427,17 @@ var IssueStore = Reflux.createStore({
     /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       Need to workout how to handle edge-case of expired s3Policy
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-    let file = imgObj.file
+    let file = imgObj.file;
+    let filename = "/Users/albertwchang/Desktop/test.jpg";
     let uploadSpecs = _.assign(_.cloneDeep(this._lookups.hosts.img.upload.params), {
-      uri: file.uri,
+      fileName: file.name,
+      // uri: file.uri,
+      uri: filename,
       mimeType: "image/" +file.ext,
       data: { 'Content-Type': "image/" +file.ext }
     });
 
     NativeModules.FileTransfer.upload(uploadSpecs, (err, res) => {
-      debugger;
-
       if ( err == null && (res.status > 199 || res.status < 300) )
         IssueActions.uploadImg.completed();
       else
