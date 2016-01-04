@@ -17,7 +17,6 @@ var IssueMixin = require("../Mixins/Issue");
 var SiteMixin = require("../Mixins/Site");
 
 // UTILITIES
-var Async = require("async");
 var Defer = require("promise-defer");
 var Moment = require('moment');
 var _ = require("lodash");
@@ -150,8 +149,8 @@ var IssueStore = Reflux.createStore({
 	},
 
 	onAddIssue: function(newIssue) {
-		let issuesRef = this._host.db;
-		let issueRef = issuesRef.push(newIssue);
+		let issuesRef = this._host.db
+		  , issueRef = issuesRef.push(newIssue);
 
 		issueRef.update({"iid": issueRef.key()}, (err) => {
 			if (err)
@@ -194,43 +193,43 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-	onBuildImgObj: function(imgUri) {
-		// retrieve Amazon S3 policy parameters early enough
-		/*************************************************************************
-		 If S3 policy times out, error callback will have to obtain a new policy
-		*************************************************************************/
-		let beg = imgUri.lastIndexOf('/') +1
-			, end = imgUri.lastIndexOf('.')
-			, fileExt = imgUri.substr(end +1)
-      , userId = this._currentUser.iid;
+	// onBuildImgObj: function(imgUri) {
+	// 	// retrieve Amazon S3 policy parameters early enough
+	// 	/*************************************************************************
+	// 	 If S3 policy times out, error callback will have to obtain a new policy
+	// 	*************************************************************************/
+	// 	let beg = imgUri.lastIndexOf('/') +1
+	// 		, end = imgUri.lastIndexOf('.')
+	// 		, fileExt = imgUri.substr(end +1)
+ //      , userId = this._currentUser.iid;
    	
-   	LocationActions.getPosition.triggerPromise((position) => {
-      let geoPoint = {
-        lat: position.lat,
-        latitude: position.lat,
-        long: position.long,
-        longitude: position.long
-      };
+ //   	LocationActions.getPosition.triggerPromise((position) => {
+ //      let geoPoint = {
+ //        lat: position.lat,
+ //        latitude: position.lat,
+ //        long: position.long,
+ //        longitude: position.long
+ //      };a
 
-      let filename = this._buildImgFilename(Moment().format("X"),userId,fileExt);     
-      let stagedImg = {
-        dbRecord: {
-          authorId: userId,
-          uri: "/issues/" +filename,
-          geoPoint: geoPoint,
-          statusId: "",
-          timestamp: Moment( Moment().toDate() ).format(),
-        },
-        file: {
-          ext: fileExt,
-          name: filename,
-          uri: "" +imgUri,
-        },
-      };
+ //      // let filename = this._buildImgFilename(Moment().format("X"),userId,fileExt);     
+ //      let stagedImg = {
+ //        dbRecord: {
+ //          authorId: userId,
+ //          uri: "/issues/" +filename,
+ //          geoPoint: geoPoint,
+ //          statusId: "",
+ //          timestamp: Moment( Moment().toDate() ).format(),
+ //        },
+ //        file: {
+ //          ext: fileExt,
+ //          name: "",
+ //          uri: "" +imgUri,
+ //        },
+ //      };
 
-      IssueActions.buildImgObj.completed(stagedImg);
-    });
-	},
+ //      IssueActions.buildImgObj.completed(stagedImg);
+ //    });
+	// },
 
 	onEndListeners: function() {
 		_.each(this._dbRefs, (dbRef) => {
@@ -421,20 +420,26 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-  onUploadImg: function(imgObj) {
+  onUploadImg: function(imgObj, issueId, index) {
     // 1. Get S3 Policy data for uploading
     
     /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       Need to workout how to handle edge-case of expired s3Policy
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
     let file = imgObj.file;
-    let filename = "/Users/albertwchang/Desktop/test.jpg";
+    // let filename = "/Users/albertwchang/Desktop/test.jpg";
     let uploadSpecs = _.assign(_.cloneDeep(this._lookups.hosts.img.upload.params), {
-      fileName: file.name,
-      // uri: file.uri,
-      uri: filename,
-      mimeType: "image/" +file.ext,
-      data: { 'Content-Type': "image/" +file.ext }
+      // fileName: file.name,
+      // fileKey: "file",
+      uri: file.uri,
+      data: {
+        env: this._host.env,
+        index: index,
+        issueId: issueId  
+      }
+      // uri: filename,
+      // mimeType: "image/" +file.ext
+      // data: { 'Content-Type': "image/" +file.ext }
     });
 
     NativeModules.FileTransfer.upload(uploadSpecs, (err, res) => {

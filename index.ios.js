@@ -38,7 +38,6 @@ var UserActions = require("./Actions/UserActions");
 var UserStore = require("./Stores/UserStore");
 
 // Utilities
-var Async = require("async");
 var Moment = require("moment");
 var _ = require("lodash");
 
@@ -179,7 +178,9 @@ var CowBell = React.createClass({
     return LookupActions.validateLookups.triggerPromise().then((lookups) => {
       
       // 3a. Get policy for being allowed to upload images
-      // let uploadParams = lookups.hosts["img"].upload.params;
+      // let imgPolicy = lookups.hosts["img"].policy;
+      // return HostActions.pullS3Policy.triggerPromise(imgPolicy);
+      return new Promise.resolve();
     });
   },
 

@@ -1,4 +1,5 @@
 var SiteMixin = require("./Site");
+var Moment = require('moment');
 var _ = require("lodash");
 
 var Issue = {
@@ -7,6 +8,33 @@ var Issue = {
 		OPEN: "open"
 	},
 	
+	buildImgObj: function(imgUri, userId) {
+		// retrieve Amazon S3 policy parameters early enough
+		/*************************************************************************
+		 If S3 policy times out, error callback will have to obtain a new policy
+		*************************************************************************/
+		let beg = imgUri.lastIndexOf('/') +1
+			, end = imgUri.lastIndexOf('.')
+			, fileExt = imgUri.substr(end +1);
+
+    // let filename = this._buildImgFilename(Moment().format("X"),userId,fileExt);     
+    return {
+      dbRecord: {
+        authorId: userId,
+        // uri: "/issues/",
+        uri: "",
+        geoPoint: {},
+        statusId: "",
+        timestamp: Moment( Moment().toDate() ).format(),
+      },
+      file: {
+        ext: fileExt,
+        name: "",
+        uri: "" +imgUri,
+      },
+    };
+	},
+
 	buildSites: function(siteIds, statusRef, orgTypeTodoEntries, orgTypeTodos) {
     let sites = _.mapValues(siteIds, (siteId, orgTypeId) => {
       let sid = statusRef.assignTo[orgTypeId].site ? siteId : ""

@@ -6,7 +6,7 @@
         "provider": {
           "action": "GET",
           "type": "images",
-          "url": "http://cowbell.imgix.net"
+          "url": "http://cowbell.imgix.net/"
         },
         "upload": {
           "name": "cowbell-server",
