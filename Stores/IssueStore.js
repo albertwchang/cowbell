@@ -193,44 +193,6 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-	// onBuildImgObj: function(imgUri) {
-	// 	// retrieve Amazon S3 policy parameters early enough
-	// 	/*************************************************************************
-	// 	 If S3 policy times out, error callback will have to obtain a new policy
-	// 	*************************************************************************/
-	// 	let beg = imgUri.lastIndexOf('/') +1
-	// 		, end = imgUri.lastIndexOf('.')
-	// 		, fileExt = imgUri.substr(end +1)
- //      , userId = this._currentUser.iid;
-   	
- //   	LocationActions.getPosition.triggerPromise((position) => {
- //      let geoPoint = {
- //        lat: position.lat,
- //        latitude: position.lat,
- //        long: position.long,
- //        longitude: position.long
- //      };a
-
- //      // let filename = this._buildImgFilename(Moment().format("X"),userId,fileExt);     
- //      let stagedImg = {
- //        dbRecord: {
- //          authorId: userId,
- //          uri: "/issues/" +filename,
- //          geoPoint: geoPoint,
- //          statusId: "",
- //          timestamp: Moment( Moment().toDate() ).format(),
- //        },
- //        file: {
- //          ext: fileExt,
- //          name: "",
- //          uri: "" +imgUri,
- //        },
- //      };
-
- //      IssueActions.buildImgObj.completed(stagedImg);
- //    });
-	// },
-
 	onEndListeners: function() {
 		_.each(this._dbRefs, (dbRef) => {
 			dbRef.off("child_changed");
@@ -429,18 +391,14 @@ var IssueStore = Reflux.createStore({
     let file = imgObj.file;
     // let filename = "/Users/albertwchang/Desktop/test.jpg";
     let uploadSpecs = _.assign(_.cloneDeep(this._lookups.hosts.img.upload.params), {
-      // fileName: file.name,
-      // fileKey: "file",
       uri: file.uri,
       data: {
         env: this._host.env,
         index: index,
         issueId: issueId  
       }
-      // uri: filename,
-      // mimeType: "image/" +file.ext
-      // data: { 'Content-Type': "image/" +file.ext }
     });
+    uploadSpecs.uploadUrl = uploadSpecs.uploadUrl[this._host.env];
 
     NativeModules.FileTransfer.upload(uploadSpecs, (err, res) => {
       if ( err == null && (res.status > 199 || res.status < 300) )
