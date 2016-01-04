@@ -11,7 +11,7 @@
     "siteId": "site0",
     "images": [
       {
-        "uri": "/issues/issue0-0.jpg",
+        "uri": "issues/issue0-0.jpg",
         "timestamp": "2014-05-25T18:45:59-08:00",
         "geoPoint": {
           "lat": 37.7824979,
@@ -22,7 +22,7 @@
         "statusId": "status0",
         "authorId": "bgonzalez"
       }, {
-        "uri": "/issues/issue0-1.jpg",
+        "uri": "issues/issue0-1.jpg",
         "timestamp": "14-05-25T18:46:29-08:00",
         "geoPoint": {
           "lat": 37.7824979,
@@ -61,7 +61,7 @@
     "siteId": "site0",
     "images": [
       {
-        "uri": "/issues/issue1-0.jpg",
+        "uri": "issues/issue1-0.jpg",
         "timestamp": "2014-05-28T10:23:14-08:00",
         "geoPoint": {
           "lat": 37.7824195,
@@ -72,7 +72,7 @@
         "statusId": "status0",
         "authorId": "tgonzalez"
       }, {
-        "uri": "/issues/issue1-1.jpg",
+        "uri": "issues/issue1-1.jpg",
         "timestamp": "2014-05-28T10:22:14-08:00",
         "geoPoint": {
           "lat": 37.7824195,
@@ -112,7 +112,7 @@
     "siteId": "site0",
     "images": [
       {
-        "uri": "/issues/issue2-0.jpg",
+        "uri": "issues/issue2-0.jpg",
         "timestamp": "2014-05-28T13:05:38-08:00",
         "geoPoint": {
           "lat": 37.7824195,
@@ -123,7 +123,7 @@
         "statusId": "status0",
         "authorId": "jgonzalez"
       }, {
-        "uri": "/issues/issue2-1.jpg",
+        "uri": "issues/issue2-1.jpg",
         "timestamp": "2014-05-28T13:05:38-08:00",
         "geoPoint": {
           "lat": 37.7824195,
@@ -162,7 +162,7 @@
     "siteId": "site1",
     "images": [
       {
-        "uri": "/issues/issue3-0.jpg",
+        "uri": "issues/issue3-0.jpg",
         "timestamp": "2014-05-29T08:55:11-08:00",
         "geoPoint": {
           "lat": 37.7824532,
@@ -173,7 +173,7 @@
         "statusId": "status0",
         "authorId": "kbryant"
       }, {
-        "uri": "/issues/issue3-1.jpg",
+        "uri": "issues/issue3-1.jpg",
         "timestamp": "2014-05-29T08:55:11-08:00",
         "geoPoint": {
           "lat": 37.7824532,
@@ -205,7 +205,7 @@
     "firstSeen": "2014-05-28T16:41:26-08:00",
     "images": [
       {
-        "uri": "/issues/issue4-0.jpg",
+        "uri": "issues/issue4-0.jpg",
         "timestamp": "2014-05-29T11:51:45-08:00",
         "geoPoint": {
           "lat": 37.7824575,
@@ -216,7 +216,7 @@
         "statusId": "status0",
         "authorId": "kbryant"
       }, {
-        "uri": "/issues/issue4-1.jpg",
+        "uri": "issues/issue4-1.jpg",
         "timestamp": "2014-05-29T11:51:45-08:00",
         "geoPoint": {
           "lat": 37.7824575,
@@ -264,7 +264,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-05-29T17:33:37-08:00",
-        "uri": "/issues/issue5-0.jpg"
+        "uri": "issues/issue5-0.jpg"
       }, {
         "authorId": "afoley",
         "geoPoint": {
@@ -275,7 +275,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-05-29T17:33:37-08:00",
-        "uri": "/issues/issue5-1.jpg"
+        "uri": "issues/issue5-1.jpg"
       }
     ],
     "siteId": "site1",
@@ -315,7 +315,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
-        "uri": "/issues/issue6-0.jpg"
+        "uri": "issues/issue6-0.jpg"
       }, {
         "authorId": "ljames",
         "geoPoint": {
@@ -326,7 +326,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
-        "uri": "/issues/issue6-1.jpg"
+        "uri": "issues/issue6-1.jpg"
       }
     ],
     "statusEntries": [
@@ -367,7 +367,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-05T11:57:55-08:00",
-        "uri": "/issues/issue7-0.jpg"
+        "uri": "issues/issue7-0.jpg"
       }, {
         "authorId": "pmanning",
         "geoPoint": {
@@ -378,7 +378,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-05T11:57:55-08:00",
-        "uri": "/issues/issue7-1.jpg"
+        "uri": "issues/issue7-1.jpg"
       }
     ],
     "statusEntries": [
@@ -419,7 +419,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-12T20:01:15-08:00",
-        "uri": "/issues/issue8-0.jpg"
+        "uri": "issues/issue8-0.jpg"
       }, {
         "authorId": "wsmith",
         "geoPoint": {
@@ -430,7 +430,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-12T20:01:15-08:00",
-        "uri": "/issues/issue8-1.jpg"
+        "uri": "issues/issue8-1.jpg"
       }
     ],
     "statusEntries": [
@@ -471,7 +471,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-15T22:16:33-08:00",
-        "uri": "/issues/issue9-0.jpg"
+        "uri": "issues/issue9-0.jpg"
       }, {
         "authorId": "tbrady",
         "geoPoint": {
@@ -482,7 +482,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-15T22:16:33-08:00",
-        "uri": "/issues/issue9-1.jpg"
+        "uri": "issues/issue9-1.jpg"
       }
     ],
     "statusEntries": [
@@ -523,7 +523,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-19T07:26:22-08:00",
-        "uri": "/issues/issue10-0.jpg"
+        "uri": "issues/issue10-0.jpg"
       }, {
         "authorId": "gclooney",
         "geoPoint": {
@@ -534,7 +534,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-19T07:26:22-08:00",
-        "uri": "/issues/issue10-1.jpg"
+        "uri": "issues/issue10-1.jpg"
       }
     ],
     "statusEntries": [
@@ -574,7 +574,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
-        "uri": "/issues/issue11-0.jpg"
+        "uri": "issues/issue11-0.jpg"
       }, {
         "authorId": "jtravolta",
         "geoPoint": {
@@ -585,7 +585,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-05-31T14:32:19-08:00",
-        "uri": "/issues/issue11-1.jpg"
+        "uri": "issues/issue11-1.jpg"
       }
     ],
     "statusEntries": [
@@ -625,7 +625,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-20T14:21:42-08:00",
-        "uri": "/issues/issue12-0.jpg"
+        "uri": "issues/issue12-0.jpg"
       }, {
         "authorId": "aagassi",
         "geoPoint": {
@@ -636,7 +636,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-20T14:21:42-08:00",
-        "uri": "/issues/issue12-1.jpg"
+        "uri": "issues/issue12-1.jpg"
       }
     ],
     "statusEntries": [
@@ -676,7 +676,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
-        "uri": "/issues/issue13-0.jpg"
+        "uri": "issues/issue13-0.jpg"
       }, {
         "authorId": "apeterson",
         "geoPoint": {
@@ -687,7 +687,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
-        "uri": "/issues/issue13-1.jpg"
+        "uri": "issues/issue13-1.jpg"
       }, {
         "authorId": "apeterson",
         "geoPoint": {
@@ -698,7 +698,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
-        "uri": "/issues/issue13-2.jpg"
+        "uri": "issues/issue13-2.jpg"
       }
     ],
     "statusEntries": [
@@ -738,7 +738,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
-        "uri": "/issues/issue14-0.jpg"
+        "uri": "issues/issue14-0.jpg"
       }, {
         "authorId": "cweber",
         "geoPoint": {
@@ -749,7 +749,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-21T18:41:45-08:00",
-        "uri": "/issues/issue14-1.jpg"
+        "uri": "issues/issue14-1.jpg"
       }
     ],
     "statusEntries": [
@@ -790,7 +790,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-24T16:02:16-08:00",
-        "uri": "/issues/issue15-0.jpg"
+        "uri": "issues/issue15-0.jpg"
       }, {
         "authorId": "krafferty",
         "geoPoint": {
@@ -801,7 +801,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-24T16:02:16-08:00",
-        "uri": "/issues/issue15-1.jpg"
+        "uri": "issues/issue15-1.jpg"
       }
     ],
     "statusEntries": [
@@ -841,7 +841,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-27T08:42:41-08:00",
-        "uri": "/issues/issue16-0.jpg"
+        "uri": "issues/issue16-0.jpg"
       }, {
         "authorId": "krafferty",
         "geoPoint": {
@@ -852,7 +852,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-06-27T08:42:41-08:00",
-        "uri": "/issues/issue16-1.jpg"
+        "uri": "issues/issue16-1.jpg"
       }
     ],
     "statusEntries": [
@@ -893,7 +893,7 @@
           "imgTypeId": "vin",
         "statusId": "status0",
         "timestamp": "2014-07-01T19:51:05-08:00",
-        "uri": "/issues/issue17-0.jpg"
+        "uri": "issues/issue17-0.jpg"
       }, {
         "authorId": "krafferty",
         "geoPoint": {
@@ -904,7 +904,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-07-01T19:51:05-08:00",
-        "uri": "/issues/issue17-1.jpg"
+        "uri": "issues/issue17-1.jpg"
       }
     ],
     "statusEntries": [
@@ -944,7 +944,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-07-02T22:45:59-08:00",
-        "uri": "/issues/issue18-0.jpg"
+        "uri": "issues/issue18-0.jpg"
       }, {
         "authorId": "jmontana",
         "geoPoint": {
@@ -955,7 +955,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-07-02T22:45:59-08:00",
-        "uri": "/issues/issue18-1.jpg"
+        "uri": "issues/issue18-1.jpg"
       }
     ],
     "statusEntries": [
@@ -995,7 +995,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-07-03T12:29:32-08:00",
-        "uri": "/issues/issue19-0.jpg"
+        "uri": "issues/issue19-0.jpg"
       }, {
         "authorId": "jrice",
         "geoPoint": {
@@ -1006,7 +1006,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-07-03T12:29:55-08:00",
-        "uri": "/issues/issue19-1.jpg"
+        "uri": "issues/issue19-1.jpg"
       }
     ],
     "statusEntries": [
@@ -1045,7 +1045,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-07-03T12:29:32-08:00",
-        "uri": "/issues/issue19-0.jpg"
+        "uri": "issues/issue19-0.jpg"
       }, {
         "authorId": "achang28",
         "geoPoint": {
@@ -1056,7 +1056,7 @@
         },
         "statusId": "status0",
         "timestamp": "2014-07-03T12:29:55-08:00",
-        "uri": "/issues/issue19-1.jpg"
+        "uri": "issues/issue19-1.jpg"
       }
     ],
     "statusEntries": [

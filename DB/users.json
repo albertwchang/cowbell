@@ -37,8 +37,8 @@
     },
     "uid": "7438d2f0-d46a-4aa9-8c30-6fc6efff5428",
     "uri": {
-      "selfie": "/users/selfies/bgonzalez.jpg",
-      "signature": "/users/signatures/bgonzalez.jpg"
+      "selfie": "users/selfies/bgonzalez.jpg",
+      "signature": "users/signatures/bgonzalez.jpg"
     }
   },
 
@@ -80,8 +80,8 @@
     },
     "uid": "5c6144c0-441e-48f6-90e0-13e16246ebd1",
     "uri": {
-      "selfie": "/users/selfies/tgonzalez.jpg",
-      "signature": "/users/signatures/tgonzalez.jpg"
+      "selfie": "users/selfies/tgonzalez.jpg",
+      "signature": "users/signatures/tgonzalez.jpg"
     }
   },
   "jgonzalez": {
@@ -122,8 +122,8 @@
     },
     "uid": "b8f9fae7-3151-4f70-b769-8d411c94b910",
     "uri": {
-      "selfie": "/users/selfies/jgonzalez.jpg",
-      "signature": "/users/signatures/jgonzalez.jpg"
+      "selfie": "users/selfies/jgonzalez.jpg",
+      "signature": "users/signatures/jgonzalez.jpg"
     }
   },
   "ggonzalez": {
@@ -164,8 +164,8 @@
     },
     "uid": "c8c098d1-8eb5-4acb-bdc3-aa292f192628",
     "uri": {
-      "selfie": "/users/selfies/ggonzalez.jpg",
-      "signature": "/users/signatures/ggonzalez.jpg"
+      "selfie": "users/selfies/ggonzalez.jpg",
+      "signature": "users/signatures/ggonzalez.jpg"
     }
   },
   "ygonzalez": {
@@ -207,8 +207,8 @@
     },
     "uid": "1cfdaa4a-93aa-4aa8-9235-2bad9b444db9",
     "uri": {
-      "selfie": "/users/selfies/ygonzalez.jpg",
-      "signature": "/users/signatures/ygonzalez.jpg"
+      "selfie": "users/selfies/ygonzalez.jpg",
+      "signature": "users/signatures/ygonzalez.jpg"
     }
   },
 
@@ -251,8 +251,8 @@
     },
     "uid": "a2e5c765-d2dd-41ec-ab9c-91ce44eff8bd",
     "uri": {
-      "selfie": "/users/selfies/kbryant.jpg",
-      "signature": "/users/signatures/kbryant.jpg"
+      "selfie": "users/selfies/kbryant.jpg",
+      "signature": "users/signatures/kbryant.jpg"
     }
   },
 
@@ -295,8 +295,8 @@
     },
     "uid": "95c4fcc3-27ee-463c-a30c-0b8b737ff0cc",
     "uri": {
-      "selfie": "/users/selfies/afoley.jpg",
-      "signature": "/users/signatures/afoley.jpg"
+      "selfie": "users/selfies/afoley.jpg",
+      "signature": "users/signatures/afoley.jpg"
     }
   },
 
@@ -339,8 +339,8 @@
     },
     "uid": "e95a5f37-e482-4762-8c22-f799824f2af3",
     "uri": {
-      "selfie": "/users/selfies/ljames.jpg",
-      "signature": "/users/signatures/ljames.jpg"
+      "selfie": "users/selfies/ljames.jpg",
+      "signature": "users/signatures/ljames.jpg"
     }
   },
 
@@ -383,8 +383,8 @@
     },
     "uid": "ca89fbf4-762e-4599-a0bc-d33e5543ca7d",
     "uri": {
-      "selfie": "/users/selfies/pmanning.jpg",
-      "signature": "/users/signatures/pmanning.jpg"
+      "selfie": "users/selfies/pmanning.jpg",
+      "signature": "users/signatures/pmanning.jpg"
     }
   },
 
@@ -426,8 +426,8 @@
     },
     "uid": "6478c514-87c7-4398-880a-fde9162843fe",
     "uri": {
-      "selfie": "/users/selfies/wsmith.jpg",
-      "signature": "/users/signatures/wsmith.jpg"
+      "selfie": "users/selfies/wsmith.jpg",
+      "signature": "users/signatures/wsmith.jpg"
     }
   },
 
@@ -470,8 +470,8 @@
     },
     "uid": "e00134a0-c92f-4d50-80aa-b8087409136c",
     "uri": {
-      "selfie": "/users/selfies/soneal.jpg",
-      "signature": "/users/signatures/soneal.jpg"
+      "selfie": "users/selfies/soneal.jpg",
+      "signature": "users/signatures/soneal.jpg"
     }
   },
 
@@ -514,8 +514,8 @@
     },
     "uid": "688a3412-8fb8-4887-ba70-5b3f66443364",
     "uri": {
-      "selfie": "/users/selfies/mramirez.jpg",
-      "signature": "/users/signatures/mramirez.jpg"
+      "selfie": "users/selfies/mramirez.jpg",
+      "signature": "users/signatures/mramirez.jpg"
     }
   },
 
@@ -557,8 +557,8 @@
     },
     "uid": "cec42918-5bf9-41a1-97e5-ddd7588dd642",
     "uri": {
-      "selfie": "/users/selfies/aagassi.jpg",
-      "signature": "/users/signatures/aagassi.jpg"
+      "selfie": "users/selfies/aagassi.jpg",
+      "signature": "users/signatures/aagassi.jpg"
     }
   },
 
@@ -600,8 +600,8 @@
     },
     "uid": "e2fd613a-61cf-4707-802e-4e6ffc529ed0",
     "uri": {
-      "selfie": "/users/selfies/apeterson.jpg",
-      "signature": "/users/signatures/apeterson.jpg"
+      "selfie": "users/selfies/apeterson.jpg",
+      "signature": "users/signatures/apeterson.jpg"
     }
   },
   
@@ -644,8 +644,8 @@
     },
     "uid": "b00d2a13-f0c8-4ef4-a872-85d5c1c3af0e",
     "uri": {
-      "selfie": "/users/selfies/cweber.jpg",
-      "signature": "/users/signatures/cweber.jpg"
+      "selfie": "users/selfies/cweber.jpg",
+      "signature": "users/signatures/cweber.jpg"
     }
   },
 
@@ -687,8 +687,8 @@
     },
     "uid": "3676fbb3-c81a-45e8-b7be-63cd2a384a88",
     "uri": {
-      "selfie": "/users/selfies/jmontana.jpg",
-      "signature": "/users/signatures/jmontana.jpg"
+      "selfie": "users/selfies/jmontana.jpg",
+      "signature": "users/signatures/jmontana.jpg"
     }
   },
 
@@ -731,8 +731,8 @@
     },
     "uid": "955be104-be69-4084-9772-5c05952baab0",
     "uri": {
-      "selfie": "/users/selfies/jrice.jpg",
-      "signature": "/users/signatures/jrice.jpg"
+      "selfie": "users/selfies/jrice.jpg",
+      "signature": "users/signatures/jrice.jpg"
     }
   },
 
@@ -775,8 +775,8 @@
     },
     "uid": "58c7777e-50ac-4f30-831d-d2f6af1136d1",
     "uri": {
-      "selfie": "/users/selfies/achang28.jpg",
-      "signature": "/users/signatures/achang28.jpg"
+      "selfie": "users/selfies/achang28.jpg",
+      "signature": "users/signatures/achang28.jpg"
     }
   },
 
@@ -820,8 +820,8 @@
     },
     "uid": "a50d19a3-0ce7-42e0-9e8b-bb4c23a6742e",
     "uri": {
-      "selfie": "/users/selfies/krafferty.jpg",
-      "signature": "/users/signatures/krafferty.jpg"
+      "selfie": "users/selfies/krafferty.jpg",
+      "signature": "users/signatures/krafferty.jpg"
     }
   },
 
@@ -863,8 +863,8 @@
     },
     "uid": "1975ed6f-ba5d-475e-9853-5c61f7e33782",
     "uri": {
-      "selfie": "/users/selfies/tbrady.jpg",
-      "signature": "/users/signatures/tbrady.jpg"
+      "selfie": "users/selfies/tbrady.jpg",
+      "signature": "users/signatures/tbrady.jpg"
     }
   },
 
@@ -906,8 +906,8 @@
     },
     "uid": "7d9d87f9-ae20-4319-b5a0-d6802c981832",
     "uri": {
-      "selfie": "/users/selfies/gclooney.jpg",
-      "signature": "/users/signatures/gclooney.jpg"
+      "selfie": "users/selfies/gclooney.jpg",
+      "signature": "users/signatures/gclooney.jpg"
     }
   },
 
@@ -949,8 +949,8 @@
     },
     "uid": "ea797310-0dfe-4166-9ac8-d766f94126b5",
     "uri": {
-      "selfie": "/users/selfies/jtravolta.jpg",
-      "signature": "/users/signatures/jtravolta.jpg"
+      "selfie": "users/selfies/jtravolta.jpg",
+      "signature": "users/signatures/jtravolta.jpg"
     }
   },
   
@@ -992,8 +992,8 @@
     },
     "uid": "bad5ddfe-f491-400b-a495-60c099f28787",
     "uri": {
-      "selfie": "/users/selfies/sconnery.jpg",
-      "signature": "/users/signatures/sconnery.jpg"
+      "selfie": "users/selfies/sconnery.jpg",
+      "signature": "users/signatures/sconnery.jpg"
     }
   }
 }

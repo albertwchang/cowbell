@@ -120,13 +120,14 @@ var NIMain = React.createClass({
     currentUser: PropTypes.object,
     host: PropTypes.object,
     lookups: PropTypes.object,
-    site: PropTypes.object,
+    sites: PropTypes.object,
     themeColor: PropTypes.string
   },
   _childRef: null,
   _currentWorkflow: "submit",
   _ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1.guid !== r2.guid}),
   _imgHost: "",
+  _issueId: "",
   _site: null,
   _submitStatus: null,
   _workflowMessages: {
@@ -285,37 +286,25 @@ var NIMain = React.createClass({
   },
 
   _submitIssue: function(statusDef) {
-    let self = this;
-    // 1. Turn Progress Indidicator on
+    let cnt = 0;
+
+    // 1. Start progress indicator (submit state)
     this._setWorkflowStage("submit", 1);
 
-    // 2. Add images and create tow issue
-    Async.parallel([
-      (uploadImagesCb) => {
-        // 2a. Add images to Image Host Provider
-        this._uploadImages().then(() => {
-          uploadImagesCb(null, "All images successfully added");
-        }).catch((err) => {
-          uploadImagesCb("Couldn't add new Img", null);
-        });
-      },
-      (addToDbCb) => {
-        // 2b. Add Tow Issue to DB
-        this._addIssue(statusDef).then((issueId) => {
-          addToDbCb(null, issueId);
-        }).catch(() => {
-          addToDbCb("Couldn't add Issue", null);
-        })
-      }
-    ], (err, results) => {
-      // 3. Add issueId to corresponding sites
-      let issueId = results[1];
-      SiteActions.setIssueId.triggerPromise(issueId, this._site.iid).then(() => {
-        console.log("All sites updated with issueId")
-        self._setWorkflowStage("submit", 2);
-      }).catch(() => {
-        self._setWorkflowStage("submit", 3);
-      });
+    // 1. Create new issue record within DB
+    this._addIssue(statusDef).then((id) => {
+      // 2. Upload image to Img Host provider
+      this._issueId = id;
+      return this._uploadImages(this.state.sections["img"].value, cnt);
+    }).then(() => {
+      // 3. Add Issue Id to corresopnding site
+      return SiteActions.setIssueId.triggerPromise(this._issueId, this._site.iid);
+    }).then(() => {
+      console.log("1) Issue created, 2) Img Uploaded, and 3) Site updated with Issue Id");
+      this._setWorkflowStage("submit", 2);
+    }).catch((err) => {
+      console.log("Couldn't creaate new Issue because: ", err);
+      this._setWorkflowStage("submit", 3);
     });
   },
 
@@ -326,12 +315,12 @@ var NIMain = React.createClass({
     this.setState({ sections: sections });
   },
 
-  _uploadImages: function() {
+  _uploadImages: function(sourcePath, cnt) {
     // let qImages = new Promise.all(_.map(this.props.sections["images"].value, (stagedImg) => {
     //   return IssueActions.uploadImg.triggerPromise(this.props.sections["img"].value);
     // }));
 
-    return IssueActions.uploadImg.triggerPromise(this.state.sections["img"].value);
+    return IssueActions.uploadImg.triggerPromise(sourcePath, this._issueId, cnt);
   },
 
   _renderModal: function(sectionId) {

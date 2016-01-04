@@ -17,7 +17,6 @@ var IssueMixin = require("../Mixins/Issue");
 var SiteMixin = require("../Mixins/Site");
 
 // UTILITIES
-var Async = require("async");
 var Defer = require("promise-defer");
 var Moment = require('moment');
 var _ = require("lodash");
@@ -61,7 +60,7 @@ var IssueStore = Reflux.createStore({
 	_assignIssue: function(issueRef, perspective) {
 		let issueId = issueRef.key();
 		let issue = issueRef.val();
-		let existingissues = this._issues[perspective]; // issues is NOT an array!!!
+		let existingIssues = this._issues[perspective]; // issues is NOT an array!!!
 		
 		if ( existingIssues[issueId] && !_.eq(existingIssues[issueId].statusEntries, issue.statusEntries) )
 			issue.statusEntries = this._scrubStatusEntries(issue.statusEntries, ["read", "status"]);
@@ -150,8 +149,8 @@ var IssueStore = Reflux.createStore({
 	},
 
 	onAddIssue: function(newIssue) {
-		let issuesRef = this._host.db;
-		let issueRef = issuesRef.push(newIssue);
+		let issuesRef = this._host.db
+		  , issueRef = issuesRef.push(newIssue);
 
 		issueRef.update({"iid": issueRef.key()}, (err) => {
 			if (err)
@@ -192,44 +191,6 @@ var IssueStore = Reflux.createStore({
 					IssueActions.addStatus.failed(err);
 				});
 		});
-	},
-
-	onBuildImgObj: function(imgUri) {
-		// retrieve Amazon S3 policy parameters early enough
-		/*************************************************************************
-		 If S3 policy times out, error callback will have to obtain a new policy
-		*************************************************************************/
-		let beg = imgUri.lastIndexOf('/') +1
-			, end = imgUri.lastIndexOf('.')
-			, fileExt = imgUri.substr(end +1)
-      , userId = this._currentUser.iid;
-   	
-   	LocationActions.getPosition.triggerPromise().then((position) => {
-   		let geoPoint = {
-   			lat: position.lat,
-   			latitude: position.lat,
-   			long: position.long,
-   			longitude: position.long
-   		};
-
-   		let filename = this._buildImgFilename(Moment().format("X"),userId,fileExt);  		
-   		let stagedImg = {
-	  		dbRecord: {
-		      authorId: userId,
-		      uri: "/issues/" +filename,
-		      geoPoint: geoPoint,
-		      statusId: "",
-		      timestamp: Moment( Moment().toDate() ).format(),
-		    },
-		    file: {
-		      ext: fileExt,
-		      name: filename,
-		      uri: "" +imgUri,
-		    },
-			};
-
-			IssueActions.buildImgObj.completed(stagedImg);	
-   	});
 	},
 
 	onEndListeners: function() {
@@ -340,7 +301,9 @@ var IssueStore = Reflux.createStore({
 			
       // qIssues.resolve();
       // handle updated tow issues
-      issuesRef.on("child_changed", (snapshot) => this._assignIssue(snapshot, perspective));
+      issuesRef.on("child_changed", (snapshot) => {
+        return this._assignIssue(snapshot, perspective);
+      });
 		});
 		
     // qIssues.promise.then(() => {	
@@ -419,29 +382,25 @@ var IssueStore = Reflux.createStore({
 		});
 	},
 
-  onUploadImg: function(imgObj) {
+  onUploadImg: function(imgObj, issueId, index) {
     // 1. Get S3 Policy data for uploading
     
     /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       Need to workout how to handle edge-case of expired s3Policy
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-    let file = imgObj.file
-      , s3Data = this._host.s3Policy.data
-      , s3Obj = {
+    let file = imgObj.file;
+    // let filename = "/Users/albertwchang/Desktop/test.jpg";
+    let uploadSpecs = _.assign(_.cloneDeep(this._lookups.hosts.img.upload.params), {
       uri: file.uri,
-      uploadUrl: s3Data.url,
-      mimeType: "image/" +file.ext,
       data: {
-        'acl': 'public-read',
-        'AWSAccessKeyId': s3Data.key,
-        'Content-Type': "image/" +file.ext,
-        'policy': s3Data.policy,
-        'key': this._storeName +"/" +file.name,
-        'signature': s3Data.signature,
-      },
-    };
+        env: this._host.env,
+        index: index,
+        issueId: issueId  
+      }
+    });
+    uploadSpecs.uploadUrl = uploadSpecs.uploadUrl[this._host.env];
 
-    NativeModules.FileTransfer.upload(s3Obj, (err, res) => {
+    NativeModules.FileTransfer.upload(uploadSpecs, (err, res) => {
       if ( err == null && (res.status > 199 || res.status < 300) )
         IssueActions.uploadImg.completed();
       else

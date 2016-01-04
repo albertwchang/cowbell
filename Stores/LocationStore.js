@@ -31,8 +31,8 @@ var LocationStore = Reflux.createStore({
 		}
 	},
 
-	onGetPosition: function() {
-		LocationActions.getPosition.completed(this._position);
+	onGetPosition: function(callback) {
+		callback(this._position);
 	},
 
 	onSetPositionOptions: function(newOptions) {

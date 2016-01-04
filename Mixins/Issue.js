@@ -1,33 +1,38 @@
 var SiteMixin = require("./Site");
+var Moment = require('moment');
 var _ = require("lodash");
 
 var Issue = {
-	Images: {
-		LICENSE_PLATE: "licensePlate",
-		VEHICLE: "vehicle",
-		VIN: "vin"
-	},
 	Filters: {
 		DONE: "done",
 		OPEN: "open"
 	},
-	SceneIndexes: {
-		APPROVAL: 0,
-		LICENSEPLATE: 2,
-		POLICE: 0,
-		REASON: 0,
-		VEHCILEINFO: 2,
-		VIN: 2
-	},
-	StatusIds: {
-		SUGGEST: "status0",
-		CONFIRM: "status1",
-		CREATE: "status2"
-	},
-	TaskIds: {
-		CREATE_TOW_issue: "task2",
-		UPDATE_STATUS: "task3",
-		VIEW_STATUS: "task4"
+	
+	buildImgObj: function(imgUri, userId) {
+		// retrieve Amazon S3 policy parameters early enough
+		/*************************************************************************
+		 If S3 policy times out, error callback will have to obtain a new policy
+		*************************************************************************/
+		let beg = imgUri.lastIndexOf('/') +1
+			, end = imgUri.lastIndexOf('.')
+			, fileExt = imgUri.substr(end +1);
+
+    // let filename = this._buildImgFilename(Moment().format("X"),userId,fileExt);     
+    return {
+      dbRecord: {
+        authorId: userId,
+        // uri: "/issues/",
+        uri: "",
+        geoPoint: {},
+        statusId: "",
+        timestamp: Moment( Moment().toDate() ).format(),
+      },
+      file: {
+        ext: fileExt,
+        name: "",
+        uri: "" +imgUri,
+      },
+    };
 	},
 
 	buildSites: function(siteIds, statusRef, orgTypeTodoEntries, orgTypeTodos) {

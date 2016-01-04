@@ -23,8 +23,8 @@
       "longitude": -122.4204540
     },
     "img": {
-      "icon": "/sites/icons/site0.jpg",
-      "banner": "/sites/banners/site0.jpg"
+      "icon": "sites/icons/site0.jpg",
+      "banner": "sites/banners/site0.jpg"
     },
     "isActive": true,
     "name": "Philz Coffee",
@@ -78,8 +78,8 @@
       "longitude": -122.4077620
     },
     "img": {
-      "icon": "/sites/icons/site1.jpg",
-      "banner": "/sites/banners/site1.jpg"
+      "icon": "sites/icons/site1.jpg",
+      "banner": "sites/banners/site1.jpg"
     },
     "isActive": true,
     "name": "Blue Bottle Coffee",
@@ -121,8 +121,8 @@
       "longitude": -122.4145920
     },
     "img": {
-      "icon": "/sites/icons/site2.jpg",
-      "banner": "/sites/banners/site2.jpg"
+      "icon": "sites/icons/site2.jpg",
+      "banner": "sites/banners/site2.jpg"
     },
     "isActive": true,
     "name": "Liholiho Yacht Club",
@@ -168,8 +168,8 @@
       "longitude": -122.4095950
     },
     "img": {
-      "icon": "/sites/icons/site3.jpg",
-      "banner": "/sites/banners/site3.jpg"
+      "icon": "sites/icons/site3.jpg",
+      "banner": "sites/banners/site3.jpg"
     },
     "isActive": true,
     "name": "Ruby Skye",
@@ -215,8 +215,8 @@
     "phoneNum": 8314755114,
     "email": "info@liveoaksuper.com",
     "img": {
-      "icon": "/sites/icons/site4.jpg",
-      "banner": "/sites/banners/site4.jpg"
+      "icon": "sites/icons/site4.jpg",
+      "banner": "sites/banners/site4.jpg"
     },
     "url": "http://www.liveoaksuper.com", 
     "users": {
@@ -262,8 +262,8 @@
     "phoneNum": 8314764560,
     "email": "info@crowsnest-santacruz.com",
     "img": {
-      "icon": "/sites/icons/site4.jpg",
-      "banner": "/sites/banners/site4.jpg"
+      "icon": "sites/icons/site4.jpg",
+      "banner": "sites/banners/site4.jpg"
     },
     "url": "http://www.thecrowsnest-santacruz.com",
     "users": {
@@ -301,8 +301,8 @@
     "phoneNum": 8314779361,
     "email": "info@capitolalaundry.com",
     "img": {
-      "icon": "/sites/icons/site5.jpg",
-      "banner": "/sites/banners/site5.jpg"
+      "icon": "sites/icons/site5.jpg",
+      "banner": "sites/banners/site5.jpg"
     },
     "url": "http://www.capitolalaundry.com", 
     "users": {
@@ -344,8 +344,8 @@
     "phoneNum": 6503257528,
     "email": "info@starbucks.com",
     "img": {
-      "icon": "/sites/icons/site7.jpg",
-      "banner": "/sites/banners/site7.jpg"
+      "icon": "sites/icons/site7.jpg",
+      "banner": "sites/banners/site7.jpg"
     },
     "url": "http://www.starbucks-coffee.com", 
     "users": {

@@ -13,16 +13,17 @@ var Reflux = require("reflux");
 var ChoiceControl = require('./ChoiceControl');
 
 // MIXINS
+var IssueMixin = require("../Mixins/Issue");
 var ViewMixin = require("../Mixins/View");
 
 // ACTIONS && STORES
 var HostActions = require("../Actions/HostActions");
 var HostStore = require("../Stores/HostStore");
+var LocationActions = require("../Actions/LocationActions");
 var ProfileStore = require("../Stores/ProfileStore");
 var IssueActions = require("../Actions/IssueActions");
 
 // Utilities
-var Moment = require('moment');
 var _ = require("lodash");
 
 var { AlertIOS, Dimensions, Image, NativeModules, PropTypes, StyleSheet, Text, TouchableHighlight, View } = React;
@@ -61,7 +62,7 @@ var CamMgr = React.createClass({
 		prevImg: PropTypes.object,
 		setImg: PropTypes.func
   },
-	mixins: [Reflux.connect(ProfileStore), Reflux.ListenerMixin, ViewMixin],
+	mixins: [Reflux.ListenerMixin, ViewMixin, IssueMixin, Reflux.connect(ProfileStore)],
 	_camRef: "cam",
 	_dims: {
 		controlPanel: {},
@@ -187,7 +188,7 @@ var CamMgr = React.createClass({
 
 	_captureImg: function() {
     this.refs[this._camRef].capture((err, imgUri) => {
-    	var self = this;
+    	// var self = this;s
     	let imgEditor = NativeModules.ImageEditingManager;
     	
     	if (err) {
@@ -199,11 +200,29 @@ var CamMgr = React.createClass({
     			, 'default');
     	}
 
-    	IssueActions.buildImgObj.triggerPromise(imgUri).then((imgObj) => {
-    		self.setState({ cameraOn: false, stagedImg: imgObj });
-    	}).catch((err) => {
-    		console.log("something went wrong");
-    	});
+    	// IssueActions.buildImgObj.triggerPromise(imgUri).then((imgObj) => {
+    	// 	self.setState({ cameraOn: false, stagedImg: imgObj });
+    	// }).catch((err) => {
+    	// 	console.log("something went wrong");
+    	// });
+
+    	LocationActions.getPosition((position, err) => {
+    		if (err) {
+					console.log("Couldn't create image -- problem w/ Geo position");
+					return;
+    		} else {
+  				let imgObj = this.buildImgObj(imgUri, this.state.currentUser.iid);
+    	
+	    		_.set(imgObj, ["dbRecord", "geoPoint"], {
+		        lat: position.lat,
+		        latitude: position.lat,
+		        long: position.long,
+		        longitude: position.long
+	    		});
+
+	    		this.setState({ cameraOn: false, stagedImg: imgObj });	
+  			}
+    	})
     });
   },
 

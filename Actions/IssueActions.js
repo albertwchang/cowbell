@@ -26,12 +26,12 @@ var IssueActions = Reflux.createActions({
 			return true;
 		}
 	},
-	"buildImgObj": {
-		asyncResult: true,
-		shouldEmit: function() {
-			return true;
-		}
-	},
+	// "buildImgObj": {
+	// 	asyncResult: true,
+	// 	shouldEmit: function() {
+	// 		return true;
+	// 	}
+	// },
 	"endListeners": {
 		asyncResult: false,
 		shouldEmit: function() {
