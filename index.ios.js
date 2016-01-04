@@ -180,6 +180,7 @@ var CowBell = React.createClass({
       // 3a. Get policy for being allowed to upload images
       // let imgPolicy = lookups.hosts["img"].policy;
       // return HostActions.pullS3Policy.triggerPromise(imgPolicy);
+      HostActions.initHost();
       return new Promise.resolve();
     });
   },
